@@ -18,7 +18,7 @@ public class SysUserServiceImpl extends BaseAbstractService<SysUserEntity> imple
 
 	@Override
 	public SysUserEntity login(String username, String pwd){
-		String hql = "from SysUserEntity where username = ?";
+		String hql = "from SysUserEntity where nickName = ?";
 		SysUserEntity sysUser = findOneByHql(hql, username);
 		if(sysUser != null && sysUser.getPwd().equals(EncryptUtil.MD5Digest(pwd))){
 			return sysUser;
@@ -28,13 +28,13 @@ public class SysUserServiceImpl extends BaseAbstractService<SysUserEntity> imple
 	
 	@Override
 	public void register(SysUserEntity sysUser){
-		if (validUsername(sysUser.getUsername())) {
+		if (validUsername(sysUser.getNickName())) {
             throw new MyRuntimeException("用户名已存在");
         }
-        if (validEmail(sysUser.getEmail())) {
+        if (validEmail(sysUser.geteMail())) {
             throw new MyRuntimeException("邮箱已被占用");
         }
-        if (validTelephone(sysUser.getTelephone())) {
+        if (validTelephone(sysUser.getTelNo())) {
             throw new MyRuntimeException("手机号已被使用");
         }
 		sysUser.setPwd(EncryptUtil.MD5Digest(sysUser.getPwd()));
@@ -43,21 +43,21 @@ public class SysUserServiceImpl extends BaseAbstractService<SysUserEntity> imple
 	
 	@Override
     public boolean validUsername(String username) {
-        String hql = "from SysUserEntity where username = ?";
+        String hql = "from SysUserEntity where nickName = ?";
         int total = getCount(hql, true, username);
         return total > 0;
     }
 
 	@Override
     public boolean validEmail(String email) {
-        String hql = "from SysUserEntity where email = ?";
+        String hql = "from SysUserEntity where eMail = ?";
         int total = getCount(hql, true, email);
         return total > 0;
     }
     
 	@Override
     public boolean validTelephone(String telephone) {
-    	String hql = "from SysUserEntity where telephone = ?";
+    	String hql = "from SysUserEntity where telNo = ?";
         int total = getCount(hql, true, telephone);
         return total > 0;
     }

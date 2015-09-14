@@ -26,11 +26,12 @@
 		<property name="locations">
 			<list>
 				<value>
-                    classpath*:config/db.properties
-                </value>
+					classpath*:config/db.properties
+				</value>
 			</list>
 		</property>
 	</bean>
 
 	<import resource="spring-db.xml"/>
+	<import resource="spring-email.xml"/>
 </beans>

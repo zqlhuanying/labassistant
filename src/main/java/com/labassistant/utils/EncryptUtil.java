@@ -47,7 +47,7 @@ public final class EncryptUtil {
 		assert mingwen == content;
 		
 		// 测试消息摘要
-		String digestContent = "mingwen";
+		String digestContent = "12345678";
 		System.out.println(MD5Digest(digestContent));
 		System.out.println(SHADigest(digestContent));
 	}
