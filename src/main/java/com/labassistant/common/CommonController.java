@@ -11,7 +11,6 @@ import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.ResponseBody;
 
 import com.labassistant.constants.AppConfig;
-import com.labassistant.utils.JSONUtil;
 
 /**
  * 
@@ -29,7 +28,7 @@ public class CommonController extends BaseController {
 	 */
 	@RequestMapping(value = "/error")
 	@ResponseBody
-	public String error(HttpServletRequest request){
+	public Map<String, String> error(HttpServletRequest request){
 		Exception e = (Exception) request.getAttribute("ex");
 		logger.error("request error", e);
         Map<String, String> map = new HashMap<String, String>();
@@ -39,6 +38,6 @@ public class CommonController extends BaseController {
         }
         map.put("code", "0");
         map.put("msg", errorMsg);
-        return JSONUtil.map2Json(map);
+        return map;
 	}
 }
