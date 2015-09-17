@@ -34,6 +34,7 @@ public class MapServiceImpl extends BaseAbstractService<MapEntity> implements
 		List<MapEntity> result = new ArrayList<MapEntity>();
 		for (MapEntity list : lists) {
 			double distance = computeDistance(theUser, list);
+			list.setDistance(distance);
 			// 大于0的目的是去除用户本身所在的位置
 			if (distance > 0 && distance <= limit) {
 				result.add(list);

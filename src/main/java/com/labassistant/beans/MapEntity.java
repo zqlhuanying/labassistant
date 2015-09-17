@@ -5,6 +5,7 @@ import javax.persistence.Entity;
 import javax.persistence.GeneratedValue;
 import javax.persistence.Id;
 import javax.persistence.Table;
+import javax.persistence.Transient;
 
 import org.hibernate.annotations.GenericGenerator;
 
@@ -13,9 +14,11 @@ import org.hibernate.annotations.GenericGenerator;
  * @author zql
  * @date 2015/09/14
  * 
+ * MapID			地图唯一标识
  * UserID			用户唯一标识
  * Longitude		经度
  * Latitude			纬度
+ * ReagentName		试剂名称
  */
 @Table(name = "t_map")
 @Entity
@@ -28,6 +31,8 @@ public class MapEntity extends ToStringBase {
 	private String longitude;
 	private String latitude;
 	private String reagentName;
+	
+	private double distance;
 	
 	@Id
 	@GeneratedValue(generator="system-uuid")
@@ -70,6 +75,15 @@ public class MapEntity extends ToStringBase {
 
 	public void setReagentName(String reagentName) {
 		this.reagentName = reagentName;
+	}
+
+	@Transient
+	public double getDistance() {
+		return distance;
+	}
+
+	public void setDistance(double distance) {
+		this.distance = distance;
 	}
 	
 }

@@ -161,6 +161,14 @@ public class BaseDao implements IBaseDao {
 	}
 
 	@Override
+	public <X> X get(Class<X> entityClass, Serializable pk) {
+		if(null == pk || "".equals(pk)){
+			return null;
+		}
+		return (X) getCurrentSession().get(entityClass, pk);
+	}
+	
+	@Override
 	public <X> X findOneByHql(final String hql, final Object... parameters)	{
 		return findOne(hql, true, parameters);
 	}

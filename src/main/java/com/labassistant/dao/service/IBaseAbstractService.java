@@ -84,11 +84,30 @@ public interface IBaseAbstractService<T> {
 	public <X> X load(Class<X> entityClass, Serializable id);
 	
 	/**
+	 * 
+	 * @param id
+	 * @return 泛型指向之外的实
+	 * @throws HibernateException
+	 * @throws SQLException
+	 */
+	public T get(Serializable id);
+	
+	/**
+	 * 
+	 * @param entityClass
+	 * @param id
+	 * @return 泛型指向之外的实
+	 * @throws HibernateException
+	 * @throws SQLException
+	 */
+	public <X> X get(Class<X> entityClass, Serializable id);
+	/**
 	 * 根据hql查询单条记录
 	 * @param hql
 	 * @param parameters
 	 * @return 返回 X可以是实体或者Map
 	 */
+	
 	public <X> X findOneByHql(String hql, Object... parameters);
 	
 	/**

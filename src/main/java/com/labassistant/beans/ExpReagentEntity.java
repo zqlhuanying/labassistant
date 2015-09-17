@@ -13,7 +13,7 @@ import org.hibernate.annotations.GenericGenerator;
  * @author zql
  * @date 2015/09/14
  * 
- * 
+ * ExpReagentID				唯一标识
  * ExpInstructionID			实验说明书ID
  * ReagentID				试剂ID
  * ReagentName				试剂名称
@@ -29,6 +29,7 @@ public class ExpReagentEntity extends ToStringBase {
 
 	private static final long serialVersionUID = 5107703477384147931L;
 
+	private String expReagentID;
 	private String expInstructionID;
 	private int reagentID;
 	private String reagentName;
@@ -41,6 +42,14 @@ public class ExpReagentEntity extends ToStringBase {
 	@GeneratedValue(generator="system-uuid")
 	@GenericGenerator(name="system-uuid",strategy="uuid")
 	@Column(length=32)
+	public String getExpReagentID() {
+		return expReagentID;
+	}
+
+	public void setExpReagentID(String expReagentID) {
+		this.expReagentID = expReagentID;
+	}
+	
 	public String getExpInstructionID() {
 		return expInstructionID;
 	}

@@ -13,10 +13,11 @@ import org.hibernate.annotations.GenericGenerator;
  * @author zql
  * @date 2015/09/14
  * 
- * 
- * ExpInstructionID			实验说明书ID
- * StepNum					实验步骤编号
- * StepDetail 				实验步骤说明
+ * ExpStepID			实验步骤ID
+ * ExpInstructionID		实验说明书ID
+ * StepNum				实验步骤编号
+ * ExpSetpDesc			步骤描述
+ * ExpStepTime			步骤耗时表
  * 
  */
 @Table(name = "t_expprocess")
@@ -25,18 +26,28 @@ public class ExpProcessEntity extends ToStringBase {
 
 	private static final long serialVersionUID = -6112041639410639172L;
 
+	private String expStepID;
 	private String expInstructionID;
 	private int stepNum;
-	private String stepDetail;
+	private String expSetpDesc;
+	private float expStepTime;
 	
 	@Id
 	@GeneratedValue(generator="system-uuid")
 	@GenericGenerator(name="system-uuid",strategy="uuid")
 	@Column(length=32)
+	public String getExpStepID() {
+		return expStepID;
+	}
+	
+	public void setExpStepID(String expStepID) {
+		this.expStepID = expStepID;
+	}
+	
 	public String getExpInstructionID() {
 		return expInstructionID;
 	}
-
+	
 	public void setExpInstructionID(String expInstructionID) {
 		this.expInstructionID = expInstructionID;
 	}
@@ -49,12 +60,20 @@ public class ExpProcessEntity extends ToStringBase {
 		this.stepNum = stepNum;
 	}
 	
-	public String getStepDetail() {
-		return stepDetail;
+	public String getExpSetpDesc() {
+		return expSetpDesc;
 	}
 	
-	public void setStepDetail(String stepDetail) {
-		this.stepDetail = stepDetail;
+	public void setExpSetpDesc(String expSetpDesc) {
+		this.expSetpDesc = expSetpDesc;
+	}
+	
+	public float getExpStepTime() {
+		return expStepTime;
+	}
+	
+	public void setExpStepTime(float expStepTime) {
+		this.expStepTime = expStepTime;
 	}
 	
 }

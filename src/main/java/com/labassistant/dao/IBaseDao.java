@@ -66,6 +66,15 @@ public interface IBaseDao {
 	public <X> X load(Class<X> entityClass, Serializable pk);
 	
 	/**
+	 *
+	 * @param entityClass
+	 * @param pk
+	 * @param <X>
+	 * @return
+	 */
+	public <X> X get(Class<X> entityClass, Serializable pk);
+	
+	/**
 	 * 根据hql查询单条记录
 	 * @param hql
 	 * @param parameters

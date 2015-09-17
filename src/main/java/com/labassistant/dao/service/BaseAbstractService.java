@@ -87,6 +87,16 @@ public class BaseAbstractService<T> implements IBaseAbstractService<T> {
 	}
 
 	@Override
+	public T get(Serializable id) {
+		return baseDao.get(getEntityClass(), id);
+	}
+
+	@Override
+	public <X> X get(Class<X> entityClass, Serializable id) {
+		return (X) baseDao.get(entityClass, id);
+	}
+	
+	@Override
 	public <X> X findOneByHql(String hql, Object... parameters) {
 		return baseDao.findOneByHql(hql, parameters);
 	}
