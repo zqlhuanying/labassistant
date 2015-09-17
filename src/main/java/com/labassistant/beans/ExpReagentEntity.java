@@ -31,7 +31,7 @@ public class ExpReagentEntity extends ToStringBase {
 
 	private String expReagentID;
 	private String expInstructionID;
-	private int reagentID;
+	private String reagentID;
 	private String reagentName;
 	private String reagentCommonName;
 	private String CreateMethod;
@@ -58,11 +58,11 @@ public class ExpReagentEntity extends ToStringBase {
 		this.expInstructionID = expInstructionID;
 	}
 
-	public int getReagentID() {
+	public String getReagentID() {
 		return reagentID;
 	}
 
-	public void setReagentID(int reagentID) {
+	public void setReagentID(String reagentID) {
 		this.reagentID = reagentID;
 	}
 	

@@ -36,14 +36,20 @@ INSERT INTO t_user VALUES ('4028c681494b994701494b99aba50000', 'admin', '25d55ad
 -- -----------------------------------------------
 DROP TABLE IF EXISTS `t_supplier`;
 CREATE TABLE `t_supplier` (
-  `supplierid` int NOT NULL,
+  `supplierid` varchar(40) NOT NULL,
   `suppliername` varchar(100) NOT NULL,
+  `suppliertype` int,
+  `contacts` varchar(20),
+  `telno` varchar(20),
+  `mobilephone` varchar(20),
+  `email` varchar(50),
+  `address` varchar(200),
   PRIMARY KEY (`supplierid`)
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8;
 -- ----------------------------
 -- Records of t_supplier
 -- ----------------------------
-INSERT INTO t_supplier VALUES (1001, '海尔');
+INSERT INTO t_supplier VALUES ('4037d681494b994701494b99aba50000', '海尔', 0, 'Li', 18000000000, 18000000000, '', '');
 
 
 -- ---------------------------------------------------------
@@ -74,14 +80,9 @@ CREATE TABLE `t_expinstructionsmain` (
 -- ----------------------------
 -- Records of t_expinstructionsmain
 -- ----------------------------
-INSERT INTO t_expinstructionsmain VALUES ('4028c681494b994701494b99bab60000', 'ELISA检测血清TNF-a浓度', '我也不知道', '还是不知道', '', 1001, '海尔', 'hhd', 1, 11, '2015-09-16', 1, 1, '', 0, 0);
-INSERT INTO t_expinstructionsmain VALUES ('4028c681494b994701494b99bab61111', 'ELISA检测血清TNF-b浓度', '我也不知道', '还是不知道', '', 1001, '海尔', 'hhd', 1, 11, '2015-09-16', 1, 1, '', 0, 20);
-INSERT INTO t_expinstructionsmain VALUES ('4028c681494b994701494b99bab62222', 'ELISA检测血清TNF-c浓度', '我也不知道', '还是不知道', '', 1001, '海尔', 'hhd', 1, 11, '2015-09-16', 1, 1, '', 0, 5);
-
--- ----------------------------
--- Records of t_supplier
--- ----------------------------
-INSERT INTO t_supplier VALUES (1001, '海尔');
+INSERT INTO t_expinstructionsmain VALUES ('4028c681494b994701494b99bab60000', 'ELISA检测血清TNF-a浓度', '我也不知道', '还是不知道', '', '4037d681494b994701494b99aba50000', '海尔', 'hhd', 1, 11, '2015-09-16', 1, 1, '', 0, 0);
+INSERT INTO t_expinstructionsmain VALUES ('4028c681494b994701494b99bab61111', 'ELISA检测血清TNF-b浓度', '我也不知道', '还是不知道', '', '4037d681494b994701494b99aba50000', '海尔', 'hhd', 1, 11, '2015-09-16', 1, 1, '', 0, 20);
+INSERT INTO t_expinstructionsmain VALUES ('4028c681494b994701494b99bab62222', 'ELISA检测血清TNF-c浓度', '我也不知道', '还是不知道', '', '4037d681494b994701494b99aba50000', '海尔', 'hhd', 1, 11, '2015-09-16', 1, 1, '', 0, 5);
 
 
 -- -----------------------------------------------
@@ -196,7 +197,6 @@ CREATE TABLE `t_reagent` (
   `reagentid` int NOT NULL,
   `reagentname` varchar(100) NOT NULL,
   `reagentcommonname` varchar(500),
-  `supplierid` int,
   `levelonesortid` int,
   `leveltwosortid` int,
   `originplace` varchar(50),
@@ -213,9 +213,30 @@ CREATE TABLE `t_reagent` (
 -- ----------------------------
 -- Records of t_reagent
 -- ----------------------------
-INSERT INTO t_reagent VALUES (111, '洗涤液', '洗涤液', 1001, 11,1,'','','','',20,'','','2016-09-10','');
-INSERT INTO t_reagent VALUES (112, '洗涤液1', '洗涤液1', 1001, 11,1,'','','','',20,'','','2016-09-10','');
-INSERT INTO t_reagent VALUES (113, '洗涤液2', '洗涤液2', 1001, 11,1,'','','','',20,'','','2016-09-10','');
+INSERT INTO t_reagent VALUES (111, '洗涤液', '洗涤液', 11,1,'','','','',20,'','','2016-09-10','');
+INSERT INTO t_reagent VALUES (112, '洗涤液1', '洗涤液1', 11,1,'','','','',20,'','','2016-09-10','');
+INSERT INTO t_reagent VALUES (113, '洗涤液2', '洗涤液2', 11,1,'','','','',20,'','','2016-09-10','');
+
+
+-- -----------------------------------------------
+-- Table structure for `t_reagentmap` 试剂厂商对应表
+-- -----------------------------------------------
+DROP TABLE IF EXISTS `t_reagentmap`;
+CREATE TABLE `t_reagentmap` (
+  `reagentmapid` varchar(32) NOT NULL,
+  `reagentid` varchar(40) NOT NULL,
+  `supplierid` varchar(40) NOT NULL,
+  `issuggestion` int DEFAULT 0,
+  PRIMARY KEY (`reagentmapid`)
+) ENGINE=InnoDB DEFAULT CHARSET=utf8;
+
+
+-- ----------------------------
+-- Records of t_reagentmap
+-- ----------------------------
+INSERT INTO t_reagentmap VALUES ('4028c681494b994701494b00aba50000', 111, '4037d681494b994701494b99aba50000', 0);
+INSERT INTO t_reagentmap VALUES ('4028c681494b994701494b00aba51111', 112, '4037d681494b994701494b99aba50000', 0);
+INSERT INTO t_reagentmap VALUES ('4028c681494b994701494b00aba52222', 113, '4037d681494b994701494b99aba50000', 0);
 
 
 -- -----------------------------------------------
@@ -225,7 +246,7 @@ DROP TABLE IF EXISTS `t_expreagent`;
 CREATE TABLE `t_expreagent` (
   `expreagentid` varchar(32) NOT NULL,
   `expinstructionid` varchar(40),
-  `reagentid` int,
+  `reagentid` varchar(40),
   `reagentname` varchar(100),
   `reagentcommonname` varchar(500),
   `createMethod` varchar(1000),
@@ -236,9 +257,49 @@ CREATE TABLE `t_expreagent` (
 -- ----------------------------
 -- Records of t_expreagent
 -- ----------------------------
-INSERT INTO t_expreagent VALUES ('4028c681494b994701494b99aba50000','4028c681494b994701494b99aba50000', 111, '洗涤液', '洗涤液', '洗涤液', '洗涤液', 50);
-INSERT INTO t_expreagent VALUES ('4028c681494b994701494b99aba50001','4028c681494b994701494b99aba50000', 112, '洗涤液1', '洗涤液1', '洗涤液1', '洗涤液1', 500);
-INSERT INTO t_expreagent VALUES ('4028c681494b994701494b99aba50002','4028c681494b994701494b99aba50000', 113, '洗涤液2', '洗涤液2', '洗涤液2', '洗涤液2', 60);
+INSERT INTO t_expreagent VALUES ('4028c681494b994701494b99aba50000','4028c681494b994701494b99bab60000', '111', '洗涤液', '洗涤液', '洗涤液', '洗涤液', 50);
+INSERT INTO t_expreagent VALUES ('4028c681494b994701494b99aba50001','4028c681494b994701494b99bab60000', '112', '洗涤液1', '洗涤液1', '洗涤液1', '洗涤液1', 500);
+INSERT INTO t_expreagent VALUES ('4028c681494b994701494b99aba50002','4028c681494b994701494b99bab60000', '113', '洗涤液2', '洗涤液2', '洗涤液2', '洗涤液2', 60);
+
+
+-- -----------------------------------------------
+-- Table structure for `t_expconsumable` 实验耗材表
+-- -----------------------------------------------
+DROP TABLE IF EXISTS `t_expconsumable`;
+CREATE TABLE `t_expconsumable` (
+  `expconsumableid` varchar(40) NOT NULL,
+  `expinstructionid` varchar(40),
+  `consumableid` varchar(40),
+  `consumabletype` varchar(20),
+  `consumablecount` int,
+  `consumablefactory` varchar(100),
+  PRIMARY KEY (`expconsumableid`)
+) ENGINE=InnoDB DEFAULT CHARSET=utf8;
+-- ----------------------------
+-- Records of t_expconsumable
+-- ----------------------------
+INSERT INTO t_expconsumable VALUES ('4028c791494b994701494b99aba50000','4028c681494b994701494b99bab60000', '111', '96T', 2, '不知道');
+
+
+-- -----------------------------------------------
+-- Table structure for `t_expequipment` 实验设备表
+-- -----------------------------------------------
+DROP TABLE IF EXISTS `t_expequipment`;
+CREATE TABLE `t_expequipment` (
+  `expequipmentid` varchar(40) NOT NULL,
+  `expinstructionid` varchar(40),
+  `equipmentid` varchar(40),
+  `equipmentname` varchar(100),
+  `equipmentfactory` varchar(100),
+  PRIMARY KEY (`expequipmentid`)
+) ENGINE=InnoDB DEFAULT CHARSET=utf8;
+-- ----------------------------
+-- Records of t_expequipment
+-- ----------------------------
+INSERT INTO t_expequipment VALUES ('4028c791564b994701494b99aba50000','4028c681494b994701494b99bab60000', '222', '4℃冰箱', '海尔');
+INSERT INTO t_expequipment VALUES ('4028c791564b994701494b99aba50001','4028c681494b994701494b99bab60000', '223', '恒温培养箱', '上海一恒');
+INSERT INTO t_expequipment VALUES ('4028c791564b994701494b99aba50002','4028c681494b994701494b99bab60000', '224', '酶标仪', 'Tecan 200');
+
 
 -- -----------------------------------------------
 -- Table structure for `t_map` 地图相关表

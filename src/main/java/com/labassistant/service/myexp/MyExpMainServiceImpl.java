@@ -1,4 +1,4 @@
-package com.labassistant.service;
+package com.labassistant.service.myexp;
 
 import java.util.List;
 
@@ -16,6 +16,14 @@ import com.labassistant.dao.service.BaseAbstractService;
 public class MyExpMainServiceImpl extends BaseAbstractService<MyExpMainEntity> implements
 		MyExpMainService {
 
+	/**
+	 * 根据实验ID获取相关记录
+	 */
+	@Override
+	public MyExpMainEntity get(String myExpID){
+		return get(myExpID);
+	}
+	
 	/**
 	 * 获取已完成的实验
 	 * @param userID

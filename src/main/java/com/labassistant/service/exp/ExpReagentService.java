@@ -1,4 +1,4 @@
-package com.labassistant.service;
+package com.labassistant.service.exp;
 
 import java.util.List;
 import java.util.Map;
@@ -17,5 +17,5 @@ public interface ExpReagentService extends IBaseAbstractService<ExpReagentEntity
 	
 	public Map<String, Integer> getExpReagentAndAmount(String expInstructionID);
 	
-	public Map<String, String> getExpReagentAndSupplierName(String expInstructionID);
+	public Map<String, List<String>> getExpReagentAndSupplierName(String expInstructionID);
 }

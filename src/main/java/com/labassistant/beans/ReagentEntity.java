@@ -18,7 +18,6 @@ import org.hibernate.annotations.GenericGenerator;
  * ReagentID			试剂ID	
  * ReagentName			试剂名称	
  * ReagentCommonName	试剂通用名称
- * SupplierID			供应商ID	
  * LevelOneSortID		一级分类ID
  * LevelTwoSortID		二级分类ID
  * OriginPlace			产地	
@@ -41,7 +40,6 @@ public class ReagentEntity extends ToStringBase {
 	private int reagentID;
 	private String reagentName;
 	private String reagentCommonName;
-	private int supplierID;
 	private int levelOneSortID;
 	private int levelTwoSortID;
 	private String originPlace;
@@ -80,14 +78,6 @@ public class ReagentEntity extends ToStringBase {
 	
 	public void setReagentCommonName(String reagentCommonName) {
 		this.reagentCommonName = reagentCommonName;
-	}
-	
-	public int getSupplierID() {
-		return supplierID;
-	}
-	
-	public void setSupplierID(int supplierID) {
-		this.supplierID = supplierID;
 	}
 	
 	public int getLevelOneSortID() {

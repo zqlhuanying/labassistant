@@ -1,4 +1,6 @@
-package com.labassistant.service;
+package com.labassistant.service.myexp;
+
+import java.util.List;
 
 import org.springframework.stereotype.Service;
 
@@ -15,7 +17,19 @@ public class MyExpProcessServiceImpl extends BaseAbstractService<MyExpProcessEnt
 		MyExpProcessService {
 
 	/**
-	 * 根据实验ID获取实验对应的步骤，只获取一条记录，因只需要知道说明书ID
+	 * 根据实验ID获取相关记录
+	 * @param myExpID
+	 * @return
+	 */
+	@Override
+	public List<MyExpProcessEntity> getList(String myExpID){
+		String hql = "from MyExpProcessEntity where myExpID = ?";
+		List<MyExpProcessEntity> lists = findListByHql(hql, myExpID);
+		return lists;
+	}
+	
+	/**
+	 * 根据实验ID获取一条记录，目的是获得说明书ID
 	 * @param myExpID
 	 * @return
 	 */
@@ -25,7 +39,17 @@ public class MyExpProcessServiceImpl extends BaseAbstractService<MyExpProcessEnt
 		return (MyExpProcessEntity)findOneByHql(hql, myExpID);
 	}
 
-
+	/**
+	 * 根据说明书ID获取一条记录，目的是获得实验ID
+	 * @param myExpID
+	 * @return
+	 */
+	@Override
+	public MyExpProcessEntity getByInstructionID(String expInstructionID){
+		String hql = "from MyExpProcessEntity where expInstructionID = ?";
+		return (MyExpProcessEntity)findOneByHql(hql, expInstructionID);
+	}
+	
 	/**
 	 * 根据说明书ID，判断是否存在
 	 */

@@ -1,4 +1,4 @@
-package com.labassistant.service;
+package com.labassistant.service.exp;
 
 
 import java.util.ArrayList;
@@ -10,6 +10,7 @@ import org.springframework.stereotype.Service;
 
 import com.labassistant.beans.ExpInstructionsMainEntity;
 import com.labassistant.dao.service.BaseAbstractService;
+import com.labassistant.service.myexp.MyExpProcessService;
 import com.labassistant.utils.JSONUtil;
 
 /**

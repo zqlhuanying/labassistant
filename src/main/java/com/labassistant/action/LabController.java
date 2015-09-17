@@ -21,11 +21,13 @@ import com.labassistant.beans.MyExpMainEntity;
 import com.labassistant.beans.MyExpProcessEntity;
 import com.labassistant.common.BaseController;
 import com.labassistant.constants.LabConstant;
-import com.labassistant.service.ExpInstructionsMainService;
-import com.labassistant.service.ExpProcessService;
-import com.labassistant.service.ExpReagentService;
-import com.labassistant.service.MyExpMainService;
-import com.labassistant.service.MyExpProcessService;
+import com.labassistant.service.exp.ExpConsumableService;
+import com.labassistant.service.exp.ExpEquipmentService;
+import com.labassistant.service.exp.ExpInstructionsMainService;
+import com.labassistant.service.exp.ExpProcessService;
+import com.labassistant.service.exp.ExpReagentService;
+import com.labassistant.service.myexp.MyExpMainService;
+import com.labassistant.service.myexp.MyExpProcessService;
 import com.labassistant.utils.DateUtil;
 
 /**
@@ -47,7 +49,10 @@ public class LabController extends BaseController {
 	private ExpInstructionsMainService expInstructionsMainService;
 	@Autowired
 	private ExpProcessService expProcessService;
-	
+	@Autowired
+	private ExpConsumableService expConsumableService;
+	@Autowired
+	private ExpEquipmentService expEquipmentService;
 	
 	@RequestMapping(value = "/allReagents")
 	@ResponseBody
@@ -65,7 +70,7 @@ public class LabController extends BaseController {
 	
 	@RequestMapping(value = "/reagentAndSupplier")
 	@ResponseBody
-	public Map<String, String> getReagentAndSupplier(HttpServletRequest request, String expInstructionID){
+	public Map<String, List<String>> getReagentAndSupplier(HttpServletRequest request, String expInstructionID){
 		setErrorMsg(request, "获取实验试剂及对应的提供商出错");
 		return expReagentService.getExpReagentAndSupplierName(expInstructionID);
 	}
@@ -118,9 +123,9 @@ public class LabController extends BaseController {
 	@ResponseBody
 	public Map<String, List<Object>> getAllProcessExceptComplete(HttpServletRequest request, String userID, String myExpID, String expInstructionID, String expState){
 		Map<String, List<Object>>  map = new HashMap<String, List<Object>>();
+		List<Object> object = new ArrayList<Object>();
 		if(!LabConstant.COMPLETED.equals(expState)){
 			setErrorMsg(request, "获取实验下所有步骤出错");			
-			List<Object> object = new ArrayList<Object>();
 			Map<String, String> innerMap = new LinkedHashMap<String, String>();
 			ExpInstructionsMainEntity expInStruction = expInstructionsMainService.get(expInstructionID);
 			List<ExpProcessEntity> lists = expProcessService.getProcessLists(expInstructionID);
@@ -130,17 +135,18 @@ public class LabController extends BaseController {
 					innerMap.put(String.valueOf(list.getStepNum()), list.getExpSetpDesc());
 				}
 				object.add(innerMap);
-				map.put("myExp", object);
 			}
 		}
+		map.put("myExp", object);
 		return map;
 	}
 	
 	// todo 结构略有不同
 	@RequestMapping(value = "/getHotInstructions")
 	@ResponseBody
-	public List<Object> getHotInstructions(HttpServletRequest request, String returnLimit){
+	public Map<String, List<Object>> getHotInstructions(HttpServletRequest request, String returnLimit){
 		setErrorMsg(request, "无法获取热门说明书");
+		Map<String, List<Object>>  map = new HashMap<String, List<Object>>();
 		List<Object> object = new ArrayList<Object>();
 		if(returnLimit != null && !"".equals(returnLimit)){
 			expInstructionsMainService.setReturnLimit(Integer.parseInt(returnLimit));
@@ -157,13 +163,15 @@ public class LabController extends BaseController {
 				object.add(innerMap);
 			}
 		}
-		return object;
+		map.put("hotInstructions", object);
+		return map;
 	}
 	
 	@RequestMapping(value = "/getInstructionDetail")
 	@ResponseBody
-	public List<Object> getInstructionDetail(HttpServletRequest request, String expInstructionID){
+	public Map<String, List<Object>> getInstructionDetail(HttpServletRequest request, String expInstructionID){
 		setErrorMsg(request, "获取说明书详细信息出错");
+		Map<String, List<Object>>  map = new HashMap<String, List<Object>>();
 		List<Object> object = new ArrayList<Object>();
 		ExpInstructionsMainEntity expInstruction = expInstructionsMainService.get(expInstructionID);
 		boolean isDownload = expInstructionsMainService.isDownload(expInstructionID);
@@ -180,7 +188,36 @@ public class LabController extends BaseController {
 			else innerMap.put("instructState", "未下载");
 			object.add(innerMap);
 		}
-		return object;
+		map.put("instructionDetail", object);
+		return map;
+	}
+	
+	/**
+	 * 下载实验说明书便是将说明书相关的表以json的格式传递到终端，并保存到终端
+	 * @param request
+	 * @param expInstructionID
+	 * @return
+	 */
+	@RequestMapping(value = "/downloadInstruction")
+	@ResponseBody
+	public Map<String, List<Object>> downloadInstruction(HttpServletRequest request, String expInstructionID){
+		setErrorMsg(request, "下载说明书出错");
+		Map<String, List<Object>>  map = new HashMap<String, List<Object>>();
+		List<Object> object = new ArrayList<Object>();
+		Map<String, Object> innerMap = new LinkedHashMap<String, Object>();
+		// 封装实验主表的数据
+		innerMap.put("expInstructionMain", expInstructionsMainService.get(expInstructionID));
+		// 封装实验步骤表的数据
+		innerMap.put("expProcess", expProcessService.getProcessLists(expInstructionID));
+		// 封装实验试剂表的数据
+		innerMap.put("expReagent", expReagentService.getExpReagentLists(expInstructionID));
+		// 封装实验耗材表的数据
+		innerMap.put("expConsumable", expConsumableService.getExpConsumableLists(expInstructionID));
+		// 封装实验设备表的数据
+		innerMap.put("expEquipment", expEquipmentService.getExpEquipmentLists(expInstructionID));
+		object.add(innerMap);
+		map.put("downloadInstruction", object);
+		return map;
 	}
 	
 	/**

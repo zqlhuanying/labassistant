@@ -1,4 +1,4 @@
-package com.labassistant.service;
+package com.labassistant.service.exp;
 
 import java.util.List;
 import java.util.Map;

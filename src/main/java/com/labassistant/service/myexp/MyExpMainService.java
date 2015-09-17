@@ -1,4 +1,4 @@
-package com.labassistant.service;
+package com.labassistant.service.myexp;
 
 import java.util.List;
 
@@ -12,6 +12,8 @@ import com.labassistant.dao.service.IBaseAbstractService;
  */
 public interface MyExpMainService extends IBaseAbstractService<MyExpMainEntity> {
 
+	public MyExpMainEntity get(String myExpID);
+	
 	public List<MyExpMainEntity> getComplete(String userID);
 	
 	public List<MyExpMainEntity> getDoing(String userID);
