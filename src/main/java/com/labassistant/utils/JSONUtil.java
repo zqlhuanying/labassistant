@@ -56,4 +56,11 @@ public final class JSONUtil {
         }
         return object;
     }
+    
+    //test
+    public static void main(String[] args){
+    	//String json = "{'unComplete':[{'labID':'4039c681494b994701494b99aba51237','instructionName':'ELISA检测血清TNF-b浓度'}]}";
+    	//Map m = json2Map(json);
+    	//System.out.println(m.get("unComplete"));
+    }
 }
