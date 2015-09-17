@@ -19,8 +19,8 @@ public class SysUserServiceImpl extends BaseAbstractService<SysUserEntity>
 
 	@Override
 	public SysUserEntity login(String username, String pwd) {
-		String hql = "from SysUserEntity where nickName = ?";
-		SysUserEntity sysUser = findOneByHql(hql, username);		// 此方法 若查询不到相应的记录 会返回NULL
+		String hql = "from SysUserEntity where nickName = ? or telNo = ? or eMail = ?";
+		SysUserEntity sysUser = findOneByHql(hql, username, username, username);		// 此方法 若查询不到相应的记录 会返回NULL
 		if (sysUser != null
 				&& sysUser.getPwd().equals(EncryptUtil.MD5Digest(pwd))) {
 			return sysUser;
