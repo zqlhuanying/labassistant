@@ -1,13 +1,14 @@
 package com.labassistant.service;
 
 import com.labassistant.beans.SysUserEntity;
+import com.labassistant.dao.service.IBaseAbstractService;
 
 /**
  * 
  * @author zql
  * @date 2015/09/07
  */
-public interface SysUserService {
+public interface SysUserService extends IBaseAbstractService<SysUserEntity>{
 	
 	public SysUserEntity login(String username, String pwd);
 	

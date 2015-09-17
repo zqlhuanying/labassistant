@@ -36,31 +36,30 @@ public class SysUserEntity extends ToStringBase{
 
 	private static final long serialVersionUID = 7305392489449935819L;
 	
-	private String userId;
+	private String userID;
 	private String nickName;
 	private String pwd;
 	private String eMail;
 	private String telNo;
-	private int provinceId;
-	private int cityId;
-	private int collegeId;
-	private int majorId;
-	private int educationId;
-	private int titleId;
+	private int provinceID;
+	private int cityID;
+	private int collegeID;
+	private int majorID;
+	private int educationID;
+	private int titleID;
 	private int nState;
 	private int nSource;
-	
 	
 	@Id
 	@GeneratedValue(generator="system-uuid")
 	@GenericGenerator(name="system-uuid",strategy="uuid")
 	@Column(length=32)
-	public String getUserId() {
-		return userId;
+	public String getUserID() {
+		return userID;
 	}
 	
-	public void setUserId(String userId) {
-		this.userId = userId;
+	public void setUserID(String userID) {
+		this.userID = userID;
 	}
 	
 	public String getNickName() {
@@ -95,52 +94,52 @@ public class SysUserEntity extends ToStringBase{
 		this.telNo = telNo;
 	}
 	
-	public int getProvinceId() {
-		return provinceId;
+	public int getProvinceID() {
+		return provinceID;
 	}
 	
-	public void setProvinceId(int provinceId) {
-		this.provinceId = provinceId;
+	public void setProvinceID(int provinceID) {
+		this.provinceID = provinceID;
 	}
 	
-	public int getCityId() {
-		return cityId;
+	public int getCityID() {
+		return cityID;
 	}
 	
-	public void setCityId(int cityId) {
-		this.cityId = cityId;
+	public void setCityID(int cityID) {
+		this.cityID = cityID;
 	}
 	
-	public int getCollegeId() {
-		return collegeId;
+	public int getCollegeID() {
+		return collegeID;
 	}
 	
-	public void setCollegeId(int collegeId) {
-		this.collegeId = collegeId;
+	public void setCollegeID(int collegeID) {
+		this.collegeID = collegeID;
 	}
 	
-	public int getMajorId() {
-		return majorId;
+	public int getMajorID() {
+		return majorID;
 	}
 	
-	public void setMajorId(int majorId) {
-		this.majorId = majorId;
+	public void setMajorID(int majorID) {
+		this.majorID = majorID;
 	}
 	
-	public int getEducationId() {
-		return educationId;
+	public int getEducationID() {
+		return educationID;
 	}
 	
-	public void setEducationId(int educationId) {
-		this.educationId = educationId;
+	public void setEducationID(int educationID) {
+		this.educationID = educationID;
 	}
 	
-	public int getTitleId() {
-		return titleId;
+	public int getTitleID() {
+		return titleID;
 	}
 	
-	public void setTitleId(int titleId) {
-		this.titleId = titleId;
+	public void setTitleID(int titleID) {
+		this.titleID = titleID;
 	}
 	
 	public int getnState() {
@@ -158,5 +157,5 @@ public class SysUserEntity extends ToStringBase{
 	public void setnSource(int nSource) {
 		this.nSource = nSource;
 	}
-
+	
 }
