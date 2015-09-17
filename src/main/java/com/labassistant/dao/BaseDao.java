@@ -190,6 +190,11 @@ public class BaseDao implements IBaseDao {
 	}
 
 	@Override
+	public <X> List<X> findListBySql(String sql, Object... parameters){
+		return (List<X>) createMyQuery(sql,false,parameters).list();
+	}
+	
+	@Override
 	public List<Map<String, Object>> findListMapBySql(String sql, Object... parameters){
 		Query q = createMyQuery(sql, false, parameters);
 		// 将结果集转为List<Map>

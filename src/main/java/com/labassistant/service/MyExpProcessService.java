@@ -14,4 +14,5 @@ public interface MyExpProcessService extends IBaseAbstractService<MyExpProcessEn
 
 	public MyExpProcessEntity getByExpID(String myExpID);
 
+	public boolean isExists(String expInstructionID);
 }

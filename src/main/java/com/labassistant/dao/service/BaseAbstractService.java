@@ -122,6 +122,11 @@ public class BaseAbstractService<T> implements IBaseAbstractService<T> {
 	}
 
 	@Override
+	public <X> List<X> findListBySql(String sql, Object... parameters) {
+		return baseDao.findListBySql(sql, parameters);
+	}
+	
+	@Override
 	public List<Map<String, Object>> findListMapBySql(String sql, Object... parameters) {
 		return baseDao.findListMapBySql(sql, parameters);
 	}

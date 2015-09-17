@@ -12,6 +12,10 @@ import org.hibernate.annotations.GenericGenerator;
  * 试剂一级分类表
  * @author zql
  * @date 2015/09/15
+ * 
+ * LevelOneSortID		试剂一级分类ID
+ * LevelOneSortName		试剂一级分类名称
+ *
  */
 @Table(name = "t_reagentlevelone")
 @Entity

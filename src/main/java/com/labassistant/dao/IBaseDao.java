@@ -107,6 +107,14 @@ public interface IBaseDao {
 	public <X> List<X> findListByHql (String hql, Object... parameters);
 
 	/**
+	 * 查询所有记录
+	 * @param sql
+	 * @param parameters
+	 * @return 返回列表数据 X 可以是实体对象或者Map类型
+	 */
+	public <X> List<X> findListBySql (String sql, Object... parameters);
+	
+	/**
 	 * 根据sql查询多条记录
 	 * @param sql
 	 * @param parameters

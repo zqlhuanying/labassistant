@@ -32,7 +32,7 @@ public class MyExpMainServiceImpl extends BaseAbstractService<MyExpMainEntity> i
 	 * @return
 	 */
 	@Override
-	public List<MyExpMainEntity> getUnComplete(String userID){
+	public List<MyExpMainEntity> getDoing(String userID){
 		return getMyExp(userID, 0);
 	}
 	

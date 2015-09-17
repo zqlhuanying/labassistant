@@ -54,7 +54,7 @@ public final class DateUtil {
 	}
 	
 	/**
-	 * 计算日期相差值
+	 * 计算日期相差值,仅需保留到天
 	 * @param startTime
 	 * @param endTime
 	 * @return
@@ -63,11 +63,13 @@ public final class DateUtil {
 		// 忽略终止日期小于起始日期的影响
 		long diff = Math.abs(endTime.getTime() - startTime.getTime());
 		long day = diff / d;
-		long hour = diff % d / h;
-		long min = diff % d % h / m;
+		return day + "天";
+		
+		//long hour = diff % d / h;
+		//long min = diff % d % h / m;
 		//long sec = diff % d % h % m / s;  // 只是用于测试
 		//long mm = diff % d % h % m % s;   // 只是用于测试
-		return day + "天" + hour + "小时" + min + "分钟";
+		//return day + "天" + hour + "小时" + min + "分钟";
 		//return day + "天" + hour + "小时" + min + "分钟" + sec + "秒" + mm + "毫秒";
 	}
 	

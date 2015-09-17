@@ -14,5 +14,5 @@ public interface MyExpMainService extends IBaseAbstractService<MyExpMainEntity> 
 
 	public List<MyExpMainEntity> getComplete(String userID);
 	
-	public List<MyExpMainEntity> getUnComplete(String userID);
+	public List<MyExpMainEntity> getDoing(String userID);
 }

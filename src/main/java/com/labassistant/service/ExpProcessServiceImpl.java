@@ -2,6 +2,8 @@ package com.labassistant.service;
 
 import java.util.List;
 
+import org.springframework.stereotype.Service;
+
 import com.labassistant.beans.ExpProcessEntity;
 import com.labassistant.dao.service.BaseAbstractService;
 
@@ -11,6 +13,7 @@ import com.labassistant.dao.service.BaseAbstractService;
  * @author zql
  * @date 2015/09/14
  */
+@Service
 public class ExpProcessServiceImpl extends
 		BaseAbstractService<ExpProcessEntity> implements ExpProcessService {
 
@@ -21,7 +24,7 @@ public class ExpProcessServiceImpl extends
 	 */
 	@Override
 	public List<ExpProcessEntity> getProcessLists(String expInstructionID){
-		String hql = "from ExpProcessEntity where expInstructionID = ?";
+		String hql = "from ExpProcessEntity where expInstructionID = ? order by stepNum";
 		List<ExpProcessEntity> lists = findListByHql(hql, expInstructionID);
 		return lists;
 	}
