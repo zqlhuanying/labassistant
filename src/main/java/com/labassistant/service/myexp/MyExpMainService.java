@@ -12,6 +12,8 @@ import com.labassistant.dao.service.IBaseAbstractService;
  */
 public interface MyExpMainService extends IBaseAbstractService<MyExpMainEntity> {
 
+	public MyExpMainEntity getByExpID(String myExpID);
+	
 	public MyExpMainEntity get(String myExpID);
 	
 	public List<MyExpMainEntity> getComplete(String userID);

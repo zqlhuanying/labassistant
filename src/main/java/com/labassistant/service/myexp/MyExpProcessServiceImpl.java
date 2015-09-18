@@ -28,34 +28,4 @@ public class MyExpProcessServiceImpl extends BaseAbstractService<MyExpProcessEnt
 		return lists;
 	}
 	
-	/**
-	 * 根据实验ID获取一条记录，目的是获得说明书ID
-	 * @param myExpID
-	 * @return
-	 */
-	@Override
-	public MyExpProcessEntity getByExpID(String myExpID){
-		String hql = "from MyExpProcessEntity where myExpID = ?";
-		return (MyExpProcessEntity)findOneByHql(hql, myExpID);
-	}
-
-	/**
-	 * 根据说明书ID获取一条记录，目的是获得实验ID
-	 * @param myExpID
-	 * @return
-	 */
-	@Override
-	public MyExpProcessEntity getByInstructionID(String expInstructionID){
-		String hql = "from MyExpProcessEntity where expInstructionID = ?";
-		return (MyExpProcessEntity)findOneByHql(hql, expInstructionID);
-	}
-	
-	/**
-	 * 根据说明书ID，判断是否存在
-	 */
-	@Override
-	public boolean isExists(String expInstructionID){
-		String hql = "from MyExpProcessEntity where expInstructionID = ?";
-		return getCount(hql, true, expInstructionID) > 0;
-	}
 }

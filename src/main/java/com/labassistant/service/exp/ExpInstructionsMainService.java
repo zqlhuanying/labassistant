@@ -15,7 +15,9 @@ public interface ExpInstructionsMainService extends IBaseAbstractService<ExpInst
 
 	public List<Map<String, Object>> getHotInstructions();
 	
-	public boolean isDownload(String expInstructionID);
+	public boolean isExists(String expInstructionID);
+	
+	public boolean isDownload(String userID, String expInstructionID);
 	
 	public int getReturnLimit();
 

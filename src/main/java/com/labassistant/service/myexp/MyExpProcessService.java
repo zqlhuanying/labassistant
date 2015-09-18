@@ -13,10 +13,6 @@ import com.labassistant.dao.service.IBaseAbstractService;
 public interface MyExpProcessService extends IBaseAbstractService<MyExpProcessEntity> {
 
 	public List<MyExpProcessEntity> getList(String myExpID);
-	
-	public MyExpProcessEntity getByExpID(String myExpID);
 
-	public boolean isExists(String expInstructionID);
-	
-	public MyExpProcessEntity getByInstructionID(String expInstructionID);
+
 }

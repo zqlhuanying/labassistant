@@ -43,24 +43,28 @@ public class ExpReagentServiceImpl extends BaseAbstractService<ExpReagentEntity>
 	 * 获取说明书下所有试剂和试剂对应的用量
 	 */
 	@Override 
-	public Map<String, Integer> getExpReagentAndAmount(String expInstructionID){
+	public List<Object> getExpReagentAndAmount(String expInstructionID){
+		List<Object> object = new ArrayList<Object>();
+		Map<String, Object> map = new HashMap<String, Object>();
 		List<ExpReagentEntity> lists = getExpReagentLists(expInstructionID);
-		Map<String, Integer> map = new HashMap<String, Integer>();
 		if(lists != null){
 			for(ExpReagentEntity list : lists){
-				map.put(list.getReagentName(), list.getUseAmount());
+				map.put("reagentName", list.getReagentName());
+				map.put("useAmount", list.getUseAmount());
+				object.add(map);
 			}
 		}
-		return map;
+		return object;
 	}
 	
 	/**
 	 * 获取说明书下所有试剂和试剂对应的提供商
 	 */
 	@Override
-	public Map<String, List<String>> getExpReagentAndSupplierName(String expInstructionID){
+	public List<Object> getExpReagentAndSupplierName(String expInstructionID){
+		List<Object> object = new ArrayList<Object>();
+		Map<String, Object> map = new HashMap<String, Object>();
 		List<ExpReagentEntity> expReagentLists = getExpReagentLists(expInstructionID);
-		Map<String, List<String>> map = new HashMap<String, List<String>>();
 		if(expReagentLists != null){
 			for(ExpReagentEntity expReagent : expReagentLists){
 				List<String> list = new ArrayList<String>();
@@ -70,9 +74,11 @@ public class ExpReagentServiceImpl extends BaseAbstractService<ExpReagentEntity>
 						list.add(supplierService.get(mapList.getSupplierID()).getSupplierName());
 					}
 				}
-				map.put(expReagent.getReagentName(), list);
+				map.put("reagentName", expReagent.getReagentName());
+				map.put("supplierName", list);
+				object.add(map);
 			}
 		}
-		return map;
+		return object;
 	}
 }

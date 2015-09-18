@@ -16,7 +16,7 @@ import org.hibernate.annotations.GenericGenerator;
  * ExpStepID			实验步骤ID
  * ExpInstructionID		实验说明书ID
  * StepNum				实验步骤编号
- * ExpSetpDesc			步骤描述
+ * ExpStepDesc			步骤描述
  * ExpStepTime			步骤耗时表
  * 
  */
@@ -29,7 +29,7 @@ public class ExpProcessEntity extends ToStringBase {
 	private String expStepID;
 	private String expInstructionID;
 	private int stepNum;
-	private String expSetpDesc;
+	private String expStepDesc;
 	private float expStepTime;
 	
 	@Id
@@ -60,12 +60,12 @@ public class ExpProcessEntity extends ToStringBase {
 		this.stepNum = stepNum;
 	}
 	
-	public String getExpSetpDesc() {
-		return expSetpDesc;
+	public String getExpStepDesc() {
+		return expStepDesc;
 	}
 	
-	public void setExpSetpDesc(String expSetpDesc) {
-		this.expSetpDesc = expSetpDesc;
+	public void setExpStepDesc(String expStepDesc) {
+		this.expStepDesc = expStepDesc;
 	}
 	
 	public float getExpStepTime() {

@@ -1,7 +1,6 @@
 package com.labassistant.service.exp;
 
 
-import java.util.ArrayList;
 import java.util.List;
 import java.util.Map;
 
@@ -10,8 +9,7 @@ import org.springframework.stereotype.Service;
 
 import com.labassistant.beans.ExpInstructionsMainEntity;
 import com.labassistant.dao.service.BaseAbstractService;
-import com.labassistant.service.myexp.MyExpProcessService;
-import com.labassistant.utils.JSONUtil;
+import com.labassistant.service.myexp.MyExpInstructionService;
 
 /**
  * 实验说明书主表
@@ -23,7 +21,7 @@ public class ExpInstructionsMainServiceImpl extends BaseAbstractService<ExpInstr
 		implements ExpInstructionsMainService {
 
 	@Autowired
-	private MyExpProcessService myExpProcessService;
+	private MyExpInstructionService myExpInstructionService;
 	
 	private int returnLimit;	// 设置返回的数据记录
 	
@@ -51,11 +49,20 @@ public class ExpInstructionsMainServiceImpl extends BaseAbstractService<ExpInstr
 	}
 
 	/**
+	 * 判断说明书是否已存在
+	 */
+	@Override
+	public boolean isExists(String expInstructionID){
+		String hql = "from ExpInstructionsMainEntity where expInstructionID = ?";
+		return getCount(hql, true, expInstructionID) > 0;
+	}
+	
+	/**
 	 * 判断说明书是否已下载
 	 */
 	@Override
-	public boolean isDownload(String expInstructionID){
-		return myExpProcessService.isExists(expInstructionID);
+	public boolean isDownload(String userID, String expInstructionID){
+		return myExpInstructionService.isDownload(userID, expInstructionID);
 	}
 	
 	@Override

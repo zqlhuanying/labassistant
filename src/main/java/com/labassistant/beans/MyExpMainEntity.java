@@ -17,6 +17,7 @@ import org.hibernate.annotations.GenericGenerator;
  * @date 2015/09/15
  * 
  * MyExpID				我的实验ID
+ * ExpInstructionID		实验说明书ID
  * UserID				创建者ID
  * CreateTime			创建时间
  * CreateYear			创建年份
@@ -40,6 +41,7 @@ public class MyExpMainEntity extends ToStringBase {
 	private static final long serialVersionUID = -4489449065670136874L;
 
 	private String myExpID;
+	private String expInstructionID;
 	private String userID;
 	private Date createTime;
 	private int createYear;
@@ -67,6 +69,14 @@ public class MyExpMainEntity extends ToStringBase {
 		this.myExpID = myExpID;
 	}
 
+	public String getExpInstructionID() {
+		return expInstructionID;
+	}
+	
+	public void setExpInstructionID(String expInstructionID) {
+		this.expInstructionID = expInstructionID;
+	}
+	
 	public String getUserID() {
 		return userID;
 	}

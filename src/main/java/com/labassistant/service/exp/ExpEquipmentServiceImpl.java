@@ -4,7 +4,6 @@ import java.util.List;
 
 import org.springframework.stereotype.Service;
 
-import com.labassistant.beans.ExpConsumableEntity;
 import com.labassistant.beans.ExpEquipmentEntity;
 import com.labassistant.dao.service.BaseAbstractService;
 

@@ -17,6 +17,17 @@ public class MyExpMainServiceImpl extends BaseAbstractService<MyExpMainEntity> i
 		MyExpMainService {
 
 	/**
+	 * 根据实验ID获取一条记录，目的是获得说明书ID
+	 * @param myExpID
+	 * @return
+	 */
+	@Override
+	public MyExpMainEntity getByExpID(String myExpID){
+		String hql = "from MyExpMainEntity where myExpID = ?";
+		return (MyExpMainEntity)findOneByHql(hql, myExpID);
+	}
+	
+	/**
 	 * 根据实验ID获取相关记录
 	 */
 	@Override

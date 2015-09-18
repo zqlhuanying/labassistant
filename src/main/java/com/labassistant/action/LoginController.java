@@ -1,5 +1,6 @@
 package com.labassistant.action;
 
+import java.util.HashMap;
 import java.util.Map;
 
 import javax.servlet.http.HttpServletRequest;
@@ -32,6 +33,7 @@ public class LoginController extends BaseController {
 	public Map<String, String> login(HttpServletRequest request,
 			SysUserEntity user) {
 		setErrorMsg(request, "用户名或密码错误");
+		Map<String, String> map = new HashMap<String, String>();
 		SysUserEntity sysUser = sysUserService.login(user.getNickName(),
 				user.getPwd());
 		// 查无此人
@@ -39,7 +41,9 @@ public class LoginController extends BaseController {
 			throw new MyRuntimeException("用户名或密码错误");
 		}
 		logger.info("查询到登录用户" + sysUser.getNickName());
-		return retSuccess();
+		map.putAll(retSuccess());
+		map.put("userID", sysUser.getUserID());
+		return map;
 	}
 
 	@RequestMapping(value = "/register", method = RequestMethod.POST)
