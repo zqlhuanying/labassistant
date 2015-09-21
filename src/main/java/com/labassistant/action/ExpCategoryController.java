@@ -1,6 +1,8 @@
 package com.labassistant.action;
 
+import java.util.HashMap;
 import java.util.List;
+import java.util.Map;
 
 import javax.servlet.http.HttpServletRequest;
 
@@ -29,16 +31,27 @@ public class ExpCategoryController  extends BaseController {
 	
 	@RequestMapping(value = "/allExpCategory")
 	@ResponseBody
-	public List<ExpCategoryEntity> getExpCategory(HttpServletRequest request){
+	public Map<String, Object> getExpCategory(HttpServletRequest request){
 		setErrorMsg(request, "获取实验一级分类出错");
-		return expCategoryService.getAllExpCategory();
+		
+		Map<String, Object> map = new HashMap<String, Object>();
+		
+		map.putAll(retSuccess());
+		map.put("data", expCategoryService.getAllExpCategory());
+		
+		return map;
 	}
 	
 	@RequestMapping(value = "/getSubCategoryByPID")
 	@ResponseBody
-	public List<ExpSubCategoryEntity> getSubCategoryByPID(HttpServletRequest request,String expCategoryID){
+	public Map<String, Object> getSubCategoryByPID(HttpServletRequest request,String expCategoryID){
 		setErrorMsg(request, "获取实验二级分类出错");
 
-		return expSubCategoryService.getSubCategoryByParentID(expCategoryID);
+		Map<String, Object> map = new HashMap<String, Object>();
+		
+		map.putAll(retSuccess());
+		map.put("data", expSubCategoryService.getSubCategoryByParentID(expCategoryID));
+		
+		return map;
 	}
 }

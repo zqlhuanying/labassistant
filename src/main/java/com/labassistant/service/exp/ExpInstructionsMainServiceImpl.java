@@ -75,4 +75,17 @@ public class ExpInstructionsMainServiceImpl extends BaseAbstractService<ExpInstr
 		this.returnLimit = returnLimit;
 	}
 
+	/**
+	 * add by jimmie
+	 * 根据指定的子类ID返回说明书列表
+	 * @return
+	 */
+	@Override
+	public List getInstructionsBySubCategoryID(String expSubCategoryID) {
+		
+		String hql = "from ExpInstructionsMainEntity where expSubCategoryID = ?";
+		
+		return findListByHql(hql,expSubCategoryID);
+	}
+
 }

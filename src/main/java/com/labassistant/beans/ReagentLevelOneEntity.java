@@ -23,18 +23,18 @@ public class ReagentLevelOneEntity extends ToStringBase {
 
 	private static final long serialVersionUID = 4769286418317028465L;
 	
-	private int levelOneSortID;
+	private String levelOneSortID;
 	private String levelOneSortName;
 	
 	@Id
 	@GeneratedValue(generator="system-uuid")
 	@GenericGenerator(name="system-uuid",strategy="uuid")
 	@Column(length=32)
-	public int getLevelOneSortID() {
+	public String getLevelOneSortID() {
 		return levelOneSortID;
 	}
 	
-	public void setLevelOneSortID(int levelOneSortID) {
+	public void setLevelOneSortID(String levelOneSortID) {
 		this.levelOneSortID = levelOneSortID;
 	}
 	

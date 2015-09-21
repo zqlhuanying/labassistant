@@ -1,7 +1,6 @@
 package com.labassistant.action;
 
 import java.util.HashMap;
-import java.util.List;
 import java.util.Map;
 
 import javax.servlet.http.HttpServletRequest;
@@ -29,20 +28,21 @@ public class MapController extends BaseController {
 	
 	@RequestMapping(value = "/around")
 	@ResponseBody
-	public Map<String, List<MapEntity>> getAround(HttpServletRequest request, MapEntity theUser){
+	public Map<String, Object> getAround(HttpServletRequest request, MapEntity theUser){
 		setErrorMsg(request, "获取周围数据错误");
-		Map<String, List<MapEntity>> map = new HashMap<String, List<MapEntity>>();
-		String hql = "from MapEntity where userid = ?";
+		Map<String, Object> map = new HashMap<String, Object>();
+		String hql = "from MapEntity where userID = ?";
 		MapEntity mapEntity = mapService.findOneByHql(hql, theUser.getUserID());
 		if(mapEntity != null){
 			mapEntity.setLongitude(theUser.getLongitude());
 			mapEntity.setLatitude(theUser.getLatitude());
 			mapService.update(mapEntity);
-			map.put("aroundUser", mapService.getAround(mapEntity));
+			map.put("data", mapService.getAround(mapEntity));
 		} else {
 			mapService.save(theUser);
-			map.put("aroundUser", mapService.getAround(theUser));
+			map.put("data", mapService.getAround(mapEntity));
 		}
+		map.putAll(retSuccess());
 		return map;
 	}
 }

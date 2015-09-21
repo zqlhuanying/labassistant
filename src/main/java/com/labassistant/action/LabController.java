@@ -19,6 +19,7 @@ import com.labassistant.beans.ExpProcessEntity;
 import com.labassistant.beans.ExpReagentEntity;
 import com.labassistant.beans.MyExpInstructionEntity;
 import com.labassistant.beans.MyExpMainEntity;
+import com.labassistant.beans.MyExpPlanEntity;
 import com.labassistant.beans.MyExpProcessEntity;
 import com.labassistant.common.BaseController;
 import com.labassistant.constants.LabConstant;
@@ -29,6 +30,7 @@ import com.labassistant.service.exp.ExpProcessService;
 import com.labassistant.service.exp.ExpReagentService;
 import com.labassistant.service.myexp.MyExpInstructionService;
 import com.labassistant.service.myexp.MyExpMainService;
+import com.labassistant.service.myexp.MyExpPlanService;
 import com.labassistant.service.myexp.MyExpProcessService;
 import com.labassistant.utils.DateUtil;
 
@@ -47,6 +49,8 @@ public class LabController extends BaseController {
 	private MyExpMainService myExpMainService;
 	@Autowired
 	private MyExpInstructionService myExpInstructionService;
+	@Autowired
+	private MyExpPlanService myExpPlanService;
 	@Autowired
 	private MyExpProcessService myExpProcessService;
 	@Autowired
@@ -269,16 +273,45 @@ public class LabController extends BaseController {
 		return map;
 	}
 	
+	@RequestMapping(value = "/getMyExpPlan")
+	@ResponseBody
+	public Map<String, Object> getMyExpPlan(HttpServletRequest request, String userID, String date){
+		setErrorMsg(request, "获取实验计划失败");
+		Map<String, Object>  map = new HashMap<String, Object>();
+		List<Object> lists = new ArrayList<Object>();
+		Map<String, String>  innerMap = new HashMap<String, String>();
+		List<MyExpPlanEntity> myExpPlans = myExpPlanService.getPlan(userID, DateUtil.str2Date("yyyy-MM-dd", date));
+		if(myExpPlans != null){
+			for(MyExpPlanEntity myExpPlan : myExpPlans){
+				innerMap.put("expInstructionID", myExpPlan.getExpInstructionID());
+				innerMap.put("experimentName", myExpPlan.getExperimentName());
+				lists.add(innerMap);
+			}
+		}
+		map.putAll(retSuccess());
+		map.put("data", lists);
+		return map;
+	}
+	
 	/**
-	 * 获取所做实验所对应的说明书信息
-	 * @param myExp
+	 * add by jimmie
+	 * 获取指定实验子类的说明书列表
+	 * @param request
+	 * @param expInstructionID
 	 * @return
 	 */
-	/*private ExpInstructionsMainEntity getInstructionByExp(MyExpMainEntity myExp){
-		MyExpMainEntity myExpProcess = myExpMainService.getByExpID(myExp.getMyExpID());
-		if(myExpProcess != null){
-			return expInstructionsMainService.get(myExpProcess.getExpInstructionID());
-		}
-		return null;
-	}*/
+	@RequestMapping(value = "/getInstructionsBySubCategoryID")
+	@ResponseBody
+	public Map<String, Object> getInstructionsBySubCategoryID(HttpServletRequest request, String expSubCategoryID){
+		
+		setErrorMsg(request, "获取实验列表出错");
+		Map<String, Object>  map = new HashMap<String, Object>();
+		
+		List<ExpInstructionsMainEntity> lists = expInstructionsMainService.getInstructionsBySubCategoryID(expSubCategoryID);
+		
+		map.putAll(retSuccess());
+		map.put("data", lists);
+		
+		return map; 
+	}
 }

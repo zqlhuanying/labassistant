@@ -1,0 +1,17 @@
+package com.labassistant.service.myexp;
+
+import java.util.Date;
+import java.util.List;
+
+import com.labassistant.beans.MyExpPlanEntity;
+import com.labassistant.dao.service.IBaseAbstractService;
+
+/**
+ * 
+ * @author zql
+ * @date 2015/09/21
+ */
+public interface MyExpPlanService extends IBaseAbstractService<MyExpPlanEntity> {
+
+	public List<MyExpPlanEntity> getPlan(String userID, Date date);
+}

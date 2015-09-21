@@ -1,5 +1,7 @@
 package com.labassistant.service;
 
+import org.hibernate.SessionFactory;
+import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
 import com.labassistant.beans.SysUserEntity;
@@ -16,7 +18,7 @@ import com.labassistant.utils.EncryptUtil;
 @Service
 public class SysUserServiceImpl extends BaseAbstractService<SysUserEntity>
 		implements SysUserService {
-
+	
 	@Override
 	public SysUserEntity login(String username, String pwd) {
 		String hql = "from SysUserEntity where nickName = ? or telNo = ? or eMail = ?";

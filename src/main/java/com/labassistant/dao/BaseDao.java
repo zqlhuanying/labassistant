@@ -52,6 +52,7 @@ public class BaseDao implements IBaseDao {
 		return setQueryParameters(q, parameters);
 	}
 
+
 	/**
 	 * Query 赋值ֵ
 	 * @param q

@@ -31,6 +31,109 @@ CREATE TABLE `t_user` (
 INSERT INTO t_user VALUES ('4028c681494b994701494b99aba50000', 'admin', '25d55ad283aa400af464c76d713c07ad', '12345678@qq.com', '', 0, 0, 0, 0, 0, 0, 0, 0);
 
 
+-- -----------------------------------
+-- Table structure for `t_teacher` 导师表
+-- -----------------------------------
+DROP TABLE IF EXISTS `t_teacher`;
+CREATE TABLE `t_teacher` (
+  `teacherid` varchar(40) NOT NULL,
+  `nickname` varchar(40) NOT NULL,
+  `pwd` varchar(40) NOT NULL,
+  `email` varchar(100) NOT NULL,
+  `telno` varchar(20),
+  `provinceid` int NOT NULL DEFAULT -1,
+  `cityid` int NOT NULL DEFAULT -1,
+  `collegeid` int NOT NULL DEFAULT -1,
+  `majorid` int NOT NULL DEFAULT -1,
+  `educationid` int NOT NULL DEFAULT -1,
+  `titleid` int NOT NULL DEFAULT -1,
+  `nstate` int NOT NULL DEFAULT 0,
+  `nsource` int NOT NULL DEFAULT 0,
+  PRIMARY KEY (`teacherid`)
+) ENGINE=InnoDB DEFAULT CHARSET=utf8;
+
+
+-- -----------------------------------
+-- Table structure for `t_teacher` 学生导师对应表
+-- -----------------------------------
+DROP TABLE IF EXISTS `t_userteachermap`;
+CREATE TABLE `t_userteachermap` (
+  `userteachermapid` varchar(40) NOT NULL,
+  `userid` varchar(40) NOT NULL,
+  `teacherid` varchar(40) NOT NULL,
+  PRIMARY KEY (`userteachermapid`)
+) ENGINE=InnoDB DEFAULT CHARSET=utf8;
+
+
+-- -----------------------------------
+-- Table structure for `t_province` 省份表
+-- -----------------------------------
+DROP TABLE IF EXISTS `t_province`;
+CREATE TABLE `t_province` (
+  `provinceid` varchar(40) NOT NULL,
+  `provincename` varchar(50) NOT NULL,
+  PRIMARY KEY (`provinceid`)
+) ENGINE=InnoDB DEFAULT CHARSET=utf8;
+
+
+-- -----------------------------------
+-- Table structure for `t_city` 城市表
+-- -----------------------------------
+DROP TABLE IF EXISTS `t_city`;
+CREATE TABLE `t_city` (
+  `cityid` varchar(40) NOT NULL,
+  `provinceid` varchar(40) NOT NULL,
+  `cityname` varchar(50) NOT NULL,
+  PRIMARY KEY (`cityid`)
+) ENGINE=InnoDB DEFAULT CHARSET=utf8;
+
+
+-- -----------------------------------
+-- Table structure for `t_college` 院校表
+-- -----------------------------------
+DROP TABLE IF EXISTS `t_college`;
+CREATE TABLE `t_college` (
+  `collegeid` varchar(40) NOT NULL,
+  `collegename` varchar(50) NOT NULL,
+  `cityid` varchar(40) NOT NULL,
+  `provinceid` varchar(40) NOT NULL,
+  PRIMARY KEY (`collegeid`)
+) ENGINE=InnoDB DEFAULT CHARSET=utf8;
+
+
+-- -----------------------------------
+-- Table structure for `t_major` 专业表
+-- -----------------------------------
+DROP TABLE IF EXISTS `t_major`;
+CREATE TABLE `t_major` (
+  `majorid` varchar(40) NOT NULL,
+  `majorname` varchar(50) NOT NULL,
+  PRIMARY KEY (`majorid`)
+) ENGINE=InnoDB DEFAULT CHARSET=utf8;
+
+
+-- -----------------------------------
+-- Table structure for `t_education` 学历表
+-- -----------------------------------
+DROP TABLE IF EXISTS `t_education`;
+CREATE TABLE `t_education` (
+  `educationid` varchar(40) NOT NULL,
+  `educationname` varchar(50) NOT NULL,
+  PRIMARY KEY (`educationid`)
+) ENGINE=InnoDB DEFAULT CHARSET=utf8;
+
+
+-- -----------------------------------
+-- Table structure for `t_title` 职称表
+-- -----------------------------------
+DROP TABLE IF EXISTS `t_title`;
+CREATE TABLE `t_title` (
+  `titleid` varchar(40) NOT NULL,
+  `titlename` varchar(50) NOT NULL,
+  PRIMARY KEY (`titleid`)
+) ENGINE=InnoDB DEFAULT CHARSET=utf8;
+
+
 -- -----------------------------------------------
 -- Table structure for `t_supplier` 供应商表
 -- -----------------------------------------------
@@ -57,7 +160,7 @@ INSERT INTO t_supplier VALUES ('4037d681494b994701494b99aba50000', '海尔', 0, 
 -- -----------------------------------------------
 DROP TABLE IF EXISTS `t_reagentlevelone`;
 CREATE TABLE `t_reagentlevelone` (
-  `levelonesortid` int NOT NULL,
+  `levelonesortid` varchar(40) NOT NULL,
   `levelonesortname` varchar(200),
   PRIMARY KEY (`levelonesortid`)
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8;
@@ -68,9 +171,9 @@ CREATE TABLE `t_reagentlevelone` (
 -- -----------------------------------------------
 DROP TABLE IF EXISTS `t_reagentleveltwo`;
 CREATE TABLE `t_reagentleveltwo` (
-  `leveltwosortid` int NOT NULL,
+  `leveltwosortid` varchar(40) NOT NULL,
   `leveltwosortname` varchar(200),
-  `levelonesortid` int,
+  `levelonesortid` varchar(40),
   PRIMARY KEY (`leveltwosortid`)
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8;
 
@@ -80,11 +183,11 @@ CREATE TABLE `t_reagentleveltwo` (
 -- -----------------------------------------------
 DROP TABLE IF EXISTS `t_reagent`;
 CREATE TABLE `t_reagent` (
-  `reagentid` int NOT NULL,
+  `reagentid` varchar(40) NOT NULL,
   `reagentname` varchar(100) NOT NULL,
   `reagentcommonname` varchar(500),
-  `levelonesortid` int,
-  `leveltwosortid` int,
+  `levelonesortid` varchar(40),
+  `leveltwosortid` varchar(40),
   `originplace` varchar(50),
   `productno` varchar(50),
   `agents` varchar(50),
@@ -99,9 +202,9 @@ CREATE TABLE `t_reagent` (
 -- ----------------------------
 -- Records of t_reagent
 -- ----------------------------
-INSERT INTO t_reagent VALUES (111, '洗涤液', '洗涤液', 11,1,'','','','',20,'','','2016-09-10','');
-INSERT INTO t_reagent VALUES (112, '洗涤液1', '洗涤液1', 11,1,'','','','',20,'','','2016-09-10','');
-INSERT INTO t_reagent VALUES (113, '洗涤液2', '洗涤液2', 11,1,'','','','',20,'','','2016-09-10','');
+INSERT INTO t_reagent VALUES (111, '洗涤液', '洗涤液', '11','1','','','','',20,'','','2016-09-10','');
+INSERT INTO t_reagent VALUES (112, '洗涤液1', '洗涤液1', '11','1','','','','',20,'','','2016-09-10','');
+INSERT INTO t_reagent VALUES (113, '洗涤液2', '洗涤液2', '11','1','','','','',20,'','','2016-09-10','');
 
 
 -- -----------------------------------------------
@@ -121,6 +224,55 @@ CREATE TABLE `t_reagentmap` (
 INSERT INTO t_reagentmap VALUES ('4028c681494b994701494b00aba50000', 111, '4037d681494b994701494b99aba50000', 0);
 INSERT INTO t_reagentmap VALUES ('4028c681494b994701494b00aba51111', 112, '4037d681494b994701494b99aba50000', 0);
 INSERT INTO t_reagentmap VALUES ('4028c681494b994701494b00aba52222', 113, '4037d681494b994701494b99aba50000', 0);
+
+
+-- -----------------------------------------------
+-- Table structure for `t_consumable` 耗材表
+-- -----------------------------------------------
+DROP TABLE IF EXISTS `t_consumable`;
+CREATE TABLE `t_consumable` (
+  `consumableid` varchar(40) NOT NULL,
+  `consumablename` varchar(100) NOT NULL,
+  `consumabletype` varchar(20),
+  PRIMARY KEY (`consumableid`)
+) ENGINE=InnoDB DEFAULT CHARSET=utf8;
+
+
+-- -----------------------------------------------
+-- Table structure for `t_consumablemap` 耗材厂商对应表
+-- -----------------------------------------------
+DROP TABLE IF EXISTS `t_consumablemap`;
+CREATE TABLE `t_consumablemap` (
+  `consumablemapid` varchar(32) NOT NULL,
+  `consumableid` varchar(40) NOT NULL,
+  `supplierid` varchar(40) NOT NULL,
+  `issuggestion` int DEFAULT 0,
+  PRIMARY KEY (`consumablemapid`)
+) ENGINE=InnoDB DEFAULT CHARSET=utf8;
+
+
+-- -----------------------------------------------
+-- Table structure for `t_equipment` 设备表
+-- -----------------------------------------------
+DROP TABLE IF EXISTS `t_equipment`;
+CREATE TABLE `t_equipment` (
+  `equipmentid` varchar(40) NOT NULL,
+  `equipmentname` varchar(100) NOT NULL,
+  PRIMARY KEY (`equipmentid`)
+) ENGINE=InnoDB DEFAULT CHARSET=utf8;
+
+
+-- -----------------------------------------------
+-- Table structure for `t_equipmentmap` 设备厂商对应表
+-- -----------------------------------------------
+DROP TABLE IF EXISTS `t_equipmentmap`;
+CREATE TABLE `t_equipmentmap` (
+  `equipmentmapid` varchar(32) NOT NULL,
+  `equipmentid` varchar(40) NOT NULL,
+  `supplierid` varchar(40) NOT NULL,
+  `issuggestion` int DEFAULT 0,
+  PRIMARY KEY (`equipmentmapid`)
+) ENGINE=InnoDB DEFAULT CHARSET=utf8;
 
 
 -- ---------------------------------------------------------
@@ -360,6 +512,26 @@ CREATE TABLE `t_myexpequipment` (
 -- ----------------------------
 INSERT INTO t_myexpequipment VALUES ('7039c681494b994701494b99aba50000', '4039c681494b994701494b99aba51236', '4028c681494b994701494b99bab60000', '4028c791564b994701494b99aba50000', '4037d681494b994701494b99aba50000');
 INSERT INTO t_myexpequipment VALUES ('7039c681494b994701494b99aba50010', '4039c681494b994701494b99aba51237', '4028c681494b994701494b99bab61111', '4028c791564b994701494b99aba50000', '4037d681494b994701494b99aba50000');
+
+
+-- -----------------------------------------------
+-- Table structure for `t_myexpplan` 我的实验计划表
+-- -----------------------------------------------
+DROP TABLE IF EXISTS `t_myexpplan`;
+CREATE TABLE `t_myexpplan` (
+  `myexpplanid` varchar(40) NOT NULL,
+  `userid` varchar(40) NOT NULL,
+  `expinstructionid` varchar(40),
+  `experimentname` varchar(200),
+  `plandate` date,
+  `planofyear` int,
+  `planofmonth` int,
+  PRIMARY KEY (`myexpplanid`)
+) ENGINE=InnoDB DEFAULT CHARSET=utf8;
+-- ----------------------------
+-- Records of t_myexpplan
+-- ----------------------------
+INSERT INTO t_myexpplan VALUES ('8039c681494b994701494b99aba50000', '4028c681494b994701494b99aba50000', '4028c681494b994701494b99bab60000', '我也不知道', '2015-09-21', 2015, 09);
 
 
 -- -----------------------------------------------

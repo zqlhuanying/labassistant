@@ -19,4 +19,5 @@ public interface SysUserService extends IBaseAbstractService<SysUserEntity>{
 	public boolean validEmail(String email);
 	
 	public boolean validTelephone(String telephone);
+	
 }

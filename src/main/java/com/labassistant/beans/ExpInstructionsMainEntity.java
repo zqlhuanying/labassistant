@@ -6,6 +6,7 @@ import javax.persistence.Column;
 import javax.persistence.Entity;
 import javax.persistence.GeneratedValue;
 import javax.persistence.Id;
+import javax.persistence.Lob;
 import javax.persistence.Table;
 
 import org.hibernate.annotations.GenericGenerator;
@@ -39,27 +40,59 @@ public class ExpInstructionsMainEntity extends ToStringBase {
 
 	private static final long serialVersionUID = 2518684466082301664L;
 	
-	private String expInstructionID;
-	private String experimentName;
-	private String experimentDesc;
-	private String experimentTheory;
-	private String provideUser;
-	private String supplierID;
-	private String supplierName;
-	private String productNum;
-	private String expCategoryID;
-	private String expSubCategoryID;
-	private Date createDate;
-	private int expVersion;
-	private int allowDownload;
-	private String filterStr;
-	private int reviewCount;
-	private int downloadCount;
-	
 	@Id
 	@GeneratedValue(generator="system-uuid")
 	@GenericGenerator(name="system-uuid",strategy="uuid")
 	@Column(length=32)
+	private String expInstructionID;
+	
+	@Column(length=200)
+	private String experimentName;
+	
+	@Column(length=1000)
+	private String experimentDesc;
+	
+	@Lob
+	@Column(name="experimentTheory", columnDefinition="TEXT")
+	private String experimentTheory;
+	
+	@Column(length=40)
+	private String provideUser;
+	
+	@Column(length=32)
+	private String supplierID;
+	
+	@Column(length=40)
+	private String supplierName;
+	
+	@Column(length=40)
+	private String productNum;
+	
+	@Column(length=32)
+	private String expCategoryID;
+	
+	@Column(length=32)
+	private String expSubCategoryID;
+	
+	@Column(columnDefinition="DATE")
+	private Date createDate;
+	
+	@Column(columnDefinition="int")
+	private int expVersion;
+	
+	@Column(columnDefinition="int")
+	private int allowDownload;
+	
+	@Column(length=400)
+	private String filterStr;
+	
+	@Column(columnDefinition="int")
+	private int reviewCount;
+	
+	@Column(columnDefinition="int")
+	private int downloadCount;
+	
+	
 	public String getExpInstructionID() {
 		return expInstructionID;
 	}

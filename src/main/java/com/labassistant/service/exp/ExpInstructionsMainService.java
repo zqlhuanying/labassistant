@@ -22,4 +22,6 @@ public interface ExpInstructionsMainService extends IBaseAbstractService<ExpInst
 	public int getReturnLimit();
 
 	public void setReturnLimit(int returnLimit);
+	
+	public List getInstructionsBySubCategoryID(String expSubCategoryID);
 }

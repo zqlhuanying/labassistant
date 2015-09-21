@@ -37,11 +37,11 @@ public class ReagentEntity extends ToStringBase {
 
 	private static final long serialVersionUID = 8730276703067341791L;
 	
-	private int reagentID;
+	private String reagentID;
 	private String reagentName;
 	private String reagentCommonName;
-	private int levelOneSortID;
-	private int levelTwoSortID;
+	private String levelOneSortID;
+	private String levelTwoSortID;
 	private String originPlace;
 	private String productNo;
 	private String agents;
@@ -56,11 +56,11 @@ public class ReagentEntity extends ToStringBase {
 	@GeneratedValue(generator="system-uuid")
 	@GenericGenerator(name="system-uuid",strategy="uuid")
 	@Column(length=32)
-	public int getReagentID() {
+	public String getReagentID() {
 		return reagentID;
 	}
 	
-	public void setReagentID(int reagentID) {
+	public void setReagentID(String reagentID) {
 		this.reagentID = reagentID;
 	}
 	
@@ -80,19 +80,19 @@ public class ReagentEntity extends ToStringBase {
 		this.reagentCommonName = reagentCommonName;
 	}
 	
-	public int getLevelOneSortID() {
+	public String getLevelOneSortID() {
 		return levelOneSortID;
 	}
 	
-	public void setLevelOneSortID(int levelOneSortID) {
+	public void setLevelOneSortID(String levelOneSortID) {
 		this.levelOneSortID = levelOneSortID;
 	}
 	
-	public int getLevelTwoSortID() {
+	public String getLevelTwoSortID() {
 		return levelTwoSortID;
 	}
 	
-	public void setLevelTwoSortID(int levelTwoSortID) {
+	public void setLevelTwoSortID(String levelTwoSortID) {
 		this.levelTwoSortID = levelTwoSortID;
 	}
 	
