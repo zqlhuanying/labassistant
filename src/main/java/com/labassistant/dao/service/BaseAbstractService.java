@@ -32,6 +32,11 @@ public class BaseAbstractService<T> implements IBaseAbstractService<T> {
 	}
 
 	@Override
+	public Serializable saveOrUpdateBySql (String sql, Object... parameters){
+		return baseDao.saveOrUpdateBySql(sql, parameters);
+	}
+	
+	@Override
 	public <X> Serializable save(X entity) {
 		return baseDao.save(entity);
 	}

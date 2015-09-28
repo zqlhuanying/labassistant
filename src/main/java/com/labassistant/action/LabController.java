@@ -233,7 +233,7 @@ public class LabController extends BaseController {
 		List<ExpProcessEntity> expProcesses = expProcessService.getProcessLists(expInstructionID);
 		List<ExpReagentEntity> expReagents = expReagentService.getExpReagentLists(expInstructionID); 
 		List<ExpEquipmentEntity> expEquipments = expEquipmentService.getExpEquipmentLists(expInstructionID); 
-		boolean isDownload = expInstructionsMainService.isDownload(userID, expInstructionID);
+		//boolean isDownload = expInstructionsMainService.isDownload(userID, expInstructionID);
 		if(expInstruction != null){
 			innerMap.put("expInstructionID", expInstruction.getExpInstructionID());
 			innerMap.put("experimentName", expInstruction.getExperimentName());
@@ -242,8 +242,8 @@ public class LabController extends BaseController {
 			if(expInstruction.getSupplierName() != null
 					&& !"".equals(expInstruction.getSupplierName())) innerMap.put("supplierName", expInstruction.getSupplierName());
 			innerMap.put("productNum", expInstruction.getProductNum());
-			if(isDownload) innerMap.put("instructState", "已下载");
-			else innerMap.put("instructState", "未下载");
+			//if(isDownload) innerMap.put("instructState", "已下载");
+			//else innerMap.put("instructState", "未下载");
 			
 			// 实验简介
 			innerMap.put("experimentDesc", expInstruction.getExperimentDesc());

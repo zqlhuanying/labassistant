@@ -34,7 +34,7 @@ import org.hibernate.annotations.GenericGenerator;
  * ExpMemo				实验备注
  * 
  */
-@Table(name = "t_myexpmain")
+@Table(name = "t_myexp")
 @Entity
 public class MyExpMainEntity extends ToStringBase {
 

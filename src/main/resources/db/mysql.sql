@@ -275,11 +275,42 @@ CREATE TABLE `t_equipmentmap` (
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8;
 
 
+-- -----------------------------------------------
+-- Table structure for `t_expcategory` 实验大类表
+-- -----------------------------------------------
+DROP TABLE IF EXISTS `t_expcategory`;
+CREATE TABLE `t_expcategory` (
+  `expcategoryid` varchar(40) NOT NULL,
+  `expcategoryname` varchar(100) NOT NULL,
+  PRIMARY KEY (`expcategoryid`)
+) ENGINE=InnoDB DEFAULT CHARSET=utf8;
+-- ----------------------------
+-- Records of t_expcategory
+-- ----------------------------
+INSERT INTO t_expcategory VALUES ('4028c681494b994701494b00bab50000', '蛋白质测试');
+
+
+-- -----------------------------------------------
+-- Table structure for `t_expsubcategory` 实验子类表
+-- -----------------------------------------------
+DROP TABLE IF EXISTS `t_expsubcategory`;
+CREATE TABLE `t_expsubcategory` (
+  `expsubcategoryid` varchar(40) NOT NULL,
+  `expsubcategoryname` varchar(100) NOT NULL,
+  `expcategoryid` varchar(40) NOT NULL,
+  PRIMARY KEY (`expsubcategoryid`)
+) ENGINE=InnoDB DEFAULT CHARSET=utf8;
+-- ----------------------------
+-- Records of t_expsubcategory
+-- ----------------------------
+INSERT INTO t_expsubcategory VALUES ('4028c681494b994701494b11bab50000', '蛋白质测试', '4028c681494b994701494b00bab50000');
+
+
 -- ---------------------------------------------------------
--- Table structure for `t_expinstructionsmain` 实验说明书主表
+-- Table structure for `t_expinstruction` 实验说明书主表
 -- ---------------------------------------------------------
-DROP TABLE IF EXISTS `t_expinstructionsmain`;
-CREATE TABLE `t_expinstructionsmain` (
+DROP TABLE IF EXISTS `t_expinstruction`;
+CREATE TABLE `t_expinstruction` (
   `expinstructionid` varchar(40) NOT NULL,
   `experimentname` varchar(200),
   `experimentdesc` varchar(1000),
@@ -301,16 +332,16 @@ CREATE TABLE `t_expinstructionsmain` (
 -- ----------------------------
 -- Records of t_expinstructionsmain
 -- ----------------------------
-INSERT INTO t_expinstructionsmain VALUES ('4028c681494b994701494b99bab60000', 'ELISA检测血清TNF-a浓度', '我也不知道', '还是不知道', '', '4037d681494b994701494b99aba50000', '海尔', 'hhd', 1, 11, '2015-09-16', 1, 1, '', 0, 0);
-INSERT INTO t_expinstructionsmain VALUES ('4028c681494b994701494b99bab61111', 'ELISA检测血清TNF-b浓度', '我也不知道', '还是不知道', '', '4037d681494b994701494b99aba50000', '海尔', 'hhd', 1, 11, '2015-09-16', 1, 1, '', 0, 20);
-INSERT INTO t_expinstructionsmain VALUES ('4028c681494b994701494b99bab62222', 'ELISA检测血清TNF-c浓度', '我也不知道', '还是不知道', '', '4037d681494b994701494b99aba50000', '海尔', 'hhd', 1, 11, '2015-09-16', 1, 1, '', 0, 5);
+INSERT INTO t_expinstruction VALUES ('4028c681494b994701494b99bab60000', 'ELISA检测血清TNF-a浓度', '我也不知道', '还是不知道', '', '4037d681494b994701494b99aba50000', '海尔', 'hhd', '24201826039496705', '24201826039496710', '2015-09-16', 1, 1, '', 0, 0);
+INSERT INTO t_expinstruction VALUES ('4028c681494b994701494b99bab61111', 'ELISA检测血清TNF-b浓度', '我也不知道', '还是不知道', '', '4037d681494b994701494b99aba50000', '海尔', 'hhd', '24201826039496705', '24201826039496710', '2015-09-16', 1, 1, '', 0, 20);
+INSERT INTO t_expinstruction VALUES ('4028c681494b994701494b99bab62222', 'ELISA检测血清TNF-c浓度', '我也不知道', '还是不知道', '', '4037d681494b994701494b99aba50000', '海尔', 'hhd', '24201826039496705', '24201826039496710', '2015-09-16', 1, 1, '', 0, 5);
 
 
 -- -----------------------------------------------
--- Table structure for `t_expprocess` 实验步骤表
+-- Table structure for `t_expstep` 实验步骤表
 -- -----------------------------------------------
-DROP TABLE IF EXISTS `t_expprocess`;
-CREATE TABLE `t_expprocess` (
+DROP TABLE IF EXISTS `t_expstep`;
+CREATE TABLE `t_expstep` (
   `expstepid` varchar(40) NOT NULL,
   `expinstructionid` varchar(40) NOT NULL,
   `stepnum` int,
@@ -319,14 +350,14 @@ CREATE TABLE `t_expprocess` (
   PRIMARY KEY (`expstepid`)
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8;
 -- ----------------------------
--- Records of t_expprocess
+-- Records of t_expstep
 -- ----------------------------
-INSERT INTO t_expprocess VALUES ('4028c681494b994701494b99bab70000', '4028c681494b994701494b99bab60000', 1, '用包被缓冲液溶解抗原，使抗原浓度为10-20 μg/ml，加100 μl/孔，4℃放置', 10);
-INSERT INTO t_expprocess VALUES ('4028c681494b994701494b99bab70001', '4028c681494b994701494b99bab60000', 2, '弃去液体后，在吸水纸拍干，每孔加入300μl PBST 洗涤，振荡', 10);
-INSERT INTO t_expprocess VALUES ('4028c681494b994701494b99bab70002', '4028c681494b994701494b99bab60000', 3, '弃去液体后，在吸水纸拍干，每孔加入300μl PBST 洗涤，振荡', 10);
-INSERT INTO t_expprocess VALUES ('4028c681494b994701494b99bab70003', '4028c681494b994701494b99bab60000', 4, '弃去液体后，在吸水纸拍干，每孔加入300μl PBST 洗涤，振荡', 10);
-INSERT INTO t_expprocess VALUES ('4028c681494b994701494b99bab70004', '4028c681494b994701494b99bab60000', 5, '每孔加入150 μl 1％ BSA 37℃封闭1 小时', 10);
-INSERT INTO t_expprocess VALUES ('4028c681494b994701494b99bab70005', '4028c681494b994701494b99bab60000', 6, '弃去液体后，在吸水纸拍干，每孔加入300μl PBST 洗涤，振荡', 10);
+INSERT INTO t_expstep VALUES ('4028c681494b994701494b99bab70000', '4028c681494b994701494b99bab60000', 1, '用包被缓冲液溶解抗原，使抗原浓度为10-20 μg/ml，加100 μl/孔，4℃放置', 10);
+INSERT INTO t_expstep VALUES ('4028c681494b994701494b99bab70001', '4028c681494b994701494b99bab60000', 2, '弃去液体后，在吸水纸拍干，每孔加入300μl PBST 洗涤，振荡', 10);
+INSERT INTO t_expstep VALUES ('4028c681494b994701494b99bab70002', '4028c681494b994701494b99bab60000', 3, '弃去液体后，在吸水纸拍干，每孔加入300μl PBST 洗涤，振荡', 10);
+INSERT INTO t_expstep VALUES ('4028c681494b994701494b99bab70003', '4028c681494b994701494b99bab60000', 4, '弃去液体后，在吸水纸拍干，每孔加入300μl PBST 洗涤，振荡', 10);
+INSERT INTO t_expstep VALUES ('4028c681494b994701494b99bab70004', '4028c681494b994701494b99bab60000', 5, '每孔加入150 μl 1％ BSA 37℃封闭1 小时', 10);
+INSERT INTO t_expstep VALUES ('4028c681494b994701494b99bab70005', '4028c681494b994701494b99bab60000', 6, '弃去液体后，在吸水纸拍干，每孔加入300μl PBST 洗涤，振荡', 10);
 
 
 -- -----------------------------------------------
@@ -429,10 +460,10 @@ CREATE TABLE `t_myexpinstruction` (
 
 
 -- -----------------------------------------------
--- Table structure for `t_myexpmain` 我的实验主表
+-- Table structure for `t_myexp` 我的实验主表
 -- -----------------------------------------------
-DROP TABLE IF EXISTS `t_myexpmain`;
-CREATE TABLE `t_myexpmain` (
+DROP TABLE IF EXISTS `t_myexp`;
+CREATE TABLE `t_myexp` (
   `myexpid` varchar(40) NOT NULL,
   `expinstructionid` varchar(40) NOT NULL,
   `userid` varchar(40),
@@ -452,11 +483,11 @@ CREATE TABLE `t_myexpmain` (
   PRIMARY KEY (`myexpid`)
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8;
 -- ----------------------------
--- Records of t_myexpmain
+-- Records of t_myexp
 -- ----------------------------
-INSERT INTO t_myexpmain VALUES ('4039c681494b994701494b99aba51236', '4028c681494b994701494b99bab60000','4028c681494b994701494b99aba50000', '2015-09-16', 2015, 09, '2015-09-16', 1, 0, 0, 0, '', '', '', 0, '');
-INSERT INTO t_myexpmain VALUES ('4039c681494b994701494b99aba51237', '4028c681494b994701494b99bab61111','4028c681494b994701494b99aba50000', '2015-09-16', 2015, 09, '2015-09-16', 1, 0, 0, 0, '', '', '', 2, '');
-INSERT INTO t_myexpmain VALUES ('4039c681494b994701494b99aba51238', '4028c681494b994701494b99bab62222','4028c681494b994701494b99aba50000', '2015-09-16', 2015, 09, '2015-09-16', 1, 0, 0, 0, '', '', '', 2, '');
+INSERT INTO t_myexp VALUES ('4039c681494b994701494b99aba51236', '4028c681494b994701494b99bab60000','4028c681494b994701494b99aba50000', '2015-09-16', 2015, 09, '2015-09-16', 1, 0, 0, 0, '', '', '', 0, '');
+INSERT INTO t_myexp VALUES ('4039c681494b994701494b99aba51237', '4028c681494b994701494b99bab61111','4028c681494b994701494b99aba50000', '2015-09-16', 2015, 09, '2015-09-16', 1, 0, 0, 0, '', '', '', 2, '');
+INSERT INTO t_myexp VALUES ('4039c681494b994701494b99aba51238', '4028c681494b994701494b99bab62222','4028c681494b994701494b99aba50000', '2015-09-16', 2015, 09, '2015-09-16', 1, 0, 0, 0, '', '', '', 2, '');
 
 
 -- -----------------------------------------------

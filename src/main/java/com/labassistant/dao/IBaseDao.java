@@ -12,6 +12,11 @@ import java.util.Map;
  */
 public interface IBaseDao {
 	
+	/**
+	 * 通过sql语句来保存或更新
+	 * @param entity
+	 */
+	public Serializable saveOrUpdateBySql (String sql, Object... parameters);
 	
 	/**
 	 * 保存泛型指向的实体

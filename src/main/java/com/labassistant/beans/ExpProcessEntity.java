@@ -20,7 +20,7 @@ import org.hibernate.annotations.GenericGenerator;
  * ExpStepTime			步骤耗时表
  * 
  */
-@Table(name = "t_expprocess")
+@Table(name = "t_expstep")
 @Entity
 public class ExpProcessEntity extends ToStringBase {
 

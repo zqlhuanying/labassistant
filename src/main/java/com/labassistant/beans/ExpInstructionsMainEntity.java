@@ -37,7 +37,7 @@ import com.fasterxml.jackson.annotation.JsonFormat;
  * DownloadCount			下载数量
  * 
  */
-@Table(name = "t_expinstructionsmain")
+@Table(name = "t_expinstruction")
 @Entity
 public class ExpInstructionsMainEntity extends ToStringBase {
 

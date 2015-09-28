@@ -81,7 +81,8 @@
 		<aop:pointcut id="bussinessService"
 			expression="
 				(execution (public * com.labassistant.dao.service..*.*(..))) or 
-				(execution (public * com.labassistant.service..*.*(..))) "/>
+				(execution (public * com.labassistant.service..*.*(..))) or
+				(execution (public * com.labassistant.action.SyncController*.*(..))) "/>
 		<aop:advisor advice-ref="txAdvice" pointcut-ref="bussinessService" />
 	</aop:config>
   	

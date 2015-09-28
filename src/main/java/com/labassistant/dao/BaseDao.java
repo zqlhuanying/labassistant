@@ -94,6 +94,12 @@ public class BaseDao implements IBaseDao {
 		throw new MyRuntimeException("查询语句错误");
 	}
 	
+	@Override
+	public Serializable saveOrUpdateBySql(String sql, Object... parameters) {
+		Serializable serializable = null;
+		serializable = createMyQuery(sql, false, parameters).executeUpdate();
+		return serializable;
+	}
 	
 	@Override
 	public <X> Serializable save(X entity) {

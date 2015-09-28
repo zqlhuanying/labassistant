@@ -3,6 +3,7 @@ package com.labassistant.action;
 import java.io.Serializable;
 import java.util.ArrayList;
 import java.util.HashMap;
+import java.util.LinkedHashMap;
 import java.util.List;
 import java.util.Map;
 
@@ -67,7 +68,7 @@ public class UploadController extends BaseController {
 				myExpProcessAttch.setIsUpload(1);
 				Serializable myExpProcessAttchID = myExpProcessAttchService.save(myExpProcessAttch);
 				// 返回的数据
-				Map<String, String> innerMap = new HashMap<String, String>();
+				Map<String, String> innerMap = new LinkedHashMap<String, String>();
 				innerMap.put("myExpProcessAttchID", (String)myExpProcessAttchID);
 				innerMap.put("imgUrl", AppConfig.DOMAIN_PAGE + "/" + upload.getUrl());
 				object.add(innerMap);
