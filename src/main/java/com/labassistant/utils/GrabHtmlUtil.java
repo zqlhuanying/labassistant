@@ -54,6 +54,16 @@ public final class GrabHtmlUtil {
 	}
 	
 	/**
+	 * 通过标签的属性来查找元素，正则表达式
+	 * @param key 标签的属性
+	 * @param regex 正则表达式
+	 * @return
+	 */
+	public static Elements grabElementsByAttributeValueMatching(Element doc, String key, String regex){
+		return doc.getElementsByAttributeValueMatching(key, regex);
+	}
+	
+	/**
 	 * 根据doc节点获取index位置处的节点
 	 * @param doc
 	 * @param selector
@@ -79,13 +89,17 @@ public final class GrabHtmlUtil {
 	public static void main(String[] args){
 		String url = "http://news.baidu.com/";
 		String selectorBody = "div#body";
-		String selectorA = "a[href]";
+		String selectorA = "a[href^=http]";
 		Document doc = grabHtmlByUrl(url);
 		Elements elements = grabElements(grabElement(doc, selectorBody), selectorA);
-		for(Element e : elements){
-			System.out.println("url:" + e.attr("href") + " content:" + e.text());
-		}
+		String regex = "((http|https)://)(([a-zA-Z0-9\\._-]+\\.[a-zA-Z]{2,6})|([0-9]{1,3}\\.[0-9]{1,3}\\.[0-9]{1,3}\\.[0-9]{1,3}))(:[0-9]{1,4})*(/[a-zA-Z0-9\\&%_\\./-~-]*)?";
 		
-		System.out.println(grabElement(doc, selectorA));
+		/*for(Element e : elements){
+			System.out.println("url:" + e.attr("href") + " content:" + e.text());
+		}*/
+		
+		//System.out.println(grabElement(doc, selectorA));
+		
+		System.out.println(doc.getElementsByAttributeValueMatching("href", regex));
 	}
 }
