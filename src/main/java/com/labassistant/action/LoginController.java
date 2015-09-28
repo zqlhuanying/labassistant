@@ -50,7 +50,7 @@ public class LoginController extends BaseController {
 	@ResponseBody
 	public Map<String, String> register(HttpServletRequest request,
 			SysUserEntity user) {
-		setErrorMsg(request, "注册失败");
+		//setErrorMsg(request, "注册失败");
 		sysUserService.register(user);
 		return retSuccess();
 	}

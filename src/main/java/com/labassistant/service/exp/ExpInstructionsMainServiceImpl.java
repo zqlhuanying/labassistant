@@ -88,4 +88,17 @@ public class ExpInstructionsMainServiceImpl extends BaseAbstractService<ExpInstr
 		return findListByHql(hql,expSubCategoryID);
 	}
 
+	@Override
+	public List getInstructionsByFilter(String filterStr) {
+		
+		String hql = "from ExpInstructionsMainEntity where filterStr like ?";
+		
+		filterStr = "%|" + filterStr + "|%";
+		
+		System.out.println("filterStr:" + filterStr);
+	
+		
+		return findListByHql(hql,filterStr);
+	}
+
 }

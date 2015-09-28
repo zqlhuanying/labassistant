@@ -14,5 +14,7 @@ public interface MyExpProcessService extends IBaseAbstractService<MyExpProcessEn
 
 	public List<MyExpProcessEntity> getList(String myExpID);
 
-
+	public void perProcessMemo(MyExpProcessEntity myExpProcess);
+	
+	public MyExpProcessEntity getPerProcessMemo(String myExpID, String expStepID);
 }

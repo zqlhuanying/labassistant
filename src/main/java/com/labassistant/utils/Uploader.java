@@ -12,7 +12,7 @@ import javax.servlet.http.HttpServletRequest;
 import org.apache.log4j.Logger;
 
 /**
- * 文件或图片上传
+ * 文件或图片上传或下载
  * @author zql
  * @date 2015/09/21
  */
@@ -22,7 +22,7 @@ public class Uploader {
 	
 	// 保存的路径，默认是upload文件夹下
 	private String savePath = "upload";
-	// 输出文件地址
+	// 输出文件地址 是相对地址
     private String url = "";
     // 上传文件名
     private String fileName = "";
@@ -44,13 +44,14 @@ public class Uploader {
 	
 	public void upload() throws Exception{
 		if(this.inputStream == null){
+			logger.info("inputstream is null");
 			throw new NullPointerException("data is null");
 		}
 		try{
 			String savePath = getFolder(this.savePath);
 			this.fileName = getName(this.originalName);
 			this.type = getFileExt(this.originalName);
-			this.url = savePath + File.separator + this.fileName;
+			this.url = savePath + "/" + this.fileName;
 			
 			// 输出数据
 			FileOutputStream fout = new FileOutputStream(getPhysicalPathByRoot(this.url));
@@ -67,16 +68,33 @@ public class Uploader {
             
 		} catch(Exception e){
 			e.printStackTrace();
+			logger.info("upload is failed");
 		}
 		
 	}
+	
+	public FileOutputStream download() throws Exception{
+		if(this.url == null){
+			logger.info("url is null");
+			throw new NullPointerException("url is null");
+		}
+		try{
+			String savePath = getPhysicalPathByRoot(this.url);
+			return new FileOutputStream(new File(savePath));
+		} catch (Exception e){
+			e.printStackTrace();
+			logger.info("download is failed");
+			return null;
+		}
+	}
+	
 	/**
 	 * 创建保存的目录,根据创建的日期来创建子目录
 	 * @param path
 	 * @return
 	 */
 	private String getFolder(String path){
-		path = path + File.separator + DateUtil.formatDate("yyyyMMdd", new Date());
+		path = path + "/" + DateUtil.formatDate("yyyyMMdd", new Date());
 		File dir = new File(getPhysicalPathByRoot(path));
 		FileUtil.makeDirectory(dir);
 		return path;
@@ -89,7 +107,7 @@ public class Uploader {
      */
     private String getPhysicalPathByRoot(String path) {
         String realPath = this.request.getSession().getServletContext().getRealPath("/");
-        return new File(realPath).getPath() + File.separator + path;
+        return new File(realPath).getPath() + "/" + path;
     }
 
     /**

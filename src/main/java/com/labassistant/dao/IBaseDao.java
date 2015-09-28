@@ -12,6 +12,7 @@ import java.util.Map;
  */
 public interface IBaseDao {
 	
+	
 	/**
 	 * 保存泛型指向的实体
 	 * @param entity
@@ -55,7 +56,7 @@ public interface IBaseDao {
 	 * @param entity
 	 */
 	public <X> void update (X entity);
-
+	
 	/**
 	 *
 	 * @param entityClass

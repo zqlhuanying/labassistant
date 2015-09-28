@@ -392,6 +392,30 @@ INSERT INTO t_expequipment VALUES ('4028c791564b994701494b99aba50002','4028c6814
 
 
 -- -----------------------------------------------
+-- Table structure for `t_expreview` 实验评论表
+-- -----------------------------------------------
+DROP TABLE IF EXISTS `t_expreview`;
+CREATE TABLE `t_expreview` (
+  `expreviewid` varchar(40) NOT NULL,
+  `expinstructionid` varchar(40) NOT NULL,
+  `reviewerid` varchar(40) NOT NULL,
+  `reviewdate` date,
+  `reviewyear` int,
+  `reviewmonth` int,
+  `expscore` int,
+  `reviewinfo` varchar(500),
+  `agreecount` int DEFAULT 0,
+  `disagreecount` int DEFAULT 0,
+  PRIMARY KEY (`expreviewid`)
+) ENGINE=InnoDB DEFAULT CHARSET=utf8;
+-- ----------------------------
+-- Records of t_expreview
+-- ----------------------------
+INSERT INTO t_expreview VALUES ('4045c791564b994701494b99aba50000','4028c681494b994701494b99bab60000', '4028c681494b994701494b99aba50000', '2015-09-22', 2015, 09, 5, '这是什么鬼', 5, 0);
+INSERT INTO t_expreview VALUES ('4045c791564b994701494b99aba50001','4028c681494b994701494b99bab60000', '4028c681494b994701494b99aba50000', '2015-09-22', 2015, 09, 5, '这到底是什么鬼', 5, 0);
+
+
+-- -----------------------------------------------
 -- Table structure for `t_myexpinstruction` 我的说明书表
 -- -----------------------------------------------
 DROP TABLE IF EXISTS `t_myexpinstruction`;
@@ -432,6 +456,7 @@ CREATE TABLE `t_myexpmain` (
 -- ----------------------------
 INSERT INTO t_myexpmain VALUES ('4039c681494b994701494b99aba51236', '4028c681494b994701494b99bab60000','4028c681494b994701494b99aba50000', '2015-09-16', 2015, 09, '2015-09-16', 1, 0, 0, 0, '', '', '', 0, '');
 INSERT INTO t_myexpmain VALUES ('4039c681494b994701494b99aba51237', '4028c681494b994701494b99bab61111','4028c681494b994701494b99aba50000', '2015-09-16', 2015, 09, '2015-09-16', 1, 0, 0, 0, '', '', '', 2, '');
+INSERT INTO t_myexpmain VALUES ('4039c681494b994701494b99aba51238', '4028c681494b994701494b99bab62222','4028c681494b994701494b99aba50000', '2015-09-16', 2015, 09, '2015-09-16', 1, 0, 0, 0, '', '', '', 2, '');
 
 
 -- -----------------------------------------------
@@ -439,7 +464,7 @@ INSERT INTO t_myexpmain VALUES ('4039c681494b994701494b99aba51237', '4028c681494
 -- -----------------------------------------------
 DROP TABLE IF EXISTS `t_myexpprocess`;
 CREATE TABLE `t_myexpprocess` (
-  `myexpstepid` varchar(40) NOT NULL,
+  `myexpprocessid` varchar(40) NOT NULL,
   `myexpid` varchar(40) NOT NULL,
   `expinstructionid` varchar(40) NOT NULL,
   `expstepid` varchar(40) NOT NULL,
@@ -448,7 +473,7 @@ CREATE TABLE `t_myexpprocess` (
   `expsteptime` decimal(5,2) DEFAULT 0,
   `isusetimer` int,
   `processmemo` varchar(500),
-  PRIMARY KEY (`myexpstepid`)
+  PRIMARY KEY (`myexpprocessid`)
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8;
 -- ----------------------------
 -- Records of t_myexpprocess
@@ -532,6 +557,23 @@ CREATE TABLE `t_myexpplan` (
 -- Records of t_myexpplan
 -- ----------------------------
 INSERT INTO t_myexpplan VALUES ('8039c681494b994701494b99aba50000', '4028c681494b994701494b99aba50000', '4028c681494b994701494b99bab60000', '我也不知道', '2015-09-21', 2015, 09);
+
+
+-- -----------------------------------------------
+-- Table structure for `t_myexpprocessattch` 我的实验步骤附件表
+-- -----------------------------------------------
+DROP TABLE IF EXISTS `t_myexpprocessattch`;
+CREATE TABLE `t_myexpprocessattch` (
+  `myexpprocessattchid` varchar(40) NOT NULL,
+  `myexpid` varchar(40) NOT NULL,
+  `expinstructionid` varchar(40) NOT NULL,
+  `expstepid` varchar(40) NOT NULL,
+  `attchmentname` varchar(200),
+  `attchmentlocation` varchar(500),
+  `attchmentserverpath` varchar(500),
+  `isupload` int,
+  PRIMARY KEY (`myexpprocessattchid`)
+) ENGINE=InnoDB DEFAULT CHARSET=utf8;
 
 
 -- -----------------------------------------------

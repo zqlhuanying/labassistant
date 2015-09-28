@@ -10,6 +10,9 @@ import javax.persistence.Lob;
 import javax.persistence.Table;
 
 import org.hibernate.annotations.GenericGenerator;
+import org.springframework.format.annotation.DateTimeFormat;
+
+import com.fasterxml.jackson.annotation.JsonFormat;
 
 /**
  * 实验说明书主表
@@ -75,6 +78,8 @@ public class ExpInstructionsMainEntity extends ToStringBase {
 	private String expSubCategoryID;
 	
 	@Column(columnDefinition="DATE")
+	@DateTimeFormat(pattern = "yyyy-MM-dd HH:mm:ss")
+	@JsonFormat(pattern="yyyy-MM-dd HH:mm:ss",timezone = "GMT+8")  
 	private Date createDate;
 	
 	@Column(columnDefinition="int")

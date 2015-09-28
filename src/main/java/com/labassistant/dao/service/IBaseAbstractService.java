@@ -63,6 +63,7 @@ public interface IBaseAbstractService<T> {
 	 * @param entity
 	 */
 	public <X> void update (X entity) ;
+
 	
 	/**
 	 * 

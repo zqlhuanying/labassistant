@@ -14,7 +14,14 @@
 	http://www.springframework.org/schema/mvc
 	http://www.springframework.org/schema/mvc/spring-mvc-3.2.xsd">
 	
-	
+	<!-- 静态资源(js/image)的访问 -->
+	<mvc:resources location="static/img/" mapping="static/img/**" />
+    <!-- 匹配上传图片路径 -->
+    <mvc:resources location="upload/" mapping="upload/**" />
+    
+	<!-- 支持上传文件 -->  
+    <bean id="multipartResolver" class="org.springframework.web.multipart.commons.CommonsMultipartResolver"></bean>
+    
 	<bean id="exceptionResolver" class="org.springframework.web.servlet.handler.SimpleMappingExceptionResolver">
 		<property name="defaultErrorView">
 			<value>/error</value><!-- 表示当抛出异常但没有在exceptionMappings里面找到对应的异常时 返回名叫error的视图-->

@@ -45,10 +45,10 @@ public class ExpReagentServiceImpl extends BaseAbstractService<ExpReagentEntity>
 	@Override 
 	public List<Object> getExpReagentAndAmount(String expInstructionID){
 		List<Object> object = new ArrayList<Object>();
-		Map<String, Object> map = new HashMap<String, Object>();
 		List<ExpReagentEntity> lists = getExpReagentLists(expInstructionID);
 		if(lists != null){
 			for(ExpReagentEntity list : lists){
+				Map<String, Object> map = new HashMap<String, Object>();
 				map.put("reagentName", list.getReagentName());
 				map.put("useAmount", list.getUseAmount());
 				object.add(map);
@@ -63,10 +63,10 @@ public class ExpReagentServiceImpl extends BaseAbstractService<ExpReagentEntity>
 	@Override
 	public List<Object> getExpReagentAndSupplierName(String expInstructionID){
 		List<Object> object = new ArrayList<Object>();
-		Map<String, Object> map = new HashMap<String, Object>();
 		List<ExpReagentEntity> expReagentLists = getExpReagentLists(expInstructionID);
 		if(expReagentLists != null){
 			for(ExpReagentEntity expReagent : expReagentLists){
+				Map<String, Object> map = new HashMap<String, Object>();
 				List<String> list = new ArrayList<String>();
 				List<ReagentMapEntity> mapLists = reagentMapService.getListByReagentID(expReagent.getReagentID());
 				if(mapLists != null){

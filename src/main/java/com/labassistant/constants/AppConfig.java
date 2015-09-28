@@ -11,4 +11,6 @@ public final class AppConfig {
 	private AppConfig(){}
 	
 	public static final String REQUEST_ERROR_MSG_KEY = "errorMsg";
+	
+	public static final String DOMAIN_PAGE = "http://172.18.0.55:8080/LabAssistant";
 }

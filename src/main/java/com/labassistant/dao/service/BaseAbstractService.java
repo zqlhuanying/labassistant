@@ -75,7 +75,7 @@ public class BaseAbstractService<T> implements IBaseAbstractService<T> {
 	public <X> void update(X entity) {
 		baseDao.update(entity);
 	}
-
+	
 	@Override
 	public T load(Serializable id) {
 		return baseDao.load(getEntityClass(), id);

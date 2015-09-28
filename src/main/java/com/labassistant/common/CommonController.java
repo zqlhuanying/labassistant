@@ -34,7 +34,8 @@ public class CommonController extends BaseController {
         Map<String, String> map = new HashMap<String, String>();
         String errorMsg = (String) request.getAttribute(AppConfig.REQUEST_ERROR_MSG_KEY);
         if (StringUtils.isBlank(errorMsg)) {
-            errorMsg = "操作失败";
+            //errorMsg = "操作失败";
+        	errorMsg = e.getMessage();
         }
         map.put("code", "0");
         map.put("msg", errorMsg);

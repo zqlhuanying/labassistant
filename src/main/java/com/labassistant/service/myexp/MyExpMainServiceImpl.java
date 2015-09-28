@@ -28,14 +28,6 @@ public class MyExpMainServiceImpl extends BaseAbstractService<MyExpMainEntity> i
 	}
 	
 	/**
-	 * 根据实验ID获取相关记录
-	 */
-	@Override
-	public MyExpMainEntity get(String myExpID){
-		return get(myExpID);
-	}
-	
-	/**
 	 * 获取已完成的实验
 	 * @param userID
 	 * @return

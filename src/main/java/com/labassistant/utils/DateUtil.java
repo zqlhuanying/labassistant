@@ -2,6 +2,7 @@ package com.labassistant.utils;
 
 import java.text.ParseException;
 import java.text.SimpleDateFormat;
+import java.util.Calendar;
 import java.util.Date;
 
 import com.labassistant.exception.MyRuntimeException;
@@ -36,6 +37,13 @@ public final class DateUtil {
 		return formatDate(dateFormat, date);
 	}
 	
+	public static int getYear(){
+		return Calendar.getInstance().get(Calendar.YEAR);
+	}
+	
+	public static int getMonth(){
+		return Calendar.getInstance().get(Calendar.MONTH) + 1;
+	}
 	/**
 	 * 将字符串转换成日期类型
 	 * @param date

@@ -152,7 +152,7 @@ public class BaseDao implements IBaseDao {
 	public <X> void update(X entity) {
 		getCurrentSession().update(entity);
 	}
-
+	
 	@Override
 	public <X> X load(Class<X> entityClass, Serializable pk) {
 		if(null == pk || "".equals(pk)){
