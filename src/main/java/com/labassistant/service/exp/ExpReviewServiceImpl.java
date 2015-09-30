@@ -6,7 +6,7 @@ import java.util.List;
 import org.springframework.stereotype.Service;
 
 import com.labassistant.beans.ExpReviewEntity;
-import com.labassistant.beans.SysUserEntity;
+import com.labassistant.constants.LabConstant;
 import com.labassistant.dao.service.BaseAbstractService;
 import com.labassistant.utils.DateUtil;
 
@@ -35,9 +35,9 @@ public class ExpReviewServiceImpl extends BaseAbstractService<ExpReviewEntity>
 	@Override
 	public void responseReview(ExpReviewEntity expReview){
 		Date now = new Date();
-		expReview.setReviewDate(DateUtil.str2Date("yyyy-MM-dd", DateUtil.formatDate("yyyy-MM-dd", now)));
-		expReview.setReviewYear(DateUtil.getYear());
-		expReview.setReviewMonth(DateUtil.getMonth());
+		expReview.setReviewDate(DateUtil.str2Date(LabConstant.DATEFORMAT, DateUtil.formatDate(LabConstant.DATEFORMAT, now)));
+		expReview.setReviewYear(DateUtil.getYear(now));
+		expReview.setReviewMonth(DateUtil.getMonth(now));
 		save(expReview);
 	}
 	

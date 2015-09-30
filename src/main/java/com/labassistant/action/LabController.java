@@ -9,6 +9,7 @@ import java.util.Map;
 
 import javax.servlet.http.HttpServletRequest;
 
+import org.apache.commons.lang3.StringUtils;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Controller;
 import org.springframework.web.bind.annotation.RequestMapping;
@@ -358,7 +359,7 @@ public class LabController extends BaseController {
 			for(ExpReviewEntity review : reviews){
 				Map<String, Object> innerMap = new HashMap<String, Object>();
 				innerMap.put("expReviewID", review.getExpReviewID());
-				innerMap.put("reviewDate", DateUtil.formatDate("yyyy-MM-dd", review.getReviewDate()));
+				innerMap.put("reviewDate", DateUtil.formatDate(LabConstant.DATEFORMAT, review.getReviewDate()));
 				innerMap.put("reviewInfo", review.getReviewInfo());
 				innerMap.put("nickName", sysUserService.get(review.getReviewerID()).getNickName());
 				innerMap.put("agreeCount", review.getAgreeCount());
@@ -415,7 +416,7 @@ public class LabController extends BaseController {
 		setErrorMsg(request, "获取实验计划失败");
 		Map<String, Object>  map = new HashMap<String, Object>();
 		List<Object> lists = new ArrayList<Object>();
-		List<MyExpPlanEntity> myExpPlans = myExpPlanService.getPlan(userID, DateUtil.str2Date("yyyy-MM-dd", date));
+		List<MyExpPlanEntity> myExpPlans = myExpPlanService.getPlan(userID, DateUtil.str2Date(LabConstant.DATEFORMAT, date));
 		if(myExpPlans != null){
 			for(MyExpPlanEntity myExpPlan : myExpPlans){
 				Map<String, String>  innerMap = new HashMap<String, String>();
@@ -426,6 +427,24 @@ public class LabController extends BaseController {
 		}
 		map.putAll(retSuccess());
 		map.put("data", lists);
+		return map;
+	}
+	
+	@RequestMapping(value = "/setMyExpPlan")
+	@ResponseBody
+	// 虽然设置了是整个实体类，但主要的是userID，expInstructionID[,experimentName]等字段,date
+	public Map<String, Object> setMyExpPlan(HttpServletRequest request, MyExpPlanEntity myExpPlan, String date){
+		setErrorMsg(request, "设置实验计划失败");
+		Map<String, Object>  map = new HashMap<String, Object>();
+		if(StringUtils.isBlank(myExpPlan.getExperimentName())){
+			ExpInstructionsMainEntity expInstruction = expInstructionsMainService.get(myExpPlan.getExpInstructionID());
+			myExpPlan.setExperimentName(expInstruction.getExperimentName());
+		}
+		Date planDate = DateUtil.str2Date(LabConstant.DATEFORMAT, date);
+		myExpPlan.setPlanDate(planDate);
+		myExpPlanService.setPlan(myExpPlan);
+		map.putAll(retSuccess());
+		map.put("data", "");
 		return map;
 	}
 	

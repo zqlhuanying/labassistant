@@ -35,7 +35,7 @@ public class SyncController extends BaseController {
 		setErrorMsg(request, "同步失败");
 		Map<String, Object>  map = new HashMap<String, Object>();
 		Map<String, Object> requestMap = JSONUtil.json2Map(json);
-		requestMap = (Map)requestMap.get("data");
+		//requestMap = (Map)requestMap.get("data");
 		
 		// requestMap 中的Value有可能是数组，即Object有可能是数组
 		Iterator<Map.Entry<String, Object>> iterator = requestMap.entrySet().iterator();

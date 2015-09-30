@@ -15,4 +15,7 @@ public final class LabConstant {
 	public static final String PAUSING = "1";	// 暂停中
 	public static final String COMPLETED = "2";	// 已完成
 	public static final String REPORTED = "3";	// 已生成实验报告
+	
+	// 实验中日期常用的格式
+	public static final String DATEFORMAT = "yyyy-MM-dd"; 
 }

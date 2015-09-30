@@ -38,12 +38,12 @@ public class TeacherEntity extends ToStringBase {
 	private String pwd;
 	private String eMail;
 	private String telNo;
-	private int provinceID;
-	private int cityID;
-	private int collegeID;
-	private int majorID;
-	private int educationID;
-	private int titleID;
+	private String provinceID;
+	private String cityID;
+	private String collegeID;
+	private String majorID;
+	private String educationID;
+	private String titleID;
 	private int nState;
 	private int nSource;
 	
@@ -81,40 +81,40 @@ public class TeacherEntity extends ToStringBase {
 	public void setTelNo(String telNo) {
 		this.telNo = telNo;
 	}
-	public int getProvinceID() {
+	public String getProvinceID() {
 		return provinceID;
 	}
-	public void setProvinceID(int provinceID) {
+	public void setProvinceID(String provinceID) {
 		this.provinceID = provinceID;
 	}
-	public int getCityID() {
+	public String getCityID() {
 		return cityID;
 	}
-	public void setCityID(int cityID) {
+	public void setCityID(String cityID) {
 		this.cityID = cityID;
 	}
-	public int getCollegeID() {
+	public String getCollegeID() {
 		return collegeID;
 	}
-	public void setCollegeID(int collegeID) {
+	public void setCollegeID(String collegeID) {
 		this.collegeID = collegeID;
 	}
-	public int getMajorID() {
+	public String getMajorID() {
 		return majorID;
 	}
-	public void setMajorID(int majorID) {
+	public void setMajorID(String majorID) {
 		this.majorID = majorID;
 	}
-	public int getEducationID() {
+	public String getEducationID() {
 		return educationID;
 	}
-	public void setEducationID(int educationID) {
+	public void setEducationID(String educationID) {
 		this.educationID = educationID;
 	}
-	public int getTitleID() {
+	public String getTitleID() {
 		return titleID;
 	}
-	public void setTitleID(int titleID) {
+	public void setTitleID(String titleID) {
 		this.titleID = titleID;
 	}
 	public int getnState() {

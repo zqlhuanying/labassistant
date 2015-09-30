@@ -7,6 +7,7 @@ import org.springframework.stereotype.Service;
 
 import com.labassistant.beans.MyExpPlanEntity;
 import com.labassistant.dao.service.BaseAbstractService;
+import com.labassistant.utils.DateUtil;
 
 /**
  * 我的实验计划服务
@@ -22,5 +23,12 @@ public class MyExpPlanServiceImpl extends BaseAbstractService<MyExpPlanEntity>
 		String hql = "from MyExpPlanEntity where userID = ? and planDate = ?";
 		List<MyExpPlanEntity> lists = findListByHql(hql, userID, date);
 		return lists;
+	}
+	
+	@Override
+	public void setPlan(MyExpPlanEntity plan){
+		plan.setPlanOfYear(DateUtil.getYear(plan.getPlanDate()));
+		plan.setPlanOfDate(DateUtil.getMonth(plan.getPlanDate()));
+		save(plan);
 	}
 }

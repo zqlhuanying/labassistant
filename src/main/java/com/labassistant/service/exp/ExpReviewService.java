@@ -3,7 +3,6 @@ package com.labassistant.service.exp;
 import java.util.List;
 
 import com.labassistant.beans.ExpReviewEntity;
-import com.labassistant.beans.SysUserEntity;
 import com.labassistant.dao.service.IBaseAbstractService;
 
 /**

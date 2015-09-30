@@ -14,4 +14,6 @@ import com.labassistant.dao.service.IBaseAbstractService;
 public interface MyExpPlanService extends IBaseAbstractService<MyExpPlanEntity> {
 
 	public List<MyExpPlanEntity> getPlan(String userID, Date date);
+	
+	public void setPlan(MyExpPlanEntity plan);
 }

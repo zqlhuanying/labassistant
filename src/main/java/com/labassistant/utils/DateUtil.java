@@ -16,8 +16,8 @@ public final class DateUtil {
 
 	private static final String dateFormat = "yyyy-MM-dd HH:mm:ss";  //默认的日期格式
 	private static final long d = 24 * 60 * 60 * 1000;  //一天的毫秒数
-	private static final long h = 60 * 60 * 1000; //一小时的毫秒数
-	private static final long m = 60 * 1000; //一分钟的毫秒数
+	//private static final long h = 60 * 60 * 1000; //一小时的毫秒数
+	//private static final long m = 60 * 1000; //一分钟的毫秒数
 	//private static final long s = 1000; //一秒的毫秒数 只是用于测试
 	
 	// 不支持实例化
@@ -37,12 +37,16 @@ public final class DateUtil {
 		return formatDate(dateFormat, date);
 	}
 	
-	public static int getYear(){
-		return Calendar.getInstance().get(Calendar.YEAR);
+	public static int getYear(Date date){
+		Calendar c = Calendar.getInstance();
+		c.setTime(date);
+		return c.get(Calendar.YEAR);
 	}
 	
-	public static int getMonth(){
-		return Calendar.getInstance().get(Calendar.MONTH) + 1;
+	public static int getMonth(Date date){
+		Calendar c = Calendar.getInstance();
+		c.setTime(date);
+		return c.get(Calendar.MONTH) + 1;
 	}
 	/**
 	 * 将字符串转换成日期类型
@@ -89,5 +93,6 @@ public final class DateUtil {
 		Date end = new Date();
 		System.out.println(formatDate(end));
 		System.out.println(diff(start, end));
+		System.out.println(getYear(str2Date("yyyyMMdd","20140922")));
 	}
 }
