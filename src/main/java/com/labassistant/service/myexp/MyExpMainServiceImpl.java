@@ -56,8 +56,9 @@ public class MyExpMainServiceImpl extends BaseAbstractService<MyExpMainEntity> i
 	}
 	
 	private List<MyExpMainEntity> getMyExp(String userID, int expState){
-		String hql = "from MyExpMainEntity where userID = ? and expState = ?";
-		List<MyExpMainEntity> lists = findListByHql(hql, userID, expState);
-		return lists;
+		//String hql = "from MyExpMainEntity where userID = ? and expState = ?";
+		//List<MyExpMainEntity> lists = findListByHql(hql, userID, expState);
+		//return lists;
+        return getList("userID", userID, "expState", expState);
 	}
 }

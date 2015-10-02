@@ -17,7 +17,7 @@ import com.labassistant.exception.MyRuntimeException;
  * @author zql
  * @date 2015/09/07
  */
-public class BaseAbstractService<T> implements IBaseAbstractService<T> {
+public class BaseAbstractService<T> implements IBaseAbstractService<T>{
 
 	@Autowired
 	private IBaseDao baseDao;
@@ -95,7 +95,27 @@ public class BaseAbstractService<T> implements IBaseAbstractService<T> {
 	public <X> X get(Class<X> entityClass, Serializable id) {
 		return (X) baseDao.get(entityClass, id);
 	}
-	
+
+    @Override
+    public T getOne(Object... parameters) {
+        return baseDao.getOne(getEntityClass(), parameters);
+    }
+
+    @Override
+    public <X> X getOne(Class<X> entityClass, Object... parameters){
+        return baseDao.getOne(entityClass, parameters);
+    }
+
+    @Override
+    public List<T> getList(Object... parameters){
+        return baseDao.getList(getEntityClass(), parameters);
+    }
+
+    @Override
+    public <X> List<X> getList(Class<X> entityClass, Object... parameters){
+        return baseDao.getList(entityClass, parameters);
+    }
+
 	@Override
 	public <X> X findOneByHql(String hql, Object... parameters) {
 		return baseDao.findOneByHql(hql, parameters);
