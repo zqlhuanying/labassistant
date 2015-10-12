@@ -1,5 +1,7 @@
 package com.labassistant.service.myexp;
 
+import java.util.List;
+
 import com.labassistant.beans.MyExpReagentEntity;
 import com.labassistant.dao.service.IBaseAbstractService;
 
@@ -11,4 +13,5 @@ import com.labassistant.dao.service.IBaseAbstractService;
 public interface MyExpReagentService extends
 		IBaseAbstractService<MyExpReagentEntity> {
 
+	public List<MyExpReagentEntity> getMyExpReagents(String myExpID);
 }

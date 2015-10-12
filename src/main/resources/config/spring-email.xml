@@ -9,20 +9,20 @@
 	
 	<!-- 注意:这里的参数(如用户名、密码)都是针对邮件发送者的 -->
 	<bean id="mailSender" class="org.springframework.mail.javamail.JavaMailSenderImpl">
-	<!-- 暂时不启用 
 		<property name="defaultEncoding" value="UTF-8" />
-		<property name="host" value="smtp.saptac.com.cn" />
-		<property name="port" value="25" />
-		<property name="username" value="weixin@saptac.com.cn" />
-		<property name="password" value="1234ABCDef" />
+		<property name="host" value="smtp.yeah.net" />
+		<property name="port" value="465" />
+		<property name="username" value="jimmiezh9@yeah.net" />
+		<property name="password" value="zhangjun1204" />
 
 		<property name="javaMailProperties">
 			<props>
 				<prop key="mail.smtp.auth">true</prop>
 				<prop key="mail.smtp.timeout">25000</prop>
+				<!-- 支持SSL邮箱发送 -->
+				<prop key="mail.smtp.socketFactory.class">javax.net.ssl.SSLSocketFactory</prop>
 			</props>
 		</property>
-		-->
-	</bean>  
+	</bean>
 	
 </beans>

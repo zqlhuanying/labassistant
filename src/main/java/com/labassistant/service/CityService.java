@@ -13,4 +13,6 @@ import com.labassistant.dao.service.IBaseAbstractService;
 public interface CityService extends IBaseAbstractService<CityEntity> {
 
 	public List<CityEntity> getCities(String provinceID);
+	
+	public List<String> getCitiesName(List<CityEntity> cities);
 }

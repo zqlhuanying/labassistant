@@ -1,6 +1,7 @@
 package com.labassistant.action;
 
 import java.util.HashMap;
+import java.util.List;
 import java.util.Map;
 
 import javax.servlet.http.HttpServletRequest;
@@ -116,6 +117,19 @@ public class MyInfoController extends BaseController {
 		sysUserService.update(sysUser);
 		map.putAll(retSuccess());
 		map.put("data", "");
+		return map;
+	}
+	
+	@RequestMapping(value = "/provinceAndCity")
+	@ResponseBody
+	public Map<String, Object> provinceAndCity(HttpServletRequest request){
+		setErrorMsg(request, "获取省市对应列表失败");
+		Map<String, Object> map = new HashMap<String, Object>();
+		List<Object> object = provinceService.provinceAndCity();
+		
+
+		map.putAll(retSuccess());
+		map.put("data", object);
 		return map;
 	}
 }

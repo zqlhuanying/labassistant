@@ -1,6 +1,7 @@
 package com.labassistant.service.exp;
 
 
+import java.util.LinkedHashMap;
 import java.util.List;
 import java.util.Map;
 
@@ -22,6 +23,14 @@ public class ExpInstructionsMainServiceImpl extends BaseAbstractService<ExpInstr
 
 	@Autowired
 	private MyExpInstructionService myExpInstructionService;
+	@Autowired
+	private ExpProcessService expProcessService;
+	@Autowired
+	private ExpConsumableService expConsumableService;
+	@Autowired
+	private ExpEquipmentService expEquipmentService;
+	@Autowired
+	private ExpReagentService expReagentService;
 	
 	private int returnLimit;	// 设置返回的数据记录
 	
@@ -37,7 +46,7 @@ public class ExpInstructionsMainServiceImpl extends BaseAbstractService<ExpInstr
 	 */
 	@Override
 	public List<Map<String, Object>> getHotInstructions(){
-		// todo
+		// TODO
 		String sql = "select * from t_expinstruction order by downloadcount desc limit ?";
 		List<Map<String, Object>> lists = findListMapBySql(sql, returnLimit);
 		/*List<ExpInstructionsMainEntity> returnLists = new ArrayList<ExpInstructionsMainEntity>();
@@ -48,6 +57,26 @@ public class ExpInstructionsMainServiceImpl extends BaseAbstractService<ExpInstr
 		return lists;
 	}
 
+	/**
+	 * 下载说明书
+	 */
+	@Override
+	public Map<String, Object> downloadInstruction(String expInstructionID){
+		Map<String, Object> map = new LinkedHashMap<String, Object>();
+		// 封装实验主表的数据
+		ExpInstructionsMainEntity expInstruction = get(expInstructionID);
+		map.put("expInstructionMain", expInstruction);
+		// 封装实验步骤表的数据
+		map.put("expProcess", expProcessService.getProcessLists(expInstructionID));
+		// 封装实验试剂表的数据
+		map.put("expReagent", expReagentService.getExpReagentLists(expInstructionID));
+		// 封装实验耗材表的数据
+		map.put("expConsumable", expConsumableService.getExpConsumableLists(expInstructionID));
+		// 封装实验设备表的数据
+		map.put("expEquipment", expEquipmentService.getExpEquipmentLists(expInstructionID));
+		return map;
+	}
+	
 	/**
 	 * 判断说明书是否已存在
 	 */

@@ -1,4 +1,4 @@
-package com.labassistant.service;
+package com.labassistant.service.common;
 
 import java.util.ArrayList;
 import java.util.List;
@@ -48,16 +48,17 @@ public class ReagentMapServiceImpl extends
 	 * @return
 	 */
 	@Override
-	public List<ReagentMapEntity> getSuggestionSupplier(String reagentID){
+	public ReagentMapEntity getSuggestionSupplier(String reagentID){
 		List<ReagentMapEntity> lists = getListByReagentID(reagentID);
-		List<ReagentMapEntity> returnLists = new ArrayList<ReagentMapEntity>();
+		ReagentMapEntity result = null;
 		if(lists != null){
 			for(ReagentMapEntity list : lists){
 				if(isSuggestion(reagentID, list.getSupplierID())){
-					returnLists.add(list);
+					result = list;
+					break;
 				}
 			}
 		}
-		return returnLists;
+		return result;
 	}
 }

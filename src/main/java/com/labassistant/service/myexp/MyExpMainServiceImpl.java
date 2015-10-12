@@ -28,6 +28,15 @@ public class MyExpMainServiceImpl extends BaseAbstractService<MyExpMainEntity> i
 	}
 	
 	/**
+	 * 获取用户所做的实验
+	 */
+	@Override
+	public List<MyExpMainEntity> getByUserID(String userID){
+		String hql ="from MyExpMainEntity where userID = ?";
+		return findListByHql(hql, userID);
+	}
+	
+	/**
 	 * 获取已完成的实验
 	 * @param userID
 	 * @return

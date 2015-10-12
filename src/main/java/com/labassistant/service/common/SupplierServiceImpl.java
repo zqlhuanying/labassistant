@@ -1,4 +1,4 @@
-package com.labassistant.service;
+package com.labassistant.service.common;
 
 import org.springframework.stereotype.Service;
 

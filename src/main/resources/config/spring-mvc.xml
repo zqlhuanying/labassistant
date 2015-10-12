@@ -16,12 +16,21 @@
 	
 	<!-- 静态资源(js/image)的访问 -->
 	<mvc:resources location="static/img/" mapping="static/img/**" />
+	<mvc:resources location="static/js/" mapping="static/js/**" />
+    <mvc:resources location="static/css/" mapping="static/css/**" />
     <!-- 匹配上传图片路径 -->
     <mvc:resources location="upload/" mapping="upload/**" />
     
 	<!-- 支持上传文件 -->  
     <bean id="multipartResolver" class="org.springframework.web.multipart.commons.CommonsMultipartResolver"></bean>
     
+    <!-- 定义视图解析器 -->
+    <bean id="viewResolver"
+		class="org.springframework.web.servlet.view.InternalResourceViewResolver">
+		<property name="prefix" value="/WEB-INF/view/"></property>
+		<property name="suffix" value=".jsp"></property>
+	</bean>
+	
 	<bean id="exceptionResolver" class="org.springframework.web.servlet.handler.SimpleMappingExceptionResolver">
 		<property name="defaultErrorView">
 			<value>/error</value><!-- 表示当抛出异常但没有在exceptionMappings里面找到对应的异常时 返回名叫error的视图-->

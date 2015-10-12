@@ -29,10 +29,11 @@ public class SyncController extends BaseController {
 	@Autowired
 	private SyncService syncService;
 	
-	@RequestMapping(value = "", method = RequestMethod.GET)
+	// 上传我的实验部分
+	@RequestMapping(value = "pushMyExp", method = RequestMethod.POST)
 	@ResponseBody
-	public Map<String, Object> syncData(HttpServletRequest request, String json){
-		setErrorMsg(request, "同步失败");
+	public Map<String, Object> pushMyExp(HttpServletRequest request, String json){
+		setErrorMsg(request, "同步我的实验失败");
 		Map<String, Object>  map = new HashMap<String, Object>();
 		Map<String, Object> requestMap = JSONUtil.json2Map(json);
 		//requestMap = (Map)requestMap.get("data");
@@ -44,14 +45,37 @@ public class SyncController extends BaseController {
 			String tableName = syncService.getTableName(entry.getKey());
 			if(entry.getValue().getClass() == ArrayList.class){
 				for(Map<String, Object> innerMap : (ArrayList<Map<String, Object>>)entry.getValue()){
-					syncService.syncData(innerMap, tableName);
+					syncService.pushMyExp(innerMap, tableName);
 				}
 			} else {
-				syncService.syncData((Map<String, Object>)entry.getValue(), tableName);
+				syncService.pushMyExp((Map<String, Object>)entry.getValue(), tableName);
 			}
 		}
 		map.putAll(retSuccess());
 		map.put("data", "");
+		return map;
+	}
+	
+	// 下推试剂/试剂厂商对应表等公共部分
+	@RequestMapping(value = "pullCommon", method = RequestMethod.GET)
+	@ResponseBody
+	public Map<String, Object> pullCommon(HttpServletRequest request){
+		setErrorMsg(request, "推送失败");
+		Map<String, Object>  map = new HashMap<String, Object>();
+		Map<String, Object>  innerMap = syncService.pullCommon();
+		map.putAll(retSuccess());
+		map.put("data", innerMap);
+		return map;
+	}
+	
+	@RequestMapping(value = "pullAllDatas", method = RequestMethod.GET)
+	@ResponseBody
+	public Map<String, Object> pullAllDatas(HttpServletRequest request, String userID){
+		setErrorMsg(request, "推送失败");
+		Map<String, Object>  map = new HashMap<String, Object>();
+		Map<String, Object>  innerMap = syncService.pullAllDatas(userID);
+		map.putAll(retSuccess());
+		map.put("data", innerMap);
 		return map;
 	}
 }

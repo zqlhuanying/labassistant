@@ -9,6 +9,9 @@ import javax.persistence.Id;
 import javax.persistence.Table;
 
 import org.hibernate.annotations.GenericGenerator;
+import org.springframework.format.annotation.DateTimeFormat;
+
+import com.fasterxml.jackson.annotation.JsonFormat;
 
 /**
  * 试剂表
@@ -152,6 +155,9 @@ public class ReagentEntity extends ToStringBase {
 		this.casNo = casNo;
 	}
 	
+	@Column(columnDefinition="DATE")
+	@DateTimeFormat(pattern = "yyyy-MM-dd")
+	@JsonFormat(pattern="yyyy-MM-dd",timezone = "GMT+8")  
 	public Date getArrivalDate() {
 		return arrivalDate;
 	}

@@ -40,7 +40,7 @@ public final class EncryptUtil {
 	
 	public static void main(String[] args){
 		// 测试加解密
-		String content = "mingwen";
+		String content = "d8d10cf4215d4145a0d4d5521f75c9d3";
 		String miwen = encode(content);
 		String mingwen = decode(miwen);
 		System.out.println(miwen);

@@ -14,6 +14,8 @@ public interface MyExpMainService extends IBaseAbstractService<MyExpMainEntity> 
 
 	public MyExpMainEntity getByExpID(String myExpID);
 	
+	public List<MyExpMainEntity> getByUserID(String userID);
+	
 	public List<MyExpMainEntity> getComplete(String userID);
 	
 	public List<MyExpMainEntity> getDoing(String userID);

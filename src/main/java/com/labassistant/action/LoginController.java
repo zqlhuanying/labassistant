@@ -54,4 +54,32 @@ public class LoginController extends BaseController {
 		sysUserService.register(user);
 		return retSuccess();
 	}
+	
+	@RequestMapping(value = "/findPwd", method = RequestMethod.POST)
+	@ResponseBody
+	// 虽然设置了是整个实体类，只需要eMail字段 
+	public Map<String, Object> findPwd(HttpServletRequest request, SysUserEntity user) throws Exception {
+		setErrorMsg(request, "发送邮件失败");
+		Map<String, Object> map = new HashMap<String, Object>();
+		sysUserService.sendFindPwdMail(user);
+		map.putAll(retSuccess());
+		map.put("data", "");
+		return map;
+	}
+	
+	@RequestMapping(value = "/getLost", method = RequestMethod.GET)
+	public String getLostView(HttpServletRequest request, String ser) {
+		return "/getLost";
+	}
+	
+	@RequestMapping(value = "/getLost", method = RequestMethod.POST)
+	@ResponseBody
+	public Map<String, Object> getLost(HttpServletRequest request, SysUserEntity user, String ser) {
+		//setErrorMsg(request, "找回密码失败");
+		Map<String, Object> map = new HashMap<String, Object>();
+		sysUserService.resetPwd(user, ser);
+		map.putAll(retSuccess());
+		map.put("data", "");
+		return map;
+	}
 }

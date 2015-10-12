@@ -9,6 +9,9 @@ import javax.persistence.Id;
 import javax.persistence.Table;
 
 import org.hibernate.annotations.GenericGenerator;
+import org.springframework.format.annotation.DateTimeFormat;
+
+import com.fasterxml.jackson.annotation.JsonFormat;
 
 /**
  * 我的实验计划表
@@ -55,6 +58,9 @@ public class MyExpPlanEntity extends ToStringBase {
 	public void setUserID(String userID) {
 		this.userID = userID;
 	}
+	@Column(columnDefinition="DATE")
+	@DateTimeFormat(pattern = "yyyy-MM-dd")
+	@JsonFormat(pattern="yyyy-MM-dd",timezone = "GMT+8")  
 	public Date getPlanDate() {
 		return planDate;
 	}

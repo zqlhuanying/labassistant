@@ -1,4 +1,4 @@
-package com.labassistant.service;
+package com.labassistant.service.common;
 
 import java.util.List;
 
@@ -16,5 +16,5 @@ public interface ReagentMapService extends IBaseAbstractService<ReagentMapEntity
 	
 	public boolean isSuggestion(String reagentID, String supplierID);
 	
-	public List<ReagentMapEntity> getSuggestionSupplier(String reagentID);
+	public ReagentMapEntity getSuggestionSupplier(String reagentID);
 }

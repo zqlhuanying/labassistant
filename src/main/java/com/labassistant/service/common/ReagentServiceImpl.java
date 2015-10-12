@@ -1,4 +1,4 @@
-package com.labassistant.service;
+package com.labassistant.service.common;
 
 import org.springframework.stereotype.Service;
 
@@ -14,8 +14,5 @@ import com.labassistant.dao.service.BaseAbstractService;
 public class ReagentServiceImpl extends BaseAbstractService<ReagentEntity> implements
 		ReagentService {
 
-	/**
-	 * 获取试剂对应的供应商
-	 */
 	
 }

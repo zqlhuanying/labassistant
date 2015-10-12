@@ -11,7 +11,11 @@ import com.labassistant.dao.service.IBaseAbstractService;
  */
 public interface SyncService extends IBaseAbstractService {
 
-	public void syncData(Map<String, Object> map, String tableName);
+	public void pushMyExp(Map<String, Object> map, String tableName);
+	
+	public Map<String, Object> pullCommon();
+	
+	public Map<String, Object> pullAllDatas(String userID);
 	
 	public String getTableName(String key);
 }

@@ -11,8 +11,9 @@ import org.springframework.stereotype.Service;
 import com.labassistant.beans.ExpReagentEntity;
 import com.labassistant.beans.ReagentMapEntity;
 import com.labassistant.dao.service.BaseAbstractService;
-import com.labassistant.service.ReagentMapService;
-import com.labassistant.service.SupplierService;
+import com.labassistant.service.common.ReagentMapService;
+import com.labassistant.service.common.SupplierService;
+
 
 /**
  * 实验试剂服务

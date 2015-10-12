@@ -1,4 +1,4 @@
-package com.labassistant.service;
+package com.labassistant.service.common;
 
 import com.labassistant.beans.ReagentEntity;
 import com.labassistant.dao.service.IBaseAbstractService;

@@ -19,7 +19,14 @@ public class MyExpPlanServiceImpl extends BaseAbstractService<MyExpPlanEntity>
 		implements MyExpPlanService {
 
 	@Override
-	public List<MyExpPlanEntity> getPlan(String userID, Date date){
+	public List<MyExpPlanEntity> getAllPlans(String userID){
+		String hql = "from MyExpPlanEntity where userID = ?";
+		List<MyExpPlanEntity> lists = findListByHql(hql, userID);
+		return lists;
+	}
+	
+	@Override
+	public List<MyExpPlanEntity> getPlans(String userID, Date date){
 		String hql = "from MyExpPlanEntity where userID = ? and planDate = ?";
 		List<MyExpPlanEntity> lists = findListByHql(hql, userID, date);
 		return lists;

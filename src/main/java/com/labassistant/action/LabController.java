@@ -291,20 +291,8 @@ public class LabController extends BaseController {
 	public Map<String, Object> downloadInstruction(HttpServletRequest request, String userID, String expInstructionID){
 		setErrorMsg(request, "下载说明书出错");
 		Map<String, Object>  map = new HashMap<String, Object>();
-		//List<Object> object = new ArrayList<Object>();
-		Map<String, Object> innerMap = new LinkedHashMap<String, Object>();
-		// 封装实验主表的数据
 		ExpInstructionsMainEntity expInstruction = expInstructionsMainService.get(expInstructionID);
-		innerMap.put("expInstructionMain", expInstruction);
-		// 封装实验步骤表的数据
-		innerMap.put("expProcess", expProcessService.getProcessLists(expInstructionID));
-		// 封装实验试剂表的数据
-		innerMap.put("expReagent", expReagentService.getExpReagentLists(expInstructionID));
-		// 封装实验耗材表的数据
-		innerMap.put("expConsumable", expConsumableService.getExpConsumableLists(expInstructionID));
-		// 封装实验设备表的数据
-		innerMap.put("expEquipment", expEquipmentService.getExpEquipmentLists(expInstructionID));
-		//object.add(innerMap);
+		Map<String, Object> innerMap = expInstructionsMainService.downloadInstruction(expInstructionID);
 		map.putAll(retSuccess());
 		map.put("data", innerMap);
 		
@@ -416,7 +404,7 @@ public class LabController extends BaseController {
 		setErrorMsg(request, "获取实验计划失败");
 		Map<String, Object>  map = new HashMap<String, Object>();
 		List<Object> lists = new ArrayList<Object>();
-		List<MyExpPlanEntity> myExpPlans = myExpPlanService.getPlan(userID, DateUtil.str2Date(LabConstant.DATEFORMAT, date));
+		List<MyExpPlanEntity> myExpPlans = myExpPlanService.getPlans(userID, DateUtil.str2Date(LabConstant.DATEFORMAT, date));
 		if(myExpPlans != null){
 			for(MyExpPlanEntity myExpPlan : myExpPlans){
 				Map<String, String>  innerMap = new HashMap<String, String>();

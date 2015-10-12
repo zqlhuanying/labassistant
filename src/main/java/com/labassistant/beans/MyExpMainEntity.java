@@ -9,6 +9,9 @@ import javax.persistence.Id;
 import javax.persistence.Table;
 
 import org.hibernate.annotations.GenericGenerator;
+import org.springframework.format.annotation.DateTimeFormat;
+
+import com.fasterxml.jackson.annotation.JsonFormat;
 
 /**
  * 我的实验主表
@@ -85,6 +88,9 @@ public class MyExpMainEntity extends ToStringBase {
 		this.userID = userID;
 	}
 
+	@Column(columnDefinition="DATE")
+	@DateTimeFormat(pattern = "yyyy-MM-dd")
+	@JsonFormat(pattern="yyyy-MM-dd",timezone = "GMT+8")  
 	public Date getCreateTime() {
 		return createTime;
 	}
@@ -109,6 +115,9 @@ public class MyExpMainEntity extends ToStringBase {
 		this.createMonth = createMonth;
 	}
 
+	@Column(columnDefinition="DATE")
+	@DateTimeFormat(pattern = "yyyy-MM-dd")
+	@JsonFormat(pattern="yyyy-MM-dd",timezone = "GMT+8")  
 	public Date getFinishTime() {
 		return finishTime;
 	}

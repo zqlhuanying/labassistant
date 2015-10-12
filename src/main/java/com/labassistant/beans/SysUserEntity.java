@@ -1,5 +1,7 @@
 package com.labassistant.beans;
 
+import java.sql.Timestamp;
+
 import javax.persistence.Column;
 import javax.persistence.Entity;
 import javax.persistence.GeneratedValue;
@@ -28,7 +30,8 @@ import org.hibernate.annotations.GenericGenerator;
  * TitleID			职称
  * nState			用户状态	0-正常，1-禁用
  * nSource			注册来源	0-注册，1-微信，2-微博，3-QQ
- * 
+ * f_validCode		找回密码时的验证码
+ * f_timestamp		找回密码时的时间戳
  */
 @Table(name = "t_user")
 @Entity
@@ -49,6 +52,8 @@ public class SysUserEntity extends ToStringBase{
 	private String titleID;
 	private int nState;
 	private int nSource;
+	private String f_validCode;
+	private Timestamp f_timestamp;
 	
 	@Id
 	@GeneratedValue(generator="system-uuid")
@@ -156,6 +161,22 @@ public class SysUserEntity extends ToStringBase{
 	
 	public void setnSource(int nSource) {
 		this.nSource = nSource;
+	}
+
+	public String getF_validCode() {
+		return f_validCode;
+	}
+
+	public void setF_validCode(String f_validCode) {
+		this.f_validCode = f_validCode;
+	}
+
+	public Timestamp getF_timestamp() {
+		return f_timestamp;
+	}
+
+	public void setF_timestamp(Timestamp f_timestamp) {
+		this.f_timestamp = f_timestamp;
 	}
 	
 }

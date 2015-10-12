@@ -1,5 +1,7 @@
 package com.labassistant.service;
 
+import java.util.List;
+
 import com.labassistant.beans.ProvinceEntity;
 import com.labassistant.dao.service.IBaseAbstractService;
 
@@ -10,4 +12,5 @@ import com.labassistant.dao.service.IBaseAbstractService;
  */
 public interface ProvinceService extends IBaseAbstractService<ProvinceEntity> {
 
+	public List<Object> provinceAndCity();
 }

@@ -1,9 +1,12 @@
 package com.labassistant.service.myexp;
 
 
+import java.util.List;
+
 import org.springframework.stereotype.Service;
 
 import com.labassistant.beans.MyExpInstructionEntity;
+import com.labassistant.beans.MyExpReagentEntity;
 import com.labassistant.dao.service.BaseAbstractService;
 
 /**
@@ -27,4 +30,9 @@ public class MyExpInstructionServiceImpl extends
 		return getCount(hql, true, expInstructionID, userID) > 0;
 	}
 
+	@Override
+	public List<MyExpInstructionEntity> getMyExpInstructions(String userID){
+		String hql = "from MyExpInstructionEntity where userID = ?";
+		return findListByHql(hql, userID);
+	}
 }

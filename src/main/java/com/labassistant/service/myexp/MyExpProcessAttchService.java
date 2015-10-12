@@ -1,5 +1,7 @@
 package com.labassistant.service.myexp;
 
+import java.util.List;
+
 import com.labassistant.beans.MyExpProcessAttchEntity;
 import com.labassistant.dao.service.IBaseAbstractService;
 
@@ -11,4 +13,5 @@ import com.labassistant.dao.service.IBaseAbstractService;
 public interface MyExpProcessAttchService extends
 		IBaseAbstractService<MyExpProcessAttchEntity> {
 
+	public List<MyExpProcessAttchEntity> getMyExpProcessAttches(String myExpID);
 }

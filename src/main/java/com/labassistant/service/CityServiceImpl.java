@@ -30,4 +30,13 @@ public class CityServiceImpl extends BaseAbstractService<CityEntity> implements
 		List<CityEntity> lists = findListByHql(sb.toString(), params);
 		return lists;
 	}
+	
+	@Override
+	public List<String> getCitiesName(List<CityEntity> cities){
+		List<String> names = new ArrayList<String>();
+		for(CityEntity city : cities){
+			names.add(city.getCityName());
+		}
+		return names;
+	}
 }
