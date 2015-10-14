@@ -17,7 +17,7 @@
 	<!-- 静态资源(js/image)的访问 -->
 	<mvc:resources location="static/img/" mapping="static/img/**" />
 	<mvc:resources location="static/js/" mapping="static/js/**" />
-    <mvc:resources location="static/css/" mapping="static/css/**" />
+	<mvc:resources location="static/css/" mapping="static/css/**" />
     <!-- 匹配上传图片路径 -->
     <mvc:resources location="upload/" mapping="upload/**" />
     

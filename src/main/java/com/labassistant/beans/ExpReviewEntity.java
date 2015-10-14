@@ -9,9 +9,6 @@ import javax.persistence.Id;
 import javax.persistence.Table;
 
 import org.hibernate.annotations.GenericGenerator;
-import org.springframework.format.annotation.DateTimeFormat;
-
-import com.fasterxml.jackson.annotation.JsonFormat;
 
 /**
  * 实验评论表
@@ -69,9 +66,6 @@ public class ExpReviewEntity extends ToStringBase {
 	public void setReviewerID(String reviewerID) {
 		this.reviewerID = reviewerID;
 	}
-	@Column(columnDefinition="DATE")
-	@DateTimeFormat(pattern = "yyyy-MM-dd")
-	@JsonFormat(pattern="yyyy-MM-dd",timezone = "GMT+8")  
 	public Date getReviewDate() {
 		return reviewDate;
 	}

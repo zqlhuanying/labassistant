@@ -5,7 +5,6 @@ import java.util.List;
 import org.springframework.stereotype.Service;
 
 import com.labassistant.beans.MyExpConsumableEntity;
-import com.labassistant.beans.MyExpReagentEntity;
 import com.labassistant.dao.service.BaseAbstractService;
 
 /**

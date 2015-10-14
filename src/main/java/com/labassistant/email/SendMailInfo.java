@@ -12,7 +12,7 @@ public class SendMailInfo {
 
 	private String type;
 	private String toUser; 					// 邮件接收地址
-	private String fromUser = "1416091730@qq.com"; 	// 发送者别名
+	private String fromUser = "jimmiezh9@yeah.net"; 	// 发送者别名
 	private String subject; 				// 邮件主题
 	private String content; 				// 邮件正文内容
 	

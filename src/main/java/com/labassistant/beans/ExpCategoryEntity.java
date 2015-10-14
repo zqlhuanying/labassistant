@@ -21,6 +21,8 @@ import org.hibernate.annotations.GenericGenerator;
 @Entity
 public class ExpCategoryEntity  extends ToStringBase {
 
+	private static final long serialVersionUID = 3495905586468533057L;
+
 	@Id
 	@GeneratedValue(generator="system-uuid")
 	@GenericGenerator(name="system-uuid",strategy="uuid")

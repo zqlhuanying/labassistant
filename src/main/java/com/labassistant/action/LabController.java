@@ -15,7 +15,6 @@ import org.springframework.stereotype.Controller;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.ResponseBody;
 
-import com.labassistant.beans.ExpConsumableEntity;
 import com.labassistant.beans.ExpEquipmentEntity;
 import com.labassistant.beans.ExpInstructionsMainEntity;
 import com.labassistant.beans.ExpProcessEntity;

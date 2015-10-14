@@ -16,6 +16,7 @@ import org.hibernate.annotations.GenericGenerator;
  * ExpConsumableID			唯一ID
  * ExpInstructionID			实验说明书ID
  * ConsumableID				对应实验所需耗材ID
+ * ConsumableName			耗材名
  * ConsumableType			规格
  * ConsumableCount			数量
  * ConsumableFactory		厂商
@@ -30,6 +31,7 @@ public class ExpConsumableEntity extends ToStringBase {
 	private String expConsumableID;
 	private String expInstructionID;
 	private String consumableID;
+	private String consumableName;
 	private String consumableType;
 	private int consumableCount;
 	private String consumableFactory;
@@ -62,6 +64,14 @@ public class ExpConsumableEntity extends ToStringBase {
 		this.consumableID = consumableID;
 	}
 	
+	public String getConsumableName() {
+		return consumableName;
+	}
+
+	public void setConsumableName(String consumableName) {
+		this.consumableName = consumableName;
+	}
+
 	public String getConsumableType() {
 		return consumableType;
 	}
