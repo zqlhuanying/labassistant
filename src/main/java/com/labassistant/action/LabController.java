@@ -371,6 +371,18 @@ public class LabController extends BaseController {
 		return map;
 	}
 	
+	@RequestMapping(value = "/deleteReview")
+	@ResponseBody
+	// 虽然设置了是整个实体类，但主要的是expReviewID字段
+	public Map<String, Object> deleteReview(HttpServletRequest request, ExpReviewEntity expReview){
+		setErrorMsg(request, "删除评论失败");
+		Map<String, Object>  map = new HashMap<String, Object>();
+		expReviewService.deleteEntity(expReview);
+		map.putAll(retSuccess());
+		map.put("data", "");
+		return map;
+	}
+	
 	@RequestMapping(value = "/reviewAgree")
 	@ResponseBody
 	public Map<String, Object> reviewAgree(HttpServletRequest request, String expReviewID){
@@ -407,6 +419,7 @@ public class LabController extends BaseController {
 		if(myExpPlans != null){
 			for(MyExpPlanEntity myExpPlan : myExpPlans){
 				Map<String, String>  innerMap = new HashMap<String, String>();
+				innerMap.put("myExpPlanID", myExpPlan.getMyExpPlanID());
 				innerMap.put("expInstructionID", myExpPlan.getExpInstructionID());
 				innerMap.put("experimentName", myExpPlan.getExperimentName());
 				lists.add(innerMap);
@@ -430,6 +443,18 @@ public class LabController extends BaseController {
 		Date planDate = DateUtil.str2Date(LabConstant.DATEFORMAT, date);
 		myExpPlan.setPlanDate(planDate);
 		myExpPlanService.setPlan(myExpPlan);
+		map.putAll(retSuccess());
+		map.put("data", "");
+		return map;
+	}
+	
+	@RequestMapping(value = "/deleteMyExpPlan")
+	@ResponseBody
+	// 虽然设置了是整个实体类，但主要的是myExpPlanID字段
+	public Map<String, Object> deleteMyExpPlan(HttpServletRequest request, MyExpPlanEntity myExpPlan){
+		setErrorMsg(request, "删除实验计划失败");
+		Map<String, Object>  map = new HashMap<String, Object>();
+		myExpPlanService.deleteEntity(myExpPlan);
 		map.putAll(retSuccess());
 		map.put("data", "");
 		return map;

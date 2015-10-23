@@ -22,7 +22,7 @@ import com.fasterxml.jackson.annotation.JsonFormat;
  * UserID				用户ID
  * PlanDate				计划日期
  * PlanOfYear			计划年份
- * PlanOfDate			计划月份
+ * PlanOfMonth			计划月份
  * ExpInstructionID		实验说明书ID
  * ExperimentName		实验说明书名称
  * 
@@ -38,7 +38,7 @@ public class MyExpPlanEntity extends ToStringBase {
 	private String userID;
 	private Date planDate;
 	private int planOfYear;
-	private int planOfDate;
+	private int planOfMonth;
 	private String expInstructionID;
 	private String experimentName;
 	
@@ -73,11 +73,11 @@ public class MyExpPlanEntity extends ToStringBase {
 	public void setPlanOfYear(int planOfYear) {
 		this.planOfYear = planOfYear;
 	}
-	public int getPlanOfDate() {
-		return planOfDate;
+	public int getPlanOfMonth() {
+		return planOfMonth;
 	}
-	public void setPlanOfDate(int planOfDate) {
-		this.planOfDate = planOfDate;
+	public void setPlanOfMonth(int planOfMonth) {
+		this.planOfMonth = planOfMonth;
 	}
 	public String getExpInstructionID() {
 		return expInstructionID;

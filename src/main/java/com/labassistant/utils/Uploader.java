@@ -11,6 +11,8 @@ import javax.servlet.http.HttpServletRequest;
 
 import org.apache.log4j.Logger;
 
+import com.labassistant.constants.AppConfig;
+
 /**
  * 文件或图片上传或下载
  * @author zql
@@ -79,6 +81,9 @@ public class Uploader {
 			throw new NullPointerException("url is null");
 		}
 		try{
+			if(this.url.startsWith("http://")){
+				this.url = this.url.substring(AppConfig.DOMAIN_PAGE.length());
+			}
 			String savePath = getPhysicalPathByRoot(this.url);
 			return new FileOutputStream(new File(savePath));
 		} catch (Exception e){

@@ -23,6 +23,7 @@ CREATE TABLE `t_user` (
   `titleid` varchar(40),
   `nstate` int NOT NULL DEFAULT 0,
   `nsource` int NOT NULL DEFAULT 0,
+  `access_token` nvarchar(100),
   `f_validcode` varchar(32),
   `f_timestamp` timestamp,
   PRIMARY KEY (`userid`)
@@ -30,7 +31,7 @@ CREATE TABLE `t_user` (
 -- ----------------------------
 -- Records of t_user
 -- ----------------------------
-INSERT INTO t_user VALUES ('4028c681494b994701494b99aba50000', 'admin', '25d55ad283aa400af464c76d713c07ad', '1416091730@qq.com', '', '', '', '', '', '', '', 0, 0, '', '2015-10-09 10:34:12');
+INSERT INTO t_user VALUES ('4028c681494b994701494b99aba50000', 'admin', '25d55ad283aa400af464c76d713c07ad', '1416091730@qq.com', '', '7728c681494b994701494b00aba50000', '7828c681494b994701494b00aba51111', '8728c681494b994701494b00aba51111', '8928c681494b994701494b00aba50000', '9428c681494b994701494b00aba51111', '9628c681494b994701494b00aba53333', 0, 0, '', '', '2015-10-09 10:34:12');
 
 
 -- -----------------------------------
@@ -97,6 +98,8 @@ CREATE TABLE `t_city` (
 -- ----------------------------
 INSERT INTO t_city VALUES ('7828c681494b994701494b00aba50000', '7728c681494b994701494b00aba50000', '温州市');
 INSERT INTO t_city VALUES ('7828c681494b994701494b00aba51111', '7728c681494b994701494b00aba50000', '杭州市');
+INSERT INTO t_city VALUES ('7828c681494b994701494b00aba52222', '7728c681494b994701494b00aba51111', '松江区');
+
 
 -- -----------------------------------
 -- Table structure for `t_college` 院校表
@@ -109,6 +112,11 @@ CREATE TABLE `t_college` (
   `provinceid` varchar(40) NOT NULL,
   PRIMARY KEY (`collegeid`)
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8;
+-- ----------------------------
+-- Records of t_college
+-- ----------------------------
+INSERT INTO t_college VALUES ('8728c681494b994701494b00aba50000', '浙江大学', '7828c681494b994701494b00aba51111', '7728c681494b994701494b00aba50000');
+INSERT INTO t_college VALUES ('8728c681494b994701494b00aba51111', '浙江工业大学', '7828c681494b994701494b00aba51111', '7728c681494b994701494b00aba50000');
 
 
 -- -----------------------------------
@@ -120,6 +128,11 @@ CREATE TABLE `t_major` (
   `majorname` varchar(50) NOT NULL,
   PRIMARY KEY (`majorid`)
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8;
+-- ----------------------------
+-- Records of t_major
+-- ----------------------------
+INSERT INTO t_major VALUES ('8928c681494b994701494b00aba50000', '软件工程');
+INSERT INTO t_major VALUES ('8928c681494b994701494b00aba51111', '信息管理');
 
 
 -- -----------------------------------
@@ -131,6 +144,12 @@ CREATE TABLE `t_education` (
   `educationname` varchar(50) NOT NULL,
   PRIMARY KEY (`educationid`)
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8;
+-- ----------------------------
+-- Records of t_education
+-- ----------------------------
+INSERT INTO t_education VALUES ('9428c681494b994701494b00aba50000', '大专');
+INSERT INTO t_education VALUES ('9428c681494b994701494b00aba51111', '本科');
+INSERT INTO t_education VALUES ('9428c681494b994701494b00aba52222', '硕士');
 
 
 -- -----------------------------------
@@ -142,6 +161,13 @@ CREATE TABLE `t_title` (
   `titlename` varchar(50) NOT NULL,
   PRIMARY KEY (`titleid`)
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8;
+-- ----------------------------
+-- Records of t_title
+-- ----------------------------
+INSERT INTO t_title VALUES ('9628c681494b994701494b00aba50000', '教授');
+INSERT INTO t_title VALUES ('9628c681494b994701494b00aba51111', '副教授');
+INSERT INTO t_title VALUES ('9628c681494b994701494b00aba52222', '讲师');
+INSERT INTO t_title VALUES ('9628c681494b994701494b00aba53333', '学生');
 
 
 -- -----------------------------------------------
@@ -827,7 +853,7 @@ CREATE TABLE `t_map` (
   `userid` varchar(40) NOT NULL,
   `longitude` nvarchar(40),
   `latitude` nvarchar(40),
-  `reagentname` varchar(100), 
+  `reagentname` text, 
   PRIMARY KEY (`mapid`)
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8;
 -- ----------------------------

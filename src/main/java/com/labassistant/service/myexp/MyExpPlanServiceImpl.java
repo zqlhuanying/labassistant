@@ -35,7 +35,7 @@ public class MyExpPlanServiceImpl extends BaseAbstractService<MyExpPlanEntity>
 	@Override
 	public void setPlan(MyExpPlanEntity plan){
 		plan.setPlanOfYear(DateUtil.getYear(plan.getPlanDate()));
-		plan.setPlanOfDate(DateUtil.getMonth(plan.getPlanDate()));
+		plan.setPlanOfMonth(DateUtil.getMonth(plan.getPlanDate()));
 		save(plan);
 	}
 }

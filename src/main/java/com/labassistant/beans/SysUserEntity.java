@@ -30,6 +30,7 @@ import org.hibernate.annotations.GenericGenerator;
  * TitleID			职称
  * nState			用户状态	0-正常，1-禁用
  * nSource			注册来源	0-注册，1-微信，2-微博，3-QQ
+ * access_token		第三方登录时的凭证
  * f_validCode		找回密码时的验证码
  * f_timestamp		找回密码时的时间戳
  */
@@ -52,6 +53,7 @@ public class SysUserEntity extends ToStringBase{
 	private String titleID;
 	private int nState;
 	private int nSource;
+	private String access_token;
 	private String f_validCode;
 	private Timestamp f_timestamp;
 	
@@ -161,6 +163,14 @@ public class SysUserEntity extends ToStringBase{
 	
 	public void setnSource(int nSource) {
 		this.nSource = nSource;
+	}
+
+	public String getAccess_token() {
+		return access_token;
+	}
+
+	public void setAccess_token(String access_token) {
+		this.access_token = access_token;
 	}
 
 	public String getF_validCode() {

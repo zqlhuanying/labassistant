@@ -15,11 +15,15 @@ public interface SysUserService extends IBaseAbstractService<SysUserEntity>{
 	
 	public SysUserEntity login(String username, String pwd);
 	
+	public SysUserEntity thirdLogin(String old_token, String new_token, int source);
+	
 	public void register(SysUserEntity sysUserEntity);
 	
 	public void sendFindPwdMail(SysUserEntity user) throws MyRuntimeException, MessagingException;
 	
 	public void resetPwd(SysUserEntity user, String ser);
+	
+	public void update(SysUserEntity sysUser);
 	
 	public boolean validUsername(String username);
 	

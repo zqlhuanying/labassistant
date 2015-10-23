@@ -67,7 +67,7 @@ public class BaseAbstractService<T> implements IBaseAbstractService<T> {
 	}
 
 	@Override
-	public <X> void delete(X entity) {
+	public <X> void deleteEntity(X entity) {
 		baseDao.delete(entity);
 	}
 

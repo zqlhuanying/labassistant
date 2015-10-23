@@ -45,4 +45,15 @@ public class MapController extends BaseController {
 		map.putAll(retSuccess());
 		return map;
 	}
+	
+	@RequestMapping(value = "/setReagents")
+	@ResponseBody
+	public Map<String, Object> setReagens(HttpServletRequest request, String mapID, String reagents){
+		setErrorMsg(request, "设置试剂失败");
+		Map<String, Object> map = new HashMap<String, Object>();
+		mapService.setReagens(mapID, reagents);
+		map.putAll(retSuccess());
+		map.put("data", "");
+		return map;
+	}
 }

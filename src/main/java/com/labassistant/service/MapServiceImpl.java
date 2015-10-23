@@ -48,6 +48,13 @@ public class MapServiceImpl extends BaseAbstractService<MapEntity> implements
 		return getAround(theUser, LIMIT);
 	}
 	
+	@Override
+	public void setReagens(String mapID, String reagents) {
+		MapEntity map = get(mapID);
+		map.setReagentName(reagents);
+		update(map);
+	}
+	
 	/**
 	 * 根据两点间经纬度坐标（double值），计算两点间距离，单位为米
 	 * 

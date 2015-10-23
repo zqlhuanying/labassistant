@@ -1,11 +1,13 @@
 package com.labassistant.service;
 
+import java.io.Serializable;
 import java.sql.Timestamp;
 import java.util.Date;
 import java.util.UUID;
 
 import javax.mail.MessagingException;
 
+import org.apache.commons.lang3.StringUtils;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
@@ -41,6 +43,29 @@ public class SysUserServiceImpl extends BaseAbstractService<SysUserEntity>
 		return null;
 	}
 
+	// 第三方登录
+	@Override
+	public SysUserEntity thirdLogin(String old_token, String new_token, int source) {
+		String hql = "from SysUserEntity where access_token = ? and nSource = ?";
+		SysUserEntity sysUser = findOneByHql(hql, old_token, source);		
+		if (sysUser != null) {
+			sysUser.setAccess_token(new_token);
+			update(sysUser);
+			return sysUser;
+		} else {
+			SysUserEntity newUser = new SysUserEntity();
+			newUser.setNickName(uuid());
+			newUser.setPwd(EncryptUtil.MD5Digest(uuid()));
+			newUser.seteMail("");
+			newUser.setnState(0);
+			newUser.setnSource(source);
+			newUser.setAccess_token(new_token);
+			Serializable pk = save(newUser);
+			newUser.setUserID((String)pk);
+			return newUser;
+		}
+	}
+	
 	@Override
 	public void register(SysUserEntity sysUser) {
 		if (validUsername(sysUser.getNickName())) {
@@ -61,7 +86,7 @@ public class SysUserServiceImpl extends BaseAbstractService<SysUserEntity>
 		if(!validEmail(user.geteMail())){
 			throw new MyRuntimeException("邮箱不存在");
 		}
-		String validCode = validCode();
+		String validCode = uuid();
 		String validUrl = AppConfig.DOMAIN_PAGE + "/getLost?ser=" + EncryptUtil.encode(validCode);
 		// 发送前，先写入数据库
 		String hql = "from SysUserEntity where eMail = ?";
@@ -91,6 +116,36 @@ public class SysUserServiceImpl extends BaseAbstractService<SysUserEntity>
 		}
 		sysUser.setPwd(EncryptUtil.MD5Digest(user.getPwd()));
 		update(sysUser);
+	}
+	
+	@Override
+	public void update(SysUserEntity user){
+		SysUserEntity sysUser = get(user.getUserID());
+		if(StringUtils.isNotBlank(user.getNickName())){
+			sysUser.setNickName(user.getNickName());
+		}
+		if(StringUtils.isNotBlank(user.geteMail())){
+			sysUser.seteMail(user.geteMail());
+		}
+		if(StringUtils.isNotBlank(user.getTelNo())){
+			sysUser.setTelNo(user.getTelNo());
+		}
+		if(StringUtils.isNotBlank(user.getProvinceID())){
+			sysUser.setProvinceID(user.getProvinceID());
+		}
+		if(StringUtils.isNotBlank(user.getCityID())){
+			sysUser.setCityID(user.getCityID());
+		}
+		if(StringUtils.isNotBlank(user.getCollegeID())){
+			sysUser.setCollegeID(user.getCollegeID());
+		}
+		if(StringUtils.isNotBlank(user.getMajorID())){
+			sysUser.setMajorID(user.getMajorID());
+		}
+		if(StringUtils.isNotBlank(user.getEducationID())){
+			sysUser.setEducationID(user.getEducationID());
+		}
+		super.update(sysUser);
 	}
 	
 	@Override
@@ -135,7 +190,7 @@ public class SysUserServiceImpl extends BaseAbstractService<SysUserEntity>
 	 * 生成uuid
 	 * @return
 	 */
-	private String validCode(){
+	private String uuid(){
 		return UUID.randomUUID().toString().replace("-", "");
 	}
 }

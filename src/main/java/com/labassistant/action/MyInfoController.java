@@ -1,5 +1,6 @@
 package com.labassistant.action;
 
+import java.util.ArrayList;
 import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
@@ -18,6 +19,7 @@ import com.labassistant.beans.EducationEntity;
 import com.labassistant.beans.MajorEntity;
 import com.labassistant.beans.ProvinceEntity;
 import com.labassistant.beans.SysUserEntity;
+import com.labassistant.beans.TitleEntity;
 import com.labassistant.common.BaseController;
 import com.labassistant.exception.MyRuntimeException;
 import com.labassistant.service.CityService;
@@ -26,6 +28,7 @@ import com.labassistant.service.EducationService;
 import com.labassistant.service.MajorService;
 import com.labassistant.service.ProvinceService;
 import com.labassistant.service.SysUserService;
+import com.labassistant.service.TitleService;
 import com.labassistant.utils.EncryptUtil;
 
 /**
@@ -49,6 +52,8 @@ public class MyInfoController extends BaseController {
 	private MajorService majorService;
 	@Autowired
 	private EducationService educationService;
+	@Autowired
+	private TitleService titleService;
 	
 	@RequestMapping(value = "/basic")
 	@ResponseBody
@@ -71,6 +76,8 @@ public class MyInfoController extends BaseController {
 		innerMap.put("major", major != null ? major : "");
 		EducationEntity education = educationService.get(sysUser.getEducationID());
 		innerMap.put("education", education != null ? education : "");
+		TitleEntity title = titleService.get(sysUser.getTitleID());
+		innerMap.put("title", title != null ? title : "");
 
 		map.putAll(retSuccess());
 		map.put("data", innerMap);
@@ -87,10 +94,12 @@ public class MyInfoController extends BaseController {
 		// 将原始的用户名和密码覆盖user中的用户名和密码，可以实现不允许修改用户名和密码的功能，就算修改了，也不会有效果
 		// 只是防止测试时误操作的一个方法，最后根据需要应注释
 		// TODO 需注释
-		SysUserEntity sysUser = sysUserService.get(user.getUserID());
-		user.setNickName(sysUser.getNickName());
-		user.setPwd(sysUser.getPwd());
-		
+		//SysUserEntity sysUser = sysUserService.get(user.getUserID());
+		//user.setNickName(sysUser.getNickName());
+		//user.setPwd(sysUser.getPwd());
+		if(sysUserService.validUsername(user.getNickName())){
+			throw new MyRuntimeException("用户名已存在");
+		}
 		if(sysUserService.validEmail(user.geteMail())){
 			throw new MyRuntimeException("邮箱已被占用");
 		}
@@ -125,8 +134,69 @@ public class MyInfoController extends BaseController {
 	public Map<String, Object> provinceAndCity(HttpServletRequest request){
 		setErrorMsg(request, "获取省市对应列表失败");
 		Map<String, Object> map = new HashMap<String, Object>();
+		
 		List<Object> object = provinceService.provinceAndCity();
 		
+		map.putAll(retSuccess());
+		map.put("data", object);
+		return map;
+	}
+	
+	@RequestMapping(value = "/colleges")
+	@ResponseBody
+	// 虽然设置了整个实体类，但只需要provinceID，cityID字段
+	public Map<String, Object> colleges(HttpServletRequest request, CollegeEntity theCollege){
+		setErrorMsg(request, "获取院校列表失败");
+		Map<String, Object> map = new HashMap<String, Object>();
+		List<Object> object = new ArrayList<Object>();
+		
+		List<CollegeEntity> colleges = collegeService.getColleges(theCollege.getProvinceID(), theCollege.getCityID());
+		if(colleges != null){
+			for(CollegeEntity college : colleges){
+				Map<String, String> innerMap = new HashMap<String, String>();
+				innerMap.put("collegeID", college.getCollegeID());
+				innerMap.put("collegeName", college.getCollegeName());
+				object.add(innerMap);
+			}
+		}
+		map.putAll(retSuccess());
+		map.put("data", object);
+		return map;
+	}
+	
+	@RequestMapping(value = "/majors")
+	@ResponseBody
+	public Map<String, Object> majors(HttpServletRequest request){
+		setErrorMsg(request, "获取专业列表失败");
+		Map<String, Object> map = new HashMap<String, Object>();
+		
+		List<MajorEntity> object = majorService.findList();
+
+		map.putAll(retSuccess());
+		map.put("data", object);
+		return map;
+	}
+	
+	@RequestMapping(value = "/educations")
+	@ResponseBody
+	public Map<String, Object> educations(HttpServletRequest request){
+		setErrorMsg(request, "获取学历列表失败");
+		Map<String, Object> map = new HashMap<String, Object>();
+		
+		List<EducationEntity> object = educationService.findList();
+
+		map.putAll(retSuccess());
+		map.put("data", object);
+		return map;
+	}
+	
+	@RequestMapping(value = "/titles")
+	@ResponseBody
+	public Map<String, Object> titles(HttpServletRequest request){
+		setErrorMsg(request, "获取职称列表失败");
+		Map<String, Object> map = new HashMap<String, Object>();
+		
+		List<TitleEntity> object = titleService.findList();
 
 		map.putAll(retSuccess());
 		map.put("data", object);

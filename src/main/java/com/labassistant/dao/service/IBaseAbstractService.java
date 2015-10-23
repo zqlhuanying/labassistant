@@ -55,7 +55,7 @@ public interface IBaseAbstractService<T> {
 	 * 删除记录
 	 * @param 
 	 */
-	public <X> void delete (X entity) ;
+	public <X> void deleteEntity (X entity) ;
 	
 	/**
 	 * 

@@ -15,4 +15,6 @@ public interface MapService extends IBaseAbstractService<MapEntity>{
 	public List<MapEntity> getAround(MapEntity theUser, double limit);
 	
 	public List<MapEntity> getAround(MapEntity theUser);
+	
+	public void setReagens(String mapID, String reagents);
 }

@@ -30,10 +30,11 @@ public class LoginController extends BaseController {
 
 	@RequestMapping(value = "/login", method = RequestMethod.POST)
 	@ResponseBody
-	public Map<String, String> login(HttpServletRequest request,
+	public Map<String, Object> login(HttpServletRequest request,
 			SysUserEntity user) {
 		setErrorMsg(request, "用户名或密码错误");
-		Map<String, String> map = new HashMap<String, String>();
+		Map<String, Object> map = new HashMap<String, Object>();
+		Map<String, String> innerMap = new HashMap<String, String>();
 		SysUserEntity sysUser = sysUserService.login(user.getNickName(),
 				user.getPwd());
 		// 查无此人
@@ -41,18 +42,38 @@ public class LoginController extends BaseController {
 			throw new MyRuntimeException("用户名或密码错误");
 		}
 		logger.info("查询到登录用户" + sysUser.getNickName());
+		innerMap.put("userID", sysUser.getUserID());
 		map.putAll(retSuccess());
-		map.put("userID", sysUser.getUserID());
+		map.put("data", innerMap);
 		return map;
 	}
 
+	@RequestMapping(value = "/thirdLogin", method = RequestMethod.POST)
+	@ResponseBody
+	public Map<String, Object> thirdLogin(HttpServletRequest request, String old_token, String new_token, int source) {
+		setErrorMsg(request, "第三方登录失败");
+		Map<String, Object> map = new HashMap<String, Object>();
+		Map<String, String> innerMap = new HashMap<String, String>();
+		
+		SysUserEntity sysUser = sysUserService.thirdLogin(old_token, new_token, source);
+		
+		logger.info("查询到登录用户" + sysUser.getNickName());
+		innerMap.put("userID", sysUser.getUserID());
+		map.putAll(retSuccess());
+		map.put("data", innerMap);
+		return map;
+	}
+	
 	@RequestMapping(value = "/register", method = RequestMethod.POST)
 	@ResponseBody
-	public Map<String, String> register(HttpServletRequest request,
+	public Map<String, Object> register(HttpServletRequest request,
 			SysUserEntity user) {
 		//setErrorMsg(request, "注册失败");
+		Map<String, Object> map = new HashMap<String, Object>();
 		sysUserService.register(user);
-		return retSuccess();
+		map.putAll(retSuccess());
+		map.put("data", "");
+		return map;
 	}
 	
 	@RequestMapping(value = "/findPwd", method = RequestMethod.POST)
