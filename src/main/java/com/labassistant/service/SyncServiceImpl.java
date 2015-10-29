@@ -1,16 +1,25 @@
 package com.labassistant.service;
 
+import java.io.ByteArrayInputStream;
+import java.io.IOException;
+import java.io.InputStream;
 import java.io.Serializable;
 import java.util.ArrayList;
 import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
 
+import javax.servlet.http.HttpServletRequest;
+
+import org.apache.commons.lang3.StringUtils;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
+import sun.misc.BASE64Decoder;
+
 import com.labassistant.beans.MyExpInstructionEntity;
 import com.labassistant.beans.MyExpMainEntity;
+import com.labassistant.constants.LabConstant;
 import com.labassistant.dao.service.BaseAbstractService;
 import com.labassistant.service.common.ConsumableMapService;
 import com.labassistant.service.common.ConsumableService;
@@ -28,6 +37,7 @@ import com.labassistant.service.myexp.MyExpPlanService;
 import com.labassistant.service.myexp.MyExpProcessAttchService;
 import com.labassistant.service.myexp.MyExpProcessService;
 import com.labassistant.service.myexp.MyExpReagentService;
+import com.labassistant.utils.Uploader;
 
 /**
  * 同步数据服务
@@ -73,8 +83,13 @@ public class SyncServiceImpl extends BaseAbstractService implements SyncService 
 	private MyExpPlanService myExpPlanService;
 	
 	@Override
-	public void pushMyExp(Map<String, Object> map, String tableName){
-		String sql = createSql(map, tableName);
+	public void pushMyExp(HttpServletRequest request, Map<String, Object> map, String tableName){
+		Map<String, Object> tmp = map;
+		// 将我的实验步骤附件表(MyExpProcessAttch)单独对待，因涉及到图片上传
+		if("t_myExpProcessAttch".equals(tableName)){
+			tmp = processAttch(request,map);
+		}
+		String sql = createSql(tmp, tableName);
 		saveOrUpdateBySql(sql);
 	}
 	
@@ -137,7 +152,7 @@ public class SyncServiceImpl extends BaseAbstractService implements SyncService 
 				// 我的实验步骤
 				innerMap.put("myExpProcess", myExpProcessService.getList(myExp.getMyExpID()));
 				// 我的实验步骤附件
-				innerMap.put("myExpProcessAttch", myExpProcessAttchService.getMyExpProcessAttches(myExp.getMyExpID()));
+				innerMap.put("myExpProcessAttch", myExpProcessAttchService.getMyExpProcessAttches(myExp.getMyExpID(), null));
 				objects.add(innerMap);
 			}
 			map.put("myExps", objects);
@@ -169,6 +184,39 @@ public class SyncServiceImpl extends BaseAbstractService implements SyncService 
 		return str + "ID";
 	}
 	
+	// 处理我的实验步骤附件表
+	private Map<String, Object> processAttch(HttpServletRequest request, Map<String, Object> map){
+		InputStream inputStream = null;
+		try{
+			byte[] img = new BASE64Decoder().decodeBuffer((String)map.get("imgStream"));
+			inputStream = new ByteArrayInputStream(img);
+		} catch (IOException e) {
+			System.out.println("处理图片二进制流失败");
+			e.printStackTrace();
+		}
+		Uploader upload = new Uploader(request);
+		upload.setSavePath("upload/images");
+		String imgName = (String)map.get("attchmentName");
+		if(StringUtils.isNotBlank(imgName)){
+			imgName = "1.jpg";
+		}
+		upload.setOriginalName(imgName);
+		upload.setInputStream(inputStream);
+		try {
+			upload.upload();
+		} catch (Exception e) {
+			System.out.println("上传图片失败");
+			e.printStackTrace();
+		}
+		
+		// 更新map
+		map.put("attchmentName", upload.getFileName());
+		map.put("attchmentServerPath", upload.getUrl());
+		map.put("isUpload", 1);
+		map.remove("imgStream");
+		return map;
+	}
+	
 	/**
 	 * 根据map创建sql语句,map为字段=字段值
 	 * @param map
@@ -197,7 +245,21 @@ public class SyncServiceImpl extends BaseAbstractService implements SyncService 
 		sb.append("values");
 		sb.append("(");
 		for(Map.Entry<String, Object> entry : map.entrySet()){
-			sb.append("'" + entry.getValue() + "'" + ",");
+			Object value = entry.getValue();
+			
+			// 在mysql中date或datetime类型不能插入空字符串，所以将空字符串转换成null
+			if(isDateClassAndBlank(entry.getKey(), entry.getValue())){
+				value = null;
+			}
+			
+			// 修改我的实验主表(MyExp)中的isUpload字段
+			if("t_myExp".equals(tableName) && "isUpload".equals(entry.getKey())){
+				value = 1;
+			}
+			
+			if(value == null) sb.append(value);
+			else sb.append("'" + value + "'");
+			sb.append(",");
 		}
 		sb.deleteCharAt(sb.length() - 1);
 		sb.append(")");
@@ -213,9 +275,15 @@ public class SyncServiceImpl extends BaseAbstractService implements SyncService 
 		sb.append(" set ");
 		for(Map.Entry<String, Object> entry : map.entrySet()){
 			if(!id.equals(entry.getKey())){
+				Object value = entry.getValue();
+				// 在mysql中date或datetime类型不能插入空字符串，所以将空字符串转换成null
+				if(isDateClassAndBlank(entry.getKey(), entry.getValue())){
+					value = null;
+				}
 				sb.append(entry.getKey());
 				sb.append("=");
-				sb.append("'" + entry.getValue() + "'");
+				if(value == null) sb.append(value);
+				else sb.append("'" + value + "'");
 				sb.append(",");
 			}
 		}
@@ -226,6 +294,20 @@ public class SyncServiceImpl extends BaseAbstractService implements SyncService 
 		sb.append("'" + idValue + "'");
 
 		return sb.toString();
+	}
+	
+	// 判断是否是Date类型并且为空字符串
+	// 暂时根据字段名进行判断
+	// TODO 
+	private Boolean isDateClassAndBlank(String key, Object value){
+		if(value == ""){
+			if(LabConstant.MYEXP_CREATETIME.equals(key) ||
+					LabConstant.MYEXP_FINISHTIME.equals(key) ||
+					LabConstant.MYEXPPLAN_PLANDATE.equals(key)){
+				return true;
+			}
+		}
+		return false;
 	}
 	
 	private Boolean isExists(String tableName, Serializable id){

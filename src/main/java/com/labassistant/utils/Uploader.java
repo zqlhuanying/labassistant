@@ -20,7 +20,7 @@ import com.labassistant.constants.AppConfig;
  */
 public class Uploader {
 
-	private static Logger logger = Logger.getLogger(Uploader.class);
+	private static Logger logger = Logger.getLogger(Uploader.class);		
 	
 	// 保存的路径，默认是upload文件夹下
 	private String savePath = "upload";

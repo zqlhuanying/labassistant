@@ -28,7 +28,7 @@ public class MyExpProcessServiceImpl extends BaseAbstractService<MyExpProcessEnt
 	 */
 	@Override
 	public List<MyExpProcessEntity> getList(String myExpID){
-		String hql = "from MyExpProcessEntity where myExpID = ?";
+		String hql = "from MyExpProcessEntity where myExpID = ? order by stepNum";
 		List<MyExpProcessEntity> lists = findListByHql(hql, myExpID);
 		return lists;
 	}

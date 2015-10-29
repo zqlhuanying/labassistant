@@ -45,10 +45,11 @@ public class SyncController extends BaseController {
 			String tableName = syncService.getTableName(entry.getKey());
 			if(entry.getValue().getClass() == ArrayList.class){
 				for(Map<String, Object> innerMap : (ArrayList<Map<String, Object>>)entry.getValue()){
-					syncService.pushMyExp(innerMap, tableName);
+					// TODO request最好不要传递，最好能在上下文中获得
+					syncService.pushMyExp(request, innerMap, tableName);
 				}
 			} else {
-				syncService.pushMyExp((Map<String, Object>)entry.getValue(), tableName);
+				syncService.pushMyExp(request, (Map<String, Object>)entry.getValue(), tableName);
 			}
 		}
 		map.putAll(retSuccess());

@@ -115,8 +115,11 @@ public final class JSONUtil {
     
     //test
     public static void main(String[] args){
-    	String json = "{'experimentdesc':'我也不知道','suppliername':'海尔','expcategoryid':'1','createdate':'2015-09-16','reviewcount':0,'provideuser':'','experimenttheory':'还是不知道','expsubcategoryid':'11','expinstructionid':'4028c681494b994701494b99bab61111','downloadcount':20,'allowdownload':1,'experimentname':'ELISA检测血清TNF-b浓度','expversion':1,'filterstr':'','productnum':'hhd','supplierid':'1001'}";
+    	//String json = "{'experimentdesc':'我也不知道','suppliername':'海尔','expcategoryid':'1','createdate':'2015-09-16','reviewcount':0,'provideuser':'','experimenttheory':'还是不知道','expsubcategoryid':'11','expinstructionid':'4028c681494b994701494b99bab61111','downloadcount':20,'allowdownload':1,'experimentname':'ELISA检测血清TNF-b浓度','expversion':1,'filterstr':'','productnum':'hhd','supplierid':'1001'}";
     	//Map m = json2Map(json);
-    	System.out.println(json2Bean(json, ExpInstructionsMainEntity.class));
+    	//System.out.println(json2Bean(json, ExpInstructionsMainEntity.class));
+    	String json = "{\"imgStream\":\"1\"}";
+    	System.out.println(json);
+    	System.out.println(json2Map(json));
     }
 }

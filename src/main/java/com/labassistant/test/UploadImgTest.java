@@ -15,6 +15,10 @@ import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
 
+import com.labassistant.utils.JSONUtil;
+
+import sun.misc.BASE64Encoder;
+
 /**
  * HTTP POST请求报文格式分析与Java模拟实现文件上传
  * @author zql
@@ -207,7 +211,7 @@ public class UploadImgTest {
     }
 	
 	public static void main(String[] args){
-		String url = "http://172.18.0.55:8080/LabAssistant/upload/perExpProcessImgs";
+		/*String url = "http://172.18.0.55:8080/LabAssistant/upload/perExpProcessImgs";
 		List<String> files = new ArrayList<String>();
 		files.add("F:\\实验助手\\Document\\png\\1注册.png");
 		files.add("F:\\实验助手\\Document\\png\\2说明书.png");
@@ -223,6 +227,26 @@ public class UploadImgTest {
 		Map<String, String> map2 = new HashMap<String, String>();
 		map1.put("expStepID", "4028c681494b994701494b00bab60000");
 		lists.add(map2);
-		uploadFile(url, files, lists);
+		uploadFile(url, files, lists);*/
+		
+		try{
+            String url = "http://172.18.1.55:8080/LabAssistant/sync/pushMyExp";
+            List<Map<String, String>> params = new ArrayList<Map<String, String>>();
+            Map<String, String> img = new HashMap<String, String>();
+            String path = "F:\\1.jpg";
+            FileInputStream fin = new FileInputStream(new File(path));
+            byte[] buffer = new byte[fin.available()];
+            fin.read(buffer);
+            fin.close();
+            System.out.println(new BASE64Encoder().encode(buffer));
+            Map<String, String> pMap = new HashMap<String, String>();
+            pMap.put("imgStream", new BASE64Encoder().encode(buffer));
+            System.out.println(JSONUtil.map2Json(pMap));
+            img.put("json", new BASE64Encoder().encode(buffer));
+            params.add(img);
+            sendPost(url, params);
+        } catch (Exception e){
+            e.printStackTrace();
+        }
 	}
 }

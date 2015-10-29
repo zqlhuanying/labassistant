@@ -13,5 +13,5 @@ import com.labassistant.dao.service.IBaseAbstractService;
 public interface MyExpProcessAttchService extends
 		IBaseAbstractService<MyExpProcessAttchEntity> {
 
-	public List<MyExpProcessAttchEntity> getMyExpProcessAttches(String myExpID);
+	public List<MyExpProcessAttchEntity> getMyExpProcessAttches(String myExpID, String expStepID);
 }

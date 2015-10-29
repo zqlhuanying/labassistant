@@ -79,5 +79,16 @@ public final class FileUtil {
         return true;
     }
     
+    /**
+     * 转换成本地文件路径
+     * @param path
+     * @return
+     */
+    public static String toFilePath(String path){
+    	return path.replace("/", "\\");
+    }
     
+    public static String toURLPath(String path){
+    	return path.replace("\\", "/");
+    }
 }

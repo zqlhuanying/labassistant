@@ -18,4 +18,9 @@ public final class LabConstant {
 	
 	// 实验中日期常用的格式
 	public static final String DATEFORMAT = "yyyy-MM-dd"; 
+	
+	// 实验中为日期类型的字段
+	public static final String MYEXP_CREATETIME = "createTime";
+	public static final String MYEXP_FINISHTIME = "finishTime";
+	public static final String MYEXPPLAN_PLANDATE = "planDate";
 }

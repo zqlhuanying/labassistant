@@ -14,4 +14,6 @@ public interface MyExpConsumableService extends
 		IBaseAbstractService<MyExpConsumableEntity> {
 
 	public List<MyExpConsumableEntity> getMyExpConsumables(String myExpID);
+	
+	public List<String> getAllConsumablesName(String myExpID);
 }

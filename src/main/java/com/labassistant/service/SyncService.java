@@ -2,6 +2,8 @@ package com.labassistant.service;
 
 import java.util.Map;
 
+import javax.servlet.http.HttpServletRequest;
+
 import com.labassistant.dao.service.IBaseAbstractService;
 
 /**
@@ -11,7 +13,7 @@ import com.labassistant.dao.service.IBaseAbstractService;
  */
 public interface SyncService extends IBaseAbstractService {
 
-	public void pushMyExp(Map<String, Object> map, String tableName);
+	public void pushMyExp(HttpServletRequest request, Map<String, Object> map, String tableName);
 	
 	public Map<String, Object> pullCommon();
 	

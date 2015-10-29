@@ -14,4 +14,6 @@ public interface MyExpReagentService extends
 		IBaseAbstractService<MyExpReagentEntity> {
 
 	public List<MyExpReagentEntity> getMyExpReagents(String myExpID);
+	
+	public List<String> getAllReagentsName(String myExpID);
 }
