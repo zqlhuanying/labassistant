@@ -14,7 +14,5 @@ public interface ReagentMapService extends IBaseAbstractService<ReagentMapEntity
 
 	public List<ReagentMapEntity> getListByReagentID(String reagentID);
 	
-	public boolean isSuggestion(String reagentID, String supplierID);
-	
-	public ReagentMapEntity getSuggestionSupplier(String reagentID);
+
 }

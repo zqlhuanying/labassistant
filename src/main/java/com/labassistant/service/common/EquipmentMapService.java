@@ -1,5 +1,7 @@
 package com.labassistant.service.common;
 
+import java.util.List;
+
 import com.labassistant.beans.EquipmentMapEntity;
 import com.labassistant.dao.service.IBaseAbstractService;
 
@@ -11,4 +13,5 @@ import com.labassistant.dao.service.IBaseAbstractService;
 public interface EquipmentMapService extends
 		IBaseAbstractService<EquipmentMapEntity> {
 
+	public List<EquipmentMapEntity> getListByEquipmentID(String equipmentID);
 }

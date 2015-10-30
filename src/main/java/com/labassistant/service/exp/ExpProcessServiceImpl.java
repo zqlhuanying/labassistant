@@ -4,7 +4,7 @@ import java.util.List;
 
 import org.springframework.stereotype.Service;
 
-import com.labassistant.beans.ExpProcessEntity;
+import com.labassistant.beans.ExpStepEntity;
 import com.labassistant.dao.service.BaseAbstractService;
 
 /**
@@ -15,7 +15,7 @@ import com.labassistant.dao.service.BaseAbstractService;
  */
 @Service
 public class ExpProcessServiceImpl extends
-		BaseAbstractService<ExpProcessEntity> implements ExpProcessService {
+		BaseAbstractService<ExpStepEntity> implements ExpProcessService {
 
 	/**
 	 * 根据实验说明书号，获取全部实验步骤
@@ -23,9 +23,9 @@ public class ExpProcessServiceImpl extends
 	 * @return
 	 */
 	@Override
-	public List<ExpProcessEntity> getProcessLists(String expInstructionID){
-		String hql = "from ExpProcessEntity where expInstructionID = ? order by stepNum";
-		List<ExpProcessEntity> lists = findListByHql(hql, expInstructionID);
+	public List<ExpStepEntity> getProcessLists(String expInstructionID){
+		String hql = "from ExpStepEntity where expInstructionID = ? order by stepNum";
+		List<ExpStepEntity> lists = findListByHql(hql, expInstructionID);
 		return lists;
 	}
 	
@@ -36,9 +36,9 @@ public class ExpProcessServiceImpl extends
 	 * @return
 	 */
 	@Override
-	public ExpProcessEntity getProcess(String expInstructionID, int stepNum){
-		String hql = "from ExpProcessEntity where expInstructionID = ? and stepNum = ?";
-		ExpProcessEntity list = findOneByHql(hql, expInstructionID, stepNum);
+	public ExpStepEntity getProcess(String expInstructionID, int stepNum){
+		String hql = "from ExpStepEntity where expInstructionID = ? and stepNum = ?";
+		ExpStepEntity list = findOneByHql(hql, expInstructionID, stepNum);
 		return list;
 	}
 }

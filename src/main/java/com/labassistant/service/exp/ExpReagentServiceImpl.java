@@ -60,26 +60,45 @@ public class ExpReagentServiceImpl extends BaseAbstractService<ExpReagentEntity>
 	
 	/**
 	 * 获取说明书下所有试剂和试剂对应的提供商
+	 * 将建议的供应商放在第一个位置
 	 */
 	@Override
-	public List<Object> getExpReagentAndSupplierName(String expInstructionID){
+	public List<Object> getExpReagentAndSupplier(String expInstructionID){
 		List<Object> object = new ArrayList<Object>();
 		List<ExpReagentEntity> expReagentLists = getExpReagentLists(expInstructionID);
 		if(expReagentLists != null){
 			for(ExpReagentEntity expReagent : expReagentLists){
 				Map<String, Object> map = new HashMap<String, Object>();
-				List<String> list = new ArrayList<String>();
+				List<Object> list = new ArrayList<Object>();
+				String suggestionSupplierID = getSuggestionSupplier(expReagent);
 				List<ReagentMapEntity> mapLists = reagentMapService.getListByReagentID(expReagent.getReagentID());
 				if(mapLists != null){
 					for(ReagentMapEntity mapList : mapLists){
-						list.add(supplierService.get(mapList.getSupplierID()).getSupplierName());
+						Map<String, Object> innerMap = new HashMap<String, Object>();
+						innerMap.put("supplierID", mapList.getSupplierID());
+						innerMap.put("supplierName", supplierService.get(mapList.getSupplierID()).getSupplierName());
+						if(mapList.getSupplierID().equals(suggestionSupplierID)){
+							list.add(0,innerMap);
+						} else {
+							list.add(innerMap);
+						}
 					}
 				}
+				map.put("expReagentID", expReagent.getExpReagentID());
+				map.put("reagentID", expReagent.getReagentID());
 				map.put("reagentName", expReagent.getReagentName());
-				map.put("supplierName", list);
+				map.put("suppliers", list);
 				object.add(map);
 			}
 		}
 		return object;
+	}
+	
+	/**
+	 * 获取建议或默认的供应商ID
+	 * @return
+	 */
+	private String getSuggestionSupplier(ExpReagentEntity expReagent){
+		return expReagent.getSupplierID();
 	}
 }

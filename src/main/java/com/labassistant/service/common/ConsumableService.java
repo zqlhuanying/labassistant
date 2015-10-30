@@ -11,4 +11,5 @@ import com.labassistant.dao.service.IBaseAbstractService;
 public interface ConsumableService extends
 		IBaseAbstractService<ConsumableEntity> {
 
+	
 }

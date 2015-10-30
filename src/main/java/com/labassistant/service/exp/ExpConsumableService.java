@@ -13,4 +13,6 @@ import com.labassistant.dao.service.IBaseAbstractService;
 public interface ExpConsumableService extends IBaseAbstractService<ExpConsumableEntity> {
 
 	public List<ExpConsumableEntity> getExpConsumableLists(String expInstructionID);
+	
+	public List<Object> getExpConsumableAndSupplier(String expInstructionID);
 }

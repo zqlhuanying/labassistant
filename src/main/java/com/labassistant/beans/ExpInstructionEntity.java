@@ -13,6 +13,7 @@ import org.hibernate.annotations.GenericGenerator;
 import org.springframework.format.annotation.DateTimeFormat;
 
 import com.fasterxml.jackson.annotation.JsonFormat;
+import com.labassistant.annotation.MyAnnotation;
 
 /**
  * 实验说明书主表
@@ -39,7 +40,7 @@ import com.fasterxml.jackson.annotation.JsonFormat;
  */
 @Table(name = "t_expinstruction")
 @Entity
-public class ExpInstructionsMainEntity extends ToStringBase {
+public class ExpInstructionEntity extends ToStringBase {
 
 	private static final long serialVersionUID = 2518684466082301664L;
 	
@@ -95,6 +96,7 @@ public class ExpInstructionsMainEntity extends ToStringBase {
 	private int reviewCount;
 	
 	@Column(columnDefinition="int")
+	@MyAnnotation
 	private int downloadCount;
 	
 	

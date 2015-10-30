@@ -22,7 +22,7 @@ import org.hibernate.annotations.GenericGenerator;
  */
 @Table(name = "t_expstep")
 @Entity
-public class ExpProcessEntity extends ToStringBase {
+public class ExpStepEntity extends ToStringBase {
 
 	private static final long serialVersionUID = -6112041639410639172L;
 

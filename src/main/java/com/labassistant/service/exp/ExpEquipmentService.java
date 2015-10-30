@@ -14,4 +14,6 @@ public interface ExpEquipmentService extends
 		IBaseAbstractService<ExpEquipmentEntity> {
 
 	public List<ExpEquipmentEntity> getExpEquipmentLists(String expInstructionID);
+	
+	public List<Object> getExpEquipmentAndSupplier(String expInstructionID);
 }

@@ -4,7 +4,7 @@ import java.util.Map;
 
 import org.codehaus.jackson.map.ObjectMapper;
 
-import com.labassistant.beans.ExpInstructionsMainEntity;
+import com.labassistant.beans.ExpInstructionEntity;
 import com.labassistant.exception.MyRuntimeException;
 
 /**

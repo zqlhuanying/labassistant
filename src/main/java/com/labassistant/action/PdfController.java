@@ -13,11 +13,13 @@ import org.apache.commons.lang3.StringUtils;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Controller;
 import org.springframework.web.bind.annotation.RequestMapping;
+import org.springframework.web.bind.annotation.RequestMethod;
 import org.springframework.web.bind.annotation.ResponseBody;
 
 import com.itextpdf.text.DocumentException;
-import com.labassistant.beans.MyExpMainEntity;
+import com.labassistant.beans.MyExpEntity;
 import com.labassistant.common.BaseController;
+import com.labassistant.service.SyncService;
 import com.labassistant.service.ToPDFService;
 import com.labassistant.service.myexp.MyExpMainService;
 import com.labassistant.utils.DateUtil;
@@ -36,13 +38,19 @@ public class PdfController extends BaseController {
 	private ToPDFService toPDFService;
 	@Autowired
 	private MyExpMainService myExpMainService;
+	@Autowired
+	private SyncService syncService;
 	
-	@RequestMapping(value = "")
+	@RequestMapping(value = "", method = RequestMethod.POST)
 	@ResponseBody
-	public Map<String, Object> toPdf(HttpServletRequest request, String myExpID) throws DocumentException, IOException{
+	public Map<String, Object> toPdf(HttpServletRequest request, String json, String myExpID) throws DocumentException, IOException{
 		setErrorMsg(request, "生成PDF出错");
 		Map<String, Object> map = new HashMap<String, Object>();
 		
+		// 先同步数据
+		syncService.pushMyExp(request, json);
+		
+		// 生成PDF
 		String savePath = "/upload/pdf";
 		String pdfName = getName();
 		String relativePath = getFolder(request, savePath) + "/" + pdfName;
@@ -53,7 +61,7 @@ public class PdfController extends BaseController {
 		toPDFService.toPdf(FileUtil.toFilePath(pdfPath), myExpID);
 		
 		// 更新我的实验主表
-		MyExpMainEntity myExp = myExpMainService.get(myExpID);
+		MyExpEntity myExp = myExpMainService.get(myExpID);
 		myExp.setIsCreateReport(1);
 		myExp.setReportName(pdfName);
 		myExp.setReportServerPath(FileUtil.toURLPath(relativePath));

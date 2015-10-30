@@ -12,6 +12,7 @@ import org.hibernate.annotations.GenericGenerator;
 import org.springframework.format.annotation.DateTimeFormat;
 
 import com.fasterxml.jackson.annotation.JsonFormat;
+import com.labassistant.annotation.MyAnnotation;
 
 /**
  * 我的实验主表
@@ -39,7 +40,7 @@ import com.fasterxml.jackson.annotation.JsonFormat;
  */
 @Table(name = "t_myexp")
 @Entity
-public class MyExpMainEntity extends ToStringBase {
+public class MyExpEntity extends ToStringBase {
 
 	private static final long serialVersionUID = -4489449065670136874L;
 
@@ -52,10 +53,14 @@ public class MyExpMainEntity extends ToStringBase {
 	private Date finishTime;
 	private int expVersion;
 	private int isReviewed;
-	private int isCreateReport;
-	private int isUpload;
+	@MyAnnotation
+	private Integer isCreateReport;
+	@MyAnnotation
+	private Integer isUpload;
+	@MyAnnotation
 	private String reportName;
 	private String reportLocation;
+	@MyAnnotation
 	private String reportServerPath;
 	private int expState;
 	private String expMeno;
@@ -142,19 +147,19 @@ public class MyExpMainEntity extends ToStringBase {
 		this.isReviewed = isReviewed;
 	}
 
-	public int getIsCreateReport() {
+	public Integer getIsCreateReport() {
 		return isCreateReport;
 	}
 
-	public void setIsCreateReport(int isCreateReport) {
+	public void setIsCreateReport(Integer isCreateReport) {
 		this.isCreateReport = isCreateReport;
 	}
 
-	public int getIsUpload() {
+	public Integer getIsUpload() {
 		return isUpload;
 	}
 
-	public void setIsUpload(int isUpload) {
+	public void setIsUpload(Integer isUpload) {
 		this.isUpload = isUpload;
 	}
 

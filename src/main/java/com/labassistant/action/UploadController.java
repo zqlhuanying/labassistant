@@ -17,7 +17,7 @@ import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.web.bind.annotation.ResponseBody;
 import org.springframework.web.multipart.commons.CommonsMultipartFile;
 
-import com.labassistant.beans.MyExpMainEntity;
+import com.labassistant.beans.MyExpEntity;
 import com.labassistant.beans.MyExpProcessAttchEntity;
 import com.labassistant.common.BaseController;
 import com.labassistant.constants.AppConfig;
@@ -49,7 +49,7 @@ public class UploadController extends BaseController {
 		setErrorMsg(request, "上传图片失败");
 		Map<String, Object> map = new HashMap<String, Object>();
 		List<Object> object = new ArrayList<Object>();
-		MyExpMainEntity myExp = myExpMainService.getByExpID(myExpProcessAttch.getMyExpID());
+		MyExpEntity myExp = myExpMainService.getByExpID(myExpProcessAttch.getMyExpID());
 		try{
 			//System.out.println(request.getInputStream());
 			myExpProcessAttch.setExpInstructionID(myExp.getExpInstructionID());

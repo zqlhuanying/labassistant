@@ -80,12 +80,16 @@ public class ToPDF {
 		img.setIndentationLeft(5.0f);
 		img.setIndentationRight(5.0f);
 		img.setAlignment(Image.MIDDLE);
-		img.scaleToFit(500.0f, 400.0f);
+		if(img.getWidth() >= img.getHeight()) {
+			img.scaleAbsolute(400.0f, 300.0f);
+		} else {
+			img.scaleAbsolute(300.0f, 400.0f);
+		}
 		return img;
 	}
 	
 	// 设置图片在同一行
-	public PdfPTable imageInline(ArrayList<String> imgUrls) throws BadElementException, MalformedURLException, IOException{
+	public PdfPTable imageInline(List<String> imgUrls) throws BadElementException, MalformedURLException, IOException{
 		float per_width = image(imgUrls.get(0)).getWidth();
 		int columns = getColumns(getPageWidth(), per_width);
 		PdfPTable pdfTable = new PdfPTable(columns);
@@ -102,6 +106,23 @@ public class ToPDF {
 			if(i % columns == 0){
 				pdfTable.completeRow();
 			}
+		}
+		return pdfTable;
+	}
+	
+	// 图片以块的方式呈现
+	public PdfPTable imageBlock(List<String> imgUrls) throws BadElementException, MalformedURLException, IOException{
+		PdfPTable pdfTable = new PdfPTable(1);
+		pdfTable.setWidthPercentage(100);
+		
+		for(String imgUrl : imgUrls){
+			PdfPCell cell = new PdfPCell(image(imgUrl));
+			// 居中显示
+			cell.setHorizontalAlignment(ALIGN_CENTER);
+			cell.setBorder(0);
+			pdfTable.addCell(cell);
+			
+			pdfTable.completeRow();
 		}
 		return pdfTable;
 	}

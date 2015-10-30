@@ -5,7 +5,7 @@ import java.util.List;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
-import com.labassistant.beans.MyExpMainEntity;
+import com.labassistant.beans.MyExpEntity;
 import com.labassistant.beans.MyExpProcessEntity;
 import com.labassistant.dao.service.BaseAbstractService;
 
@@ -45,8 +45,8 @@ public class MyExpProcessServiceImpl extends BaseAbstractService<MyExpProcessEnt
 			update(expProcess);
 		} else {
 			// 还需要设置说明书ID
-			MyExpMainEntity myExpMainEntity = myExpMainService.getByExpID(myExpProcess.getMyExpID());
-			myExpProcess.setExpInstructionID(myExpMainEntity.getExpInstructionID());
+			MyExpEntity myExpEntity = myExpMainService.getByExpID(myExpProcess.getMyExpID());
+			myExpProcess.setExpInstructionID(myExpEntity.getExpInstructionID());
 			save(myExpProcess);
 		}
 	}

@@ -1,8 +1,6 @@
 package com.labassistant.action;
 
-import java.util.ArrayList;
 import java.util.HashMap;
-import java.util.Iterator;
 import java.util.Map;
 
 import javax.servlet.http.HttpServletRequest;
@@ -15,7 +13,6 @@ import org.springframework.web.bind.annotation.ResponseBody;
 
 import com.labassistant.common.BaseController;
 import com.labassistant.service.SyncService;
-import com.labassistant.utils.JSONUtil;
 
 /**
  * 同步数据
@@ -35,23 +32,23 @@ public class SyncController extends BaseController {
 	public Map<String, Object> pushMyExp(HttpServletRequest request, String json){
 		setErrorMsg(request, "同步我的实验失败");
 		Map<String, Object>  map = new HashMap<String, Object>();
-		Map<String, Object> requestMap = JSONUtil.json2Map(json);
-		//requestMap = (Map)requestMap.get("data");
 		
-		// requestMap 中的Value有可能是数组，即Object有可能是数组
-		Iterator<Map.Entry<String, Object>> iterator = requestMap.entrySet().iterator();
-		while(iterator.hasNext()){
-			Map.Entry<String, Object> entry = iterator.next();
-			String tableName = syncService.getTableName(entry.getKey());
-			if(entry.getValue().getClass() == ArrayList.class){
-				for(Map<String, Object> innerMap : (ArrayList<Map<String, Object>>)entry.getValue()){
-					// TODO request最好不要传递，最好能在上下文中获得
-					syncService.pushMyExp(request, innerMap, tableName);
-				}
-			} else {
-				syncService.pushMyExp(request, (Map<String, Object>)entry.getValue(), tableName);
-			}
-		}
+		syncService.pushMyExp(request, json);
+		
+		map.putAll(retSuccess());
+		map.put("data", "");
+		return map;
+	}
+	
+	// 上传实验说明书部分
+	@RequestMapping(value = "pushExpInstruction", method = RequestMethod.POST)
+	@ResponseBody
+	public Map<String, Object> pushExpInstruction(HttpServletRequest request, String json){
+		setErrorMsg(request, "同步实验说明书失败");
+		Map<String, Object>  map = new HashMap<String, Object>();
+		
+		syncService.pushExpInstruction(request, json);
+		
 		map.putAll(retSuccess());
 		map.put("data", "");
 		return map;

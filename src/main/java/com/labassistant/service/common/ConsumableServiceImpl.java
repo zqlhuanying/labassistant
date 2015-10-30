@@ -14,4 +14,5 @@ import com.labassistant.dao.service.BaseAbstractService;
 public class ConsumableServiceImpl extends
 		BaseAbstractService<ConsumableEntity> implements ConsumableService {
 
+	
 }

@@ -8,7 +8,7 @@ import java.util.Map;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
-import com.labassistant.beans.ExpInstructionsMainEntity;
+import com.labassistant.beans.ExpInstructionEntity;
 import com.labassistant.dao.service.BaseAbstractService;
 import com.labassistant.service.myexp.MyExpInstructionService;
 
@@ -18,7 +18,7 @@ import com.labassistant.service.myexp.MyExpInstructionService;
  * @date 2015/09/16
  */
 @Service
-public class ExpInstructionsMainServiceImpl extends BaseAbstractService<ExpInstructionsMainEntity>
+public class ExpInstructionsMainServiceImpl extends BaseAbstractService<ExpInstructionEntity>
 		implements ExpInstructionsMainService {
 
 	@Autowired
@@ -49,10 +49,10 @@ public class ExpInstructionsMainServiceImpl extends BaseAbstractService<ExpInstr
 		// TODO
 		String sql = "select * from t_expinstruction order by downloadcount desc limit ?";
 		List<Map<String, Object>> lists = findListMapBySql(sql, returnLimit);
-		/*List<ExpInstructionsMainEntity> returnLists = new ArrayList<ExpInstructionsMainEntity>();
+		/*List<ExpInstructionEntity> returnLists = new ArrayList<ExpInstructionEntity>();
 		System.out.println(lists);
 		for(Map<String, Object> list : lists){
-			returnLists.add(JSONUtil.map2Bean(list, ExpInstructionsMainEntity.class));
+			returnLists.add(JSONUtil.map2Bean(list, ExpInstructionEntity.class));
 		}*/
 		return lists;
 	}
@@ -64,7 +64,7 @@ public class ExpInstructionsMainServiceImpl extends BaseAbstractService<ExpInstr
 	public Map<String, Object> downloadInstruction(String expInstructionID){
 		Map<String, Object> map = new LinkedHashMap<String, Object>();
 		// 封装实验主表的数据
-		ExpInstructionsMainEntity expInstruction = get(expInstructionID);
+		ExpInstructionEntity expInstruction = get(expInstructionID);
 		map.put("expInstructionMain", expInstruction);
 		// 封装实验步骤表的数据
 		map.put("expProcess", expProcessService.getProcessLists(expInstructionID));
@@ -78,20 +78,23 @@ public class ExpInstructionsMainServiceImpl extends BaseAbstractService<ExpInstr
 	}
 	
 	/**
-	 * 判断说明书是否已存在
+	 * 判断说明书是否已发布
 	 */
 	@Override
-	public boolean isExists(String expInstructionID){
-		String hql = "from ExpInstructionsMainEntity where expInstructionID = ?";
+	public boolean isPublic(String expInstructionID){
+		String hql = "from ExpInstructionEntity where expInstructionID = ? and allowDownload = 1";
 		return getCount(hql, true, expInstructionID) > 0;
 	}
 	
 	/**
-	 * 判断说明书是否已下载
+	 * 判断说明书是否允许下载
 	 */
 	@Override
-	public boolean isDownload(String userID, String expInstructionID){
-		return myExpInstructionService.isDownload(userID, expInstructionID);
+	public boolean isAllowDownload(String userID, String expInstructionID){
+		String hql = "from ExpInstructionEntity where expInstructionID = ? and provideUser = ? and allowDownload = 0";
+		boolean isOwn = getCount(hql, true, expInstructionID, userID) > 0;
+		boolean isPublic = isPublic(expInstructionID);
+		return isPublic || isOwn;
 	}
 	
 	@Override
@@ -112,7 +115,7 @@ public class ExpInstructionsMainServiceImpl extends BaseAbstractService<ExpInstr
 	@Override
 	public List getInstructionsBySubCategoryID(String expSubCategoryID) {
 		
-		String hql = "from ExpInstructionsMainEntity where expSubCategoryID = ?";
+		String hql = "from ExpInstructionEntity where expSubCategoryID = ?";
 		
 		return findListByHql(hql,expSubCategoryID);
 	}
@@ -120,9 +123,9 @@ public class ExpInstructionsMainServiceImpl extends BaseAbstractService<ExpInstr
 	@Override
 	public List getInstructionsByFilter(String filterStr) {
 		
-		String hql = "from ExpInstructionsMainEntity where filterStr like ?";
+		String hql = "from ExpInstructionEntity where filterStr like ?";
 		
-		filterStr = "%|" + filterStr + "|%";
+		filterStr = "%" + filterStr + "%";
 		
 		System.out.println("filterStr:" + filterStr);
 	

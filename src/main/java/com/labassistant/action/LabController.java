@@ -15,13 +15,12 @@ import org.springframework.stereotype.Controller;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.ResponseBody;
 
-import com.labassistant.beans.ExpEquipmentEntity;
-import com.labassistant.beans.ExpInstructionsMainEntity;
-import com.labassistant.beans.ExpProcessEntity;
+import com.labassistant.beans.ExpInstructionEntity;
+import com.labassistant.beans.ExpStepEntity;
 import com.labassistant.beans.ExpReagentEntity;
 import com.labassistant.beans.ExpReviewEntity;
 import com.labassistant.beans.MyExpInstructionEntity;
-import com.labassistant.beans.MyExpMainEntity;
+import com.labassistant.beans.MyExpEntity;
 import com.labassistant.beans.MyExpPlanEntity;
 import com.labassistant.beans.MyExpProcessEntity;
 import com.labassistant.common.BaseController;
@@ -90,7 +89,7 @@ public class LabController extends BaseController {
 		setErrorMsg(request, "获取实验所有耗材出错");
 		Map<String, Object> map = new HashMap<String, Object>();
 		List<ExpConsumableEntity> lists = new ArrayList<ExpConsumableEntity>();
-		MyExpMainEntity myExp = myExpMainService.getByExpID(myExpID);
+		MyExpEntity myExp = myExpMainService.getByExpID(myExpID);
 		if(myExp != null){
 			lists = expConsumableService.getExpConsumableLists(myExp.getExpInstructionID());
 		}
@@ -117,7 +116,7 @@ public class LabController extends BaseController {
 		setErrorMsg(request, "获取实验试剂及对应的提供商出错");
 		Map<String, Object> map = new HashMap<String, Object>();
 		List<Object> object = new ArrayList<Object>();
-		object = expReagentService.getExpReagentAndSupplierName(expInstructionID);
+		object = expReagentService.getExpReagentAndSupplier(expInstructionID);
 		map.putAll(retSuccess());
 		map.put("data", object);
 		return map;
@@ -129,9 +128,9 @@ public class LabController extends BaseController {
 		setErrorMsg(request, "获取已完成实验列表出错");
 		Map<String, Object>  map = new HashMap<String, Object>();
 		List<Object> object = new ArrayList<Object>();
-		List<MyExpMainEntity> myExpMainLists = myExpMainService.getComplete(userID);
-		for(MyExpMainEntity myExpMainList : myExpMainLists){
-			ExpInstructionsMainEntity instruction = expInstructionsMainService.get(myExpMainList.getExpInstructionID());
+		List<MyExpEntity> myExpMainLists = myExpMainService.getComplete(userID);
+		for(MyExpEntity myExpMainList : myExpMainLists){
+			ExpInstructionEntity instruction = expInstructionsMainService.get(myExpMainList.getExpInstructionID());
 			if(instruction != null){
 				Map<String, String> innerMap = new HashMap<String, String>();
 				innerMap.put("myExpID", myExpMainList.getMyExpID());
@@ -152,9 +151,9 @@ public class LabController extends BaseController {
 		setErrorMsg(request, "获取正在进行的实验列表出错");
 		Map<String, Object>  map = new HashMap<String, Object>();
 		List<Object> object = new ArrayList<Object>();
-		List<MyExpMainEntity> myExpMainLists = myExpMainService.getDoing(userID);
-		for(MyExpMainEntity myExpMainList : myExpMainLists){
-			ExpInstructionsMainEntity instruction = expInstructionsMainService.get(myExpMainList.getExpInstructionID());
+		List<MyExpEntity> myExpMainLists = myExpMainService.getDoing(userID);
+		for(MyExpEntity myExpMainList : myExpMainLists){
+			ExpInstructionEntity instruction = expInstructionsMainService.get(myExpMainList.getExpInstructionID());
 			if(instruction != null){
 				Map<String, String> innerMap = new HashMap<String, String>();
 				innerMap.put("myExpID", myExpMainList.getMyExpID());
@@ -177,10 +176,10 @@ public class LabController extends BaseController {
 		List<Object> steps = new ArrayList<Object>();
 		if(!LabConstant.COMPLETED.equals(expState)){
 			setErrorMsg(request, "获取实验下所有步骤出错");			
-			ExpInstructionsMainEntity expInStruction = expInstructionsMainService.get(expInstructionID);
-			List<ExpProcessEntity> lists = expProcessService.getProcessLists(expInstructionID);
+			ExpInstructionEntity expInStruction = expInstructionsMainService.get(expInstructionID);
+			List<ExpStepEntity> lists = expProcessService.getProcessLists(expInstructionID);
 			if(lists != null && expInStruction != null){
-				for(ExpProcessEntity list : lists){
+				for(ExpStepEntity list : lists){
 					Map<String, String> stepMap = new LinkedHashMap<String, String>();
 					stepMap.put("stepNum", String.valueOf(list.getStepNum()));
 					stepMap.put("stepDesc", list.getExpStepDesc());
@@ -229,10 +228,10 @@ public class LabController extends BaseController {
 		Map<String, Object>  map = new HashMap<String, Object>();
 		Map<String, Object> innerMap = new LinkedHashMap<String, Object>();
 		//List<Object> object = new ArrayList<Object>();
-		ExpInstructionsMainEntity expInstruction = expInstructionsMainService.get(expInstructionID);
-		List<ExpProcessEntity> expProcesses = expProcessService.getProcessLists(expInstructionID);
-		List<ExpReagentEntity> expReagents = expReagentService.getExpReagentLists(expInstructionID); 
-		List<ExpEquipmentEntity> expEquipments = expEquipmentService.getExpEquipmentLists(expInstructionID); 
+		ExpInstructionEntity expInstruction = expInstructionsMainService.get(expInstructionID);
+		List<ExpStepEntity> expProcesses = expProcessService.getProcessLists(expInstructionID);
+		//List<ExpReagentEntity> expReagents = expReagentService.getExpReagentLists(expInstructionID); 
+		//List<ExpEquipmentEntity> expEquipments = expEquipmentService.getExpEquipmentLists(expInstructionID); 
 		//boolean isDownload = expInstructionsMainService.isDownload(userID, expInstructionID);
 		if(expInstruction != null){
 			innerMap.put("expInstructionID", expInstruction.getExpInstructionID());
@@ -250,25 +249,13 @@ public class LabController extends BaseController {
 			// 实验原理
 			innerMap.put("experimentTheory", expInstruction.getExperimentTheory());
 			// 实验准备
-			List<Object> expPrepareList = new ArrayList<Object>();
 			// 实验试剂
-			Map<String, Object> expReagentMap = new HashMap<String, Object>();
-			List<String> reagentsName = new ArrayList<String>();
-			for(ExpReagentEntity expReagent : expReagents){
-				reagentsName.add(expReagent.getReagentName());
-			}
-			expReagentMap.put("expReagents", reagentsName);
-			expPrepareList.add(expReagentMap);
+			innerMap.put("expReagents", expReagentService.getExpReagentAndSupplier(expInstructionID));
+			// 实验耗材
+			innerMap.put("expConsumables", expConsumableService.getExpConsumableAndSupplier(expInstructionID));
 			// 实验设备
-			Map<String, Object> expEquipmentMap = new HashMap<String, Object>();
-			List<String> equipmentsName = new ArrayList<String>();
-			for(ExpEquipmentEntity expEquipment : expEquipments){
-				equipmentsName.add(expEquipment.getEquipmentName());
-			}
-			expEquipmentMap.put("expEquipments", equipmentsName);
-			expPrepareList.add(expEquipmentMap);
+			innerMap.put("expEquipments", expEquipmentService.getExpEquipmentAndSupplier(expInstructionID));
 			
-			innerMap.put("expPrepare", expPrepareList);
 			// 实验步骤
 			innerMap.put("steps", expProcesses);
 			//object.add(innerMap);
@@ -288,22 +275,27 @@ public class LabController extends BaseController {
 	@RequestMapping(value = "/downloadInstruction")
 	@ResponseBody
 	public Map<String, Object> downloadInstruction(HttpServletRequest request, String userID, String expInstructionID){
-		setErrorMsg(request, "下载说明书出错");
+		setErrorMsg(request, "下载说明书出错");	
 		Map<String, Object>  map = new HashMap<String, Object>();
-		ExpInstructionsMainEntity expInstruction = expInstructionsMainService.get(expInstructionID);
-		Map<String, Object> innerMap = expInstructionsMainService.downloadInstruction(expInstructionID);
-		map.putAll(retSuccess());
-		map.put("data", innerMap);
-		
-		// 更新说明书表
-		expInstruction.setDownloadCount(expInstruction.getDownloadCount() + 1);
-		expInstructionsMainService.update(expInstruction);
-		// 更新我的说明书表
-		MyExpInstructionEntity myExpInstruction = new MyExpInstructionEntity();
-		myExpInstruction.setExpInstructionID(expInstructionID);
-		myExpInstruction.setUserID(userID);
-		myExpInstruction.setDownloadTime(DateUtil.str2Date(DateUtil.formatDate(new Date())));
-		myExpInstructionService.save(myExpInstruction);
+		if(expInstructionsMainService.isAllowDownload(userID, expInstructionID)){			
+			ExpInstructionEntity expInstruction = expInstructionsMainService.get(expInstructionID);
+			Map<String, Object> innerMap = expInstructionsMainService.downloadInstruction(expInstructionID);
+			map.putAll(retSuccess());
+			map.put("data", innerMap);
+			
+			// 更新说明书表
+			expInstruction.setDownloadCount(expInstruction.getDownloadCount() + 1);
+			expInstructionsMainService.update(expInstruction);
+			// 更新我的说明书表
+			MyExpInstructionEntity myExpInstruction = new MyExpInstructionEntity();
+			myExpInstruction.setExpInstructionID(expInstructionID);
+			myExpInstruction.setUserID(userID);
+			myExpInstruction.setDownloadTime(DateUtil.str2Date(DateUtil.formatDate(new Date())));
+			myExpInstructionService.save(myExpInstruction);
+		} else {
+			map.put("code", "0");
+			map.put("msg", "不允许下载");
+		}
 		return map;
 	}
 	
@@ -437,7 +429,7 @@ public class LabController extends BaseController {
 		setErrorMsg(request, "设置实验计划失败");
 		Map<String, Object>  map = new HashMap<String, Object>();
 		if(StringUtils.isBlank(myExpPlan.getExperimentName())){
-			ExpInstructionsMainEntity expInstruction = expInstructionsMainService.get(myExpPlan.getExpInstructionID());
+			ExpInstructionEntity expInstruction = expInstructionsMainService.get(myExpPlan.getExpInstructionID());
 			myExpPlan.setExperimentName(expInstruction.getExperimentName());
 		}
 		Date planDate = DateUtil.str2Date(LabConstant.DATEFORMAT, date);
@@ -474,7 +466,7 @@ public class LabController extends BaseController {
 		setErrorMsg(request, "获取实验列表出错");
 		Map<String, Object>  map = new HashMap<String, Object>();
 		
-		List<ExpInstructionsMainEntity> lists = expInstructionsMainService.getInstructionsBySubCategoryID(expSubCategoryID);
+		List<ExpInstructionEntity> lists = expInstructionsMainService.getInstructionsBySubCategoryID(expSubCategoryID);
 		
 		map.putAll(retSuccess());
 		map.put("data", lists);
@@ -498,7 +490,7 @@ public class LabController extends BaseController {
 		
 		
 		
-		List<ExpInstructionsMainEntity> lists = expInstructionsMainService.getInstructionsByFilter(filterStr);
+		List<ExpInstructionEntity> lists = expInstructionsMainService.getInstructionsByFilter(filterStr);
 		
 		map.putAll(retSuccess());
 		map.put("data", lists);

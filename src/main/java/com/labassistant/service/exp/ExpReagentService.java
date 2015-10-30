@@ -16,5 +16,5 @@ public interface ExpReagentService extends IBaseAbstractService<ExpReagentEntity
 	
 	public List<Object> getExpReagentAndAmount(String expInstructionID);
 	
-	public List<Object> getExpReagentAndSupplierName(String expInstructionID);
+	public List<Object> getExpReagentAndSupplier(String expInstructionID);
 }

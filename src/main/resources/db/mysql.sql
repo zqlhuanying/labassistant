@@ -321,63 +321,62 @@ CREATE TABLE `t_reagentmap` (
   `reagentmapid` varchar(32) NOT NULL,
   `reagentid` varchar(40) NOT NULL,
   `supplierid` varchar(40) NOT NULL,
-  `issuggestion` int DEFAULT 0,
   PRIMARY KEY (`reagentmapid`)
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8;
 -- ----------------------------
 -- Records of t_reagentmap
 -- ----------------------------
-INSERT INTO `t_ReagentMap` (`reagentmapid`,`reagentid`,`supplierid`,`issuggestion`) VALUES ('96269999219408897','0d647dee6e4b11e5bc1f002564e7234d','4037d681494b994701494b99aba50001',0);
-INSERT INTO `t_ReagentMap` (`reagentmapid`,`reagentid`,`supplierid`,`issuggestion`) VALUES ('96269999219408898','226b94cf6e4e11e5bc1f002564e7234d','4037d681494b994701494b99aba50002',0);
-INSERT INTO `t_ReagentMap` (`reagentmapid`,`reagentid`,`supplierid`,`issuggestion`) VALUES ('96269999219408899','226b94cf6e4e11e5bc1f002564e7234d','4037d681494b994701494b99aba50004',1);
-INSERT INTO `t_ReagentMap` (`reagentmapid`,`reagentid`,`supplierid`,`issuggestion`) VALUES ('96269999219408900','227052776e4e11e5bc1f002564e7234d','4037d681494b994701494b99aba50001',0);
-INSERT INTO `t_ReagentMap` (`reagentmapid`,`reagentid`,`supplierid`,`issuggestion`) VALUES ('96269999219408901','227052776e4e11e5bc1f002564e7234d','4037d681494b994701494b99aba50003',1);
-INSERT INTO `t_ReagentMap` (`reagentmapid`,`reagentid`,`supplierid`,`issuggestion`) VALUES ('96269999219408902','22776fd96e4e11e5bc1f002564e7234d','4037d681494b994701494b99aba50001',0);
-INSERT INTO `t_ReagentMap` (`reagentmapid`,`reagentid`,`supplierid`,`issuggestion`) VALUES ('96269999219408903','22776fd96e4e11e5bc1f002564e7234d','4037d681494b994701494b99aba50002',1);
-INSERT INTO `t_ReagentMap` (`reagentmapid`,`reagentid`,`supplierid`,`issuggestion`) VALUES ('96269999219408904','227bb30f6e4e11e5bc1f002564e7234d','4037d681494b994701494b99aba50001',1);
-INSERT INTO `t_ReagentMap` (`reagentmapid`,`reagentid`,`supplierid`,`issuggestion`) VALUES ('96269999219408905','227bb30f6e4e11e5bc1f002564e7234d','4037d681494b994701494b99aba50003',0);
-INSERT INTO `t_ReagentMap` (`reagentmapid`,`reagentid`,`supplierid`,`issuggestion`) VALUES ('96269999219408906','227f9cdd6e4e11e5bc1f002564e7234d','4037d681494b994701494b99aba50005',1);
-INSERT INTO `t_ReagentMap` (`reagentmapid`,`reagentid`,`supplierid`,`issuggestion`) VALUES ('96269999219408907','227f9cdd6e4e11e5bc1f002564e7234d','4037d681494b994701494b99aba50002',0);
-INSERT INTO `t_ReagentMap` (`reagentmapid`,`reagentid`,`supplierid`,`issuggestion`) VALUES ('96269999219408908','cee1ee8f6e4a11e5bc1f002564e7234d','4037d681494b994701494b99aba50003',0);
-INSERT INTO `t_ReagentMap` (`reagentmapid`,`reagentid`,`supplierid`,`issuggestion`) VALUES ('96269999219408909','cee1ee8f6e4a11e5bc1f002564e7234d','4037d681494b994701494b99aba50001',1);
-INSERT INTO `t_ReagentMap` (`reagentmapid`,`reagentid`,`supplierid`,`issuggestion`) VALUES ('96269999219408910','cee1ee8f6e4a11e5bc1f002564e7234d','4037d681494b994701494b99aba50002',0);
-INSERT INTO `t_ReagentMap` (`reagentmapid`,`reagentid`,`supplierid`,`issuggestion`) VALUES ('96269999219408911','cee1ee8f6e4a11e5bc1f002564e7234d','4037d681494b994701494b99aba50004',0);
-INSERT INTO `t_ReagentMap` (`reagentmapid`,`reagentid`,`supplierid`,`issuggestion`) VALUES ('96269999219408912','0d647dee6e4b11e5bc1f002564e7234d','4037d681494b994701494b99aba50002',0);
-INSERT INTO `t_ReagentMap` (`reagentmapid`,`reagentid`,`supplierid`,`issuggestion`) VALUES ('96269999219408913','0d647dee6e4b11e5bc1f002564e7234d','4037d681494b994701494b99aba50003',1);
-INSERT INTO `t_ReagentMap` (`reagentmapid`,`reagentid`,`supplierid`,`issuggestion`) VALUES ('96269999219408914','0eb9cf476e4c11e5bc1f002564e7234d','4037d681494b994701494b99aba50001',0);
-INSERT INTO `t_ReagentMap` (`reagentmapid`,`reagentid`,`supplierid`,`issuggestion`) VALUES ('96269999219408915','0eb9cf476e4c11e5bc1f002564e7234d','4037d681494b994701494b99aba50002',1);
-INSERT INTO `t_ReagentMap` (`reagentmapid`,`reagentid`,`supplierid`,`issuggestion`) VALUES ('96269999219408916','0ec0a1406e4c11e5bc1f002564e7234d','4037d681494b994701494b99aba50001',0);
-INSERT INTO `t_ReagentMap` (`reagentmapid`,`reagentid`,`supplierid`,`issuggestion`) VALUES ('96269999219408917','0ec0a1406e4c11e5bc1f002564e7234d','4037d681494b994701494b99aba50002',1);
-INSERT INTO `t_ReagentMap` (`reagentmapid`,`reagentid`,`supplierid`,`issuggestion`) VALUES ('96269999219408918','2213288c6e4e11e5bc1f002564e7234d','4037d681494b994701494b99aba50002',1);
-INSERT INTO `t_ReagentMap` (`reagentmapid`,`reagentid`,`supplierid`,`issuggestion`) VALUES ('96269999219408919','2213288c6e4e11e5bc1f002564e7234d','4037d681494b994701494b99aba50003',0);
-INSERT INTO `t_ReagentMap` (`reagentmapid`,`reagentid`,`supplierid`,`issuggestion`) VALUES ('96269999219408920','2219d51f6e4e11e5bc1f002564e7234d','4037d681494b994701494b99aba50001',1);
-INSERT INTO `t_ReagentMap` (`reagentmapid`,`reagentid`,`supplierid`,`issuggestion`) VALUES ('96269999219408921','2219d51f6e4e11e5bc1f002564e7234d','4037d681494b994701494b99aba50002',0);
-INSERT INTO `t_ReagentMap` (`reagentmapid`,`reagentid`,`supplierid`,`issuggestion`) VALUES ('96269999219408922','221daa9a6e4e11e5bc1f002564e7234d','4037d681494b994701494b99aba50001',0);
-INSERT INTO `t_ReagentMap` (`reagentmapid`,`reagentid`,`supplierid`,`issuggestion`) VALUES ('96269999219408923','221daa9a6e4e11e5bc1f002564e7234d','4037d681494b994701494b99aba50002',1);
-INSERT INTO `t_ReagentMap` (`reagentmapid`,`reagentid`,`supplierid`,`issuggestion`) VALUES ('96269999219408924','2227dcde6e4e11e5bc1f002564e7234d','4037d681494b994701494b99aba50002',1);
-INSERT INTO `t_ReagentMap` (`reagentmapid`,`reagentid`,`supplierid`,`issuggestion`) VALUES ('96269999219408925','2227dcde6e4e11e5bc1f002564e7234d','4037d681494b994701494b99aba50003',0);
-INSERT INTO `t_ReagentMap` (`reagentmapid`,`reagentid`,`supplierid`,`issuggestion`) VALUES ('96269999219408926','222c497f6e4e11e5bc1f002564e7234d','4037d681494b994701494b99aba50001',1);
-INSERT INTO `t_ReagentMap` (`reagentmapid`,`reagentid`,`supplierid`,`issuggestion`) VALUES ('96269999219408927','222c497f6e4e11e5bc1f002564e7234d','4037d681494b994701494b99aba50002',0);
-INSERT INTO `t_ReagentMap` (`reagentmapid`,`reagentid`,`supplierid`,`issuggestion`) VALUES ('96269999219408928','2230b8706e4e11e5bc1f002564e7234d','4037d681494b994701494b99aba50001',0);
-INSERT INTO `t_ReagentMap` (`reagentmapid`,`reagentid`,`supplierid`,`issuggestion`) VALUES ('96269999219408929','2230b8706e4e11e5bc1f002564e7234d','4037d681494b994701494b99aba50002',1);
-INSERT INTO `t_ReagentMap` (`reagentmapid`,`reagentid`,`supplierid`,`issuggestion`) VALUES ('96269999219408930','2234ae706e4e11e5bc1f002564e7234d','4037d681494b994701494b99aba50002',0);
-INSERT INTO `t_ReagentMap` (`reagentmapid`,`reagentid`,`supplierid`,`issuggestion`) VALUES ('96269999219408931','2234ae706e4e11e5bc1f002564e7234d','4037d681494b994701494b99aba50004',1);
-INSERT INTO `t_ReagentMap` (`reagentmapid`,`reagentid`,`supplierid`,`issuggestion`) VALUES ('96269999219408932','223993d66e4e11e5bc1f002564e7234d','4037d681494b994701494b99aba50001',0);
-INSERT INTO `t_ReagentMap` (`reagentmapid`,`reagentid`,`supplierid`,`issuggestion`) VALUES ('96269999219408933','223993d66e4e11e5bc1f002564e7234d','4037d681494b994701494b99aba50003',1);
-INSERT INTO `t_ReagentMap` (`reagentmapid`,`reagentid`,`supplierid`,`issuggestion`) VALUES ('96269999219408934','223d9f6c6e4e11e5bc1f002564e7234d','4037d681494b994701494b99aba50001',0);
-INSERT INTO `t_ReagentMap` (`reagentmapid`,`reagentid`,`supplierid`,`issuggestion`) VALUES ('96269999219408935','223d9f6c6e4e11e5bc1f002564e7234d','4037d681494b994701494b99aba50002',1);
-INSERT INTO `t_ReagentMap` (`reagentmapid`,`reagentid`,`supplierid`,`issuggestion`) VALUES ('96269999219408936','224636826e4e11e5bc1f002564e7234d','4037d681494b994701494b99aba50001',1);
-INSERT INTO `t_ReagentMap` (`reagentmapid`,`reagentid`,`supplierid`,`issuggestion`) VALUES ('96269999219408937','224636826e4e11e5bc1f002564e7234d','4037d681494b994701494b99aba50003',0);
-INSERT INTO `t_ReagentMap` (`reagentmapid`,`reagentid`,`supplierid`,`issuggestion`) VALUES ('96269999219408938','224f30656e4e11e5bc1f002564e7234d','4037d681494b994701494b99aba50005',1);
-INSERT INTO `t_ReagentMap` (`reagentmapid`,`reagentid`,`supplierid`,`issuggestion`) VALUES ('96269999219408939','224f30656e4e11e5bc1f002564e7234d','4037d681494b994701494b99aba50002',0);
-INSERT INTO `t_ReagentMap` (`reagentmapid`,`reagentid`,`supplierid`,`issuggestion`) VALUES ('96269999219408940','2257f2f66e4e11e5bc1f002564e7234d','4037d681494b994701494b99aba50003',0);
-INSERT INTO `t_ReagentMap` (`reagentmapid`,`reagentid`,`supplierid`,`issuggestion`) VALUES ('96269999219408941','2257f2f66e4e11e5bc1f002564e7234d','4037d681494b994701494b99aba50001',1);
-INSERT INTO `t_ReagentMap` (`reagentmapid`,`reagentid`,`supplierid`,`issuggestion`) VALUES ('96269999219408942','225e70bf6e4e11e5bc1f002564e7234d','4037d681494b994701494b99aba50002',1);
-INSERT INTO `t_ReagentMap` (`reagentmapid`,`reagentid`,`supplierid`,`issuggestion`) VALUES ('96269999219408943','225e70bf6e4e11e5bc1f002564e7234d','4037d681494b994701494b99aba50004',0);
-INSERT INTO `t_ReagentMap` (`reagentmapid`,`reagentid`,`supplierid`,`issuggestion`) VALUES ('96269999219408944','2262f8866e4e11e5bc1f002564e7234d','4037d681494b994701494b99aba50002',1);
-INSERT INTO `t_ReagentMap` (`reagentmapid`,`reagentid`,`supplierid`,`issuggestion`) VALUES ('96269999219408945','2262f8866e4e11e5bc1f002564e7234d','4037d681494b994701494b99aba50004',0);
-INSERT INTO `t_ReagentMap` (`reagentmapid`,`reagentid`,`supplierid`,`issuggestion`) VALUES ('96269999219408946','22673d8c6e4e11e5bc1f002564e7234d','4037d681494b994701494b99aba50002',0);
-INSERT INTO `t_ReagentMap` (`reagentmapid`,`reagentid`,`supplierid`,`issuggestion`) VALUES ('96269999219408947','22673d8c6e4e11e5bc1f002564e7234d','4037d681494b994701494b99aba50003',1);
+INSERT INTO `t_reagentmap` (`reagentmapid`,`reagentid`,`supplierid`) VALUES ('96269999219408897','0d647dee6e4b11e5bc1f002564e7234d','4037d681494b994701494b99aba50001');
+INSERT INTO `t_reagentmap` (`reagentmapid`,`reagentid`,`supplierid`) VALUES ('96269999219408898','226b94cf6e4e11e5bc1f002564e7234d','4037d681494b994701494b99aba50002');
+INSERT INTO `t_reagentmap` (`reagentmapid`,`reagentid`,`supplierid`) VALUES ('96269999219408899','226b94cf6e4e11e5bc1f002564e7234d','4037d681494b994701494b99aba50004');
+INSERT INTO `t_reagentmap` (`reagentmapid`,`reagentid`,`supplierid`) VALUES ('96269999219408900','227052776e4e11e5bc1f002564e7234d','4037d681494b994701494b99aba50001');
+INSERT INTO `t_reagentmap` (`reagentmapid`,`reagentid`,`supplierid`) VALUES ('96269999219408901','227052776e4e11e5bc1f002564e7234d','4037d681494b994701494b99aba50003');
+INSERT INTO `t_reagentmap` (`reagentmapid`,`reagentid`,`supplierid`) VALUES ('96269999219408902','22776fd96e4e11e5bc1f002564e7234d','4037d681494b994701494b99aba50001');
+INSERT INTO `t_reagentmap` (`reagentmapid`,`reagentid`,`supplierid`) VALUES ('96269999219408903','22776fd96e4e11e5bc1f002564e7234d','4037d681494b994701494b99aba50002');
+INSERT INTO `t_reagentmap` (`reagentmapid`,`reagentid`,`supplierid`) VALUES ('96269999219408904','227bb30f6e4e11e5bc1f002564e7234d','4037d681494b994701494b99aba50001');
+INSERT INTO `t_reagentmap` (`reagentmapid`,`reagentid`,`supplierid`) VALUES ('96269999219408905','227bb30f6e4e11e5bc1f002564e7234d','4037d681494b994701494b99aba50003');
+INSERT INTO `t_reagentmap` (`reagentmapid`,`reagentid`,`supplierid`) VALUES ('96269999219408906','227f9cdd6e4e11e5bc1f002564e7234d','4037d681494b994701494b99aba50005');
+INSERT INTO `t_reagentmap` (`reagentmapid`,`reagentid`,`supplierid`) VALUES ('96269999219408907','227f9cdd6e4e11e5bc1f002564e7234d','4037d681494b994701494b99aba50002');
+INSERT INTO `t_reagentmap` (`reagentmapid`,`reagentid`,`supplierid`) VALUES ('96269999219408908','cee1ee8f6e4a11e5bc1f002564e7234d','4037d681494b994701494b99aba50003');
+INSERT INTO `t_reagentmap` (`reagentmapid`,`reagentid`,`supplierid`) VALUES ('96269999219408909','cee1ee8f6e4a11e5bc1f002564e7234d','4037d681494b994701494b99aba50001');
+INSERT INTO `t_reagentmap` (`reagentmapid`,`reagentid`,`supplierid`) VALUES ('96269999219408910','cee1ee8f6e4a11e5bc1f002564e7234d','4037d681494b994701494b99aba50002');
+INSERT INTO `t_reagentmap` (`reagentmapid`,`reagentid`,`supplierid`) VALUES ('96269999219408911','cee1ee8f6e4a11e5bc1f002564e7234d','4037d681494b994701494b99aba50004');
+INSERT INTO `t_reagentmap` (`reagentmapid`,`reagentid`,`supplierid`) VALUES ('96269999219408912','0d647dee6e4b11e5bc1f002564e7234d','4037d681494b994701494b99aba50002');
+INSERT INTO `t_reagentmap` (`reagentmapid`,`reagentid`,`supplierid`) VALUES ('96269999219408913','0d647dee6e4b11e5bc1f002564e7234d','4037d681494b994701494b99aba50003');
+INSERT INTO `t_reagentmap` (`reagentmapid`,`reagentid`,`supplierid`) VALUES ('96269999219408914','0eb9cf476e4c11e5bc1f002564e7234d','4037d681494b994701494b99aba50001');
+INSERT INTO `t_reagentmap` (`reagentmapid`,`reagentid`,`supplierid`) VALUES ('96269999219408915','0eb9cf476e4c11e5bc1f002564e7234d','4037d681494b994701494b99aba50002');
+INSERT INTO `t_reagentmap` (`reagentmapid`,`reagentid`,`supplierid`) VALUES ('96269999219408916','0ec0a1406e4c11e5bc1f002564e7234d','4037d681494b994701494b99aba50001');
+INSERT INTO `t_reagentmap` (`reagentmapid`,`reagentid`,`supplierid`) VALUES ('96269999219408917','0ec0a1406e4c11e5bc1f002564e7234d','4037d681494b994701494b99aba50002');
+INSERT INTO `t_reagentmap` (`reagentmapid`,`reagentid`,`supplierid`) VALUES ('96269999219408918','2213288c6e4e11e5bc1f002564e7234d','4037d681494b994701494b99aba50002');
+INSERT INTO `t_reagentmap` (`reagentmapid`,`reagentid`,`supplierid`) VALUES ('96269999219408919','2213288c6e4e11e5bc1f002564e7234d','4037d681494b994701494b99aba50003');
+INSERT INTO `t_reagentmap` (`reagentmapid`,`reagentid`,`supplierid`) VALUES ('96269999219408920','2219d51f6e4e11e5bc1f002564e7234d','4037d681494b994701494b99aba50001');
+INSERT INTO `t_reagentmap` (`reagentmapid`,`reagentid`,`supplierid`) VALUES ('96269999219408921','2219d51f6e4e11e5bc1f002564e7234d','4037d681494b994701494b99aba50002');
+INSERT INTO `t_reagentmap` (`reagentmapid`,`reagentid`,`supplierid`) VALUES ('96269999219408922','221daa9a6e4e11e5bc1f002564e7234d','4037d681494b994701494b99aba50001');
+INSERT INTO `t_reagentmap` (`reagentmapid`,`reagentid`,`supplierid`) VALUES ('96269999219408923','221daa9a6e4e11e5bc1f002564e7234d','4037d681494b994701494b99aba50002');
+INSERT INTO `t_reagentmap` (`reagentmapid`,`reagentid`,`supplierid`) VALUES ('96269999219408924','2227dcde6e4e11e5bc1f002564e7234d','4037d681494b994701494b99aba50002');
+INSERT INTO `t_reagentmap` (`reagentmapid`,`reagentid`,`supplierid`) VALUES ('96269999219408925','2227dcde6e4e11e5bc1f002564e7234d','4037d681494b994701494b99aba50003');
+INSERT INTO `t_reagentmap` (`reagentmapid`,`reagentid`,`supplierid`) VALUES ('96269999219408926','222c497f6e4e11e5bc1f002564e7234d','4037d681494b994701494b99aba50001');
+INSERT INTO `t_reagentmap` (`reagentmapid`,`reagentid`,`supplierid`) VALUES ('96269999219408927','222c497f6e4e11e5bc1f002564e7234d','4037d681494b994701494b99aba50002');
+INSERT INTO `t_reagentmap` (`reagentmapid`,`reagentid`,`supplierid`) VALUES ('96269999219408928','2230b8706e4e11e5bc1f002564e7234d','4037d681494b994701494b99aba50001');
+INSERT INTO `t_reagentmap` (`reagentmapid`,`reagentid`,`supplierid`) VALUES ('96269999219408929','2230b8706e4e11e5bc1f002564e7234d','4037d681494b994701494b99aba50002');
+INSERT INTO `t_reagentmap` (`reagentmapid`,`reagentid`,`supplierid`) VALUES ('96269999219408930','2234ae706e4e11e5bc1f002564e7234d','4037d681494b994701494b99aba50002');
+INSERT INTO `t_reagentmap` (`reagentmapid`,`reagentid`,`supplierid`) VALUES ('96269999219408931','2234ae706e4e11e5bc1f002564e7234d','4037d681494b994701494b99aba50004');
+INSERT INTO `t_reagentmap` (`reagentmapid`,`reagentid`,`supplierid`) VALUES ('96269999219408932','223993d66e4e11e5bc1f002564e7234d','4037d681494b994701494b99aba50001');
+INSERT INTO `t_reagentmap` (`reagentmapid`,`reagentid`,`supplierid`) VALUES ('96269999219408933','223993d66e4e11e5bc1f002564e7234d','4037d681494b994701494b99aba50003');
+INSERT INTO `t_reagentmap` (`reagentmapid`,`reagentid`,`supplierid`) VALUES ('96269999219408934','223d9f6c6e4e11e5bc1f002564e7234d','4037d681494b994701494b99aba50001');
+INSERT INTO `t_reagentmap` (`reagentmapid`,`reagentid`,`supplierid`) VALUES ('96269999219408935','223d9f6c6e4e11e5bc1f002564e7234d','4037d681494b994701494b99aba50002');
+INSERT INTO `t_reagentmap` (`reagentmapid`,`reagentid`,`supplierid`) VALUES ('96269999219408936','224636826e4e11e5bc1f002564e7234d','4037d681494b994701494b99aba50001');
+INSERT INTO `t_reagentmap` (`reagentmapid`,`reagentid`,`supplierid`) VALUES ('96269999219408937','224636826e4e11e5bc1f002564e7234d','4037d681494b994701494b99aba50003');
+INSERT INTO `t_reagentmap` (`reagentmapid`,`reagentid`,`supplierid`) VALUES ('96269999219408938','224f30656e4e11e5bc1f002564e7234d','4037d681494b994701494b99aba50005');
+INSERT INTO `t_reagentmap` (`reagentmapid`,`reagentid`,`supplierid`) VALUES ('96269999219408939','224f30656e4e11e5bc1f002564e7234d','4037d681494b994701494b99aba50002');
+INSERT INTO `t_reagentmap` (`reagentmapid`,`reagentid`,`supplierid`) VALUES ('96269999219408940','2257f2f66e4e11e5bc1f002564e7234d','4037d681494b994701494b99aba50003');
+INSERT INTO `t_reagentmap` (`reagentmapid`,`reagentid`,`supplierid`) VALUES ('96269999219408941','2257f2f66e4e11e5bc1f002564e7234d','4037d681494b994701494b99aba50001');
+INSERT INTO `t_reagentmap` (`reagentmapid`,`reagentid`,`supplierid`) VALUES ('96269999219408942','225e70bf6e4e11e5bc1f002564e7234d','4037d681494b994701494b99aba50002');
+INSERT INTO `t_reagentmap` (`reagentmapid`,`reagentid`,`supplierid`) VALUES ('96269999219408943','225e70bf6e4e11e5bc1f002564e7234d','4037d681494b994701494b99aba50004');
+INSERT INTO `t_reagentmap` (`reagentmapid`,`reagentid`,`supplierid`) VALUES ('96269999219408944','2262f8866e4e11e5bc1f002564e7234d','4037d681494b994701494b99aba50002');
+INSERT INTO `t_reagentmap` (`reagentmapid`,`reagentid`,`supplierid`) VALUES ('96269999219408945','2262f8866e4e11e5bc1f002564e7234d','4037d681494b994701494b99aba50004');
+INSERT INTO `t_reagentmap` (`reagentmapid`,`reagentid`,`supplierid`) VALUES ('96269999219408946','22673d8c6e4e11e5bc1f002564e7234d','4037d681494b994701494b99aba50002');
+INSERT INTO `t_reagentmap` (`reagentmapid`,`reagentid`,`supplierid`) VALUES ('96269999219408947','22673d8c6e4e11e5bc1f002564e7234d','4037d681494b994701494b99aba50003');
 
 
 -- -----------------------------------------------
@@ -410,29 +409,28 @@ CREATE TABLE `t_consumablemap` (
   `consumablemapid` varchar(32) NOT NULL,
   `consumableid` varchar(40) NOT NULL,
   `supplierid` varchar(40) NOT NULL,
-  `issuggestion` int DEFAULT 0,
   PRIMARY KEY (`consumablemapid`)
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8;
 -- ----------------------------
 -- Records of `t_consumablemap`
 -- ----------------------------
-INSERT INTO `t_consumablemap` (`consumablemapid`,`consumableid`,`supplierid`,`issuggestion`) VALUES ('96269999219408948','92bf98916e5111e5bc1f002564e7234d','4037d681494b994701494b99aba10001',0);
-INSERT INTO `t_consumablemap` (`consumablemapid`,`consumableid`,`supplierid`,`issuggestion`) VALUES ('96269999219408949','92bf98916e5111e5bc1f002564e7234d','4037d681494b994701494b99aba10002',1);
-INSERT INTO `t_consumablemap` (`consumablemapid`,`consumableid`,`supplierid`,`issuggestion`) VALUES ('96269999219408950','578aea5e6e5211e5bc1f002564e7234d','4037d681494b994701494b99aba10001',0);
-INSERT INTO `t_consumablemap` (`consumablemapid`,`consumableid`,`supplierid`,`issuggestion`) VALUES ('96269999219408951','578aea5e6e5211e5bc1f002564e7234d','4037d681494b994701494b99aba10003',1);
-INSERT INTO `t_consumablemap` (`consumablemapid`,`consumableid`,`supplierid`,`issuggestion`) VALUES ('96269999219408952','578aea5e6e5211e5bc1f002564e7234d','4037d681494b994701494b99aba10005',0);
-INSERT INTO `t_consumablemap` (`consumablemapid`,`consumableid`,`supplierid`,`issuggestion`) VALUES ('96269999219408953','579205006e5211e5bc1f002564e7234d','4037d681494b994701494b99aba10002',0);
-INSERT INTO `t_consumablemap` (`consumablemapid`,`consumableid`,`supplierid`,`issuggestion`) VALUES ('96269999219408954','579205006e5211e5bc1f002564e7234d','4037d681494b994701494b99aba10003',1);
-INSERT INTO `t_consumablemap` (`consumablemapid`,`consumableid`,`supplierid`,`issuggestion`) VALUES ('96269999219408955','57986d3a6e5211e5bc1f002564e7234d','4037d681494b994701494b99aba10003',1);
-INSERT INTO `t_consumablemap` (`consumablemapid`,`consumableid`,`supplierid`,`issuggestion`) VALUES ('96269999219408956','57986d3a6e5211e5bc1f002564e7234d','4037d681494b994701494b99aba10004',1);
-INSERT INTO `t_consumablemap` (`consumablemapid`,`consumableid`,`supplierid`,`issuggestion`) VALUES ('96269999219408957','579ee2d26e5211e5bc1f002564e7234d','4037d681494b994701494b99aba10005',1);
-INSERT INTO `t_consumablemap` (`consumablemapid`,`consumableid`,`supplierid`,`issuggestion`) VALUES ('96269999219408958','579ee2d26e5211e5bc1f002564e7234d','4037d681494b994701494b99aba10001',0);
-INSERT INTO `t_consumablemap` (`consumablemapid`,`consumableid`,`supplierid`,`issuggestion`) VALUES ('96269999219408959','57a2d41a6e5211e5bc1f002564e7234d','4037d681494b994701494b99aba10005',1);
-INSERT INTO `t_consumablemap` (`consumablemapid`,`consumableid`,`supplierid`,`issuggestion`) VALUES ('96269999219408960','57a2d41a6e5211e5bc1f002564e7234d','4037d681494b994701494b99aba10001',0);
-INSERT INTO `t_consumablemap` (`consumablemapid`,`consumableid`,`supplierid`,`issuggestion`) VALUES ('96269999219408961','57a7833a6e5211e5bc1f002564e7234d','4037d681494b994701494b99aba10002',0);
-INSERT INTO `t_consumablemap` (`consumablemapid`,`consumableid`,`supplierid`,`issuggestion`) VALUES ('96269999219408962','57a7833a6e5211e5bc1f002564e7234d','4037d681494b994701494b99aba10003',1);
-INSERT INTO `t_consumablemap` (`consumablemapid`,`consumableid`,`supplierid`,`issuggestion`) VALUES ('96269999219408963','92bf98916e5111e5bc1f002564e7234d','4037d681494b994701494b99aba10002',0);
-INSERT INTO `t_consumablemap` (`consumablemapid`,`consumableid`,`supplierid`,`issuggestion`) VALUES ('96269999219408964','92bf98916e5111e5bc1f002564e7234d','4037d681494b994701494b99aba10003',0);
+INSERT INTO `t_consumablemap` (`consumablemapid`,`consumableid`,`supplierid`) VALUES ('96269999219408948','92bf98916e5111e5bc1f002564e7234d','4037d681494b994701494b99aba10001');
+INSERT INTO `t_consumablemap` (`consumablemapid`,`consumableid`,`supplierid`) VALUES ('96269999219408949','92bf98916e5111e5bc1f002564e7234d','4037d681494b994701494b99aba10002');
+INSERT INTO `t_consumablemap` (`consumablemapid`,`consumableid`,`supplierid`) VALUES ('96269999219408950','578aea5e6e5211e5bc1f002564e7234d','4037d681494b994701494b99aba10001');
+INSERT INTO `t_consumablemap` (`consumablemapid`,`consumableid`,`supplierid`) VALUES ('96269999219408951','578aea5e6e5211e5bc1f002564e7234d','4037d681494b994701494b99aba10003');
+INSERT INTO `t_consumablemap` (`consumablemapid`,`consumableid`,`supplierid`) VALUES ('96269999219408952','578aea5e6e5211e5bc1f002564e7234d','4037d681494b994701494b99aba10005');
+INSERT INTO `t_consumablemap` (`consumablemapid`,`consumableid`,`supplierid`) VALUES ('96269999219408953','579205006e5211e5bc1f002564e7234d','4037d681494b994701494b99aba10002');
+INSERT INTO `t_consumablemap` (`consumablemapid`,`consumableid`,`supplierid`) VALUES ('96269999219408954','579205006e5211e5bc1f002564e7234d','4037d681494b994701494b99aba10003');
+INSERT INTO `t_consumablemap` (`consumablemapid`,`consumableid`,`supplierid`) VALUES ('96269999219408955','57986d3a6e5211e5bc1f002564e7234d','4037d681494b994701494b99aba10003');
+INSERT INTO `t_consumablemap` (`consumablemapid`,`consumableid`,`supplierid`) VALUES ('96269999219408956','57986d3a6e5211e5bc1f002564e7234d','4037d681494b994701494b99aba10004');
+INSERT INTO `t_consumablemap` (`consumablemapid`,`consumableid`,`supplierid`) VALUES ('96269999219408957','579ee2d26e5211e5bc1f002564e7234d','4037d681494b994701494b99aba10005');
+INSERT INTO `t_consumablemap` (`consumablemapid`,`consumableid`,`supplierid`) VALUES ('96269999219408958','579ee2d26e5211e5bc1f002564e7234d','4037d681494b994701494b99aba10001');
+INSERT INTO `t_consumablemap` (`consumablemapid`,`consumableid`,`supplierid`) VALUES ('96269999219408959','57a2d41a6e5211e5bc1f002564e7234d','4037d681494b994701494b99aba10005');
+INSERT INTO `t_consumablemap` (`consumablemapid`,`consumableid`,`supplierid`) VALUES ('96269999219408960','57a2d41a6e5211e5bc1f002564e7234d','4037d681494b994701494b99aba10001');
+INSERT INTO `t_consumablemap` (`consumablemapid`,`consumableid`,`supplierid`) VALUES ('96269999219408961','57a7833a6e5211e5bc1f002564e7234d','4037d681494b994701494b99aba10002');
+INSERT INTO `t_consumablemap` (`consumablemapid`,`consumableid`,`supplierid`) VALUES ('96269999219408962','57a7833a6e5211e5bc1f002564e7234d','4037d681494b994701494b99aba10003');
+INSERT INTO `t_consumablemap` (`consumablemapid`,`consumableid`,`supplierid`) VALUES ('96269999219408963','92bf98916e5111e5bc1f002564e7234d','4037d681494b994701494b99aba10002');
+INSERT INTO `t_consumablemap` (`consumablemapid`,`consumableid`,`supplierid`) VALUES ('96269999219408964','92bf98916e5111e5bc1f002564e7234d','4037d681494b994701494b99aba10003');
 
 -- -----------------------------------------------
 -- Table structure for `t_equipment` 设备表
@@ -462,24 +460,23 @@ CREATE TABLE `t_equipmentmap` (
   `equipmentmapid` varchar(32) NOT NULL,
   `equipmentid` varchar(40) NOT NULL,
   `supplierid` varchar(40) NOT NULL,
-  `issuggestion` int DEFAULT 0,
   PRIMARY KEY (`equipmentmapid`)
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8;
 -- ----------------------------
 -- Records of `t_equipment`
 -- ----------------------------
-INSERT INTO `t_equipmentmap` (`equipmentmapid`,`equipmentid`,`supplierid`,`issuggestion`) VALUES ('96269999219408965','ef1ec2556e5311e5bc1f002564e7234d','4037d681494b994701494b99aba20001',0);
-INSERT INTO `t_equipmentmap` (`equipmentmapid`,`equipmentid`,`supplierid`,`issuggestion`) VALUES ('96269999219408966','ef257ac26e5311e5bc1f002564e7234d','4037d681494b994701494b99aba20002',0);
-INSERT INTO `t_equipmentmap` (`equipmentmapid`,`equipmentid`,`supplierid`,`issuggestion`) VALUES ('96269999219408967','ef2903d66e5311e5bc1f002564e7234d','4037d681494b994701494b99aba20003',0);
-INSERT INTO `t_equipmentmap` (`equipmentmapid`,`equipmentid`,`supplierid`,`issuggestion`) VALUES ('96269999219408968','ef2f778f6e5311e5bc1f002564e7234d','4037d681494b994701494b99aba20003',0);
-INSERT INTO `t_equipmentmap` (`equipmentmapid`,`equipmentid`,`supplierid`,`issuggestion`) VALUES ('96269999219408969','ef33683d6e5311e5bc1f002564e7234d','4037d681494b994701494b99aba20002',0);
-INSERT INTO `t_equipmentmap` (`equipmentmapid`,`equipmentid`,`supplierid`,`issuggestion`) VALUES ('96269999219408970','ef3735566e5311e5bc1f002564e7234d','4037d681494b994701494b99aba20001',0);
-INSERT INTO `t_equipmentmap` (`equipmentmapid`,`equipmentid`,`supplierid`,`issuggestion`) VALUES ('96269999219408971','ef1ec2556e5311e5bc1f002564e7234d','4037d681494b994701494b99aba20002',0);
-INSERT INTO `t_equipmentmap` (`equipmentmapid`,`equipmentid`,`supplierid`,`issuggestion`) VALUES ('96269999219408972','ef257ac26e5311e5bc1f002564e7234d','4037d681494b994701494b99aba20003',0);
-INSERT INTO `t_equipmentmap` (`equipmentmapid`,`equipmentid`,`supplierid`,`issuggestion`) VALUES ('96269999219408973','ef2903d66e5311e5bc1f002564e7234d','4037d681494b994701494b99aba20001',0);
-INSERT INTO `t_equipmentmap` (`equipmentmapid`,`equipmentid`,`supplierid`,`issuggestion`) VALUES ('96269999219408974','ef2f778f6e5311e5bc1f002564e7234d','4037d681494b994701494b99aba20001',0);
-INSERT INTO `t_equipmentmap` (`equipmentmapid`,`equipmentid`,`supplierid`,`issuggestion`) VALUES ('96269999219408975','ef33683d6e5311e5bc1f002564e7234d','4037d681494b994701494b99aba20003',0);
-INSERT INTO `t_equipmentmap` (`equipmentmapid`,`equipmentid`,`supplierid`,`issuggestion`) VALUES ('96269999219408976','ef3735566e5311e5bc1f002564e7234d','4037d681494b994701494b99aba20002',0);
+INSERT INTO `t_equipmentmap` (`equipmentmapid`,`equipmentid`,`supplierid`) VALUES ('96269999219408965','ef1ec2556e5311e5bc1f002564e7234d','4037d681494b994701494b99aba20001');
+INSERT INTO `t_equipmentmap` (`equipmentmapid`,`equipmentid`,`supplierid`) VALUES ('96269999219408966','ef257ac26e5311e5bc1f002564e7234d','4037d681494b994701494b99aba20002');
+INSERT INTO `t_equipmentmap` (`equipmentmapid`,`equipmentid`,`supplierid`) VALUES ('96269999219408967','ef2903d66e5311e5bc1f002564e7234d','4037d681494b994701494b99aba20003');
+INSERT INTO `t_equipmentmap` (`equipmentmapid`,`equipmentid`,`supplierid`) VALUES ('96269999219408968','ef2f778f6e5311e5bc1f002564e7234d','4037d681494b994701494b99aba20003');
+INSERT INTO `t_equipmentmap` (`equipmentmapid`,`equipmentid`,`supplierid`) VALUES ('96269999219408969','ef33683d6e5311e5bc1f002564e7234d','4037d681494b994701494b99aba20002');
+INSERT INTO `t_equipmentmap` (`equipmentmapid`,`equipmentid`,`supplierid`) VALUES ('96269999219408970','ef3735566e5311e5bc1f002564e7234d','4037d681494b994701494b99aba20001');
+INSERT INTO `t_equipmentmap` (`equipmentmapid`,`equipmentid`,`supplierid`) VALUES ('96269999219408971','ef1ec2556e5311e5bc1f002564e7234d','4037d681494b994701494b99aba20002');
+INSERT INTO `t_equipmentmap` (`equipmentmapid`,`equipmentid`,`supplierid`) VALUES ('96269999219408972','ef257ac26e5311e5bc1f002564e7234d','4037d681494b994701494b99aba20003');
+INSERT INTO `t_equipmentmap` (`equipmentmapid`,`equipmentid`,`supplierid`) VALUES ('96269999219408973','ef2903d66e5311e5bc1f002564e7234d','4037d681494b994701494b99aba20001');
+INSERT INTO `t_equipmentmap` (`equipmentmapid`,`equipmentid`,`supplierid`) VALUES ('96269999219408974','ef2f778f6e5311e5bc1f002564e7234d','4037d681494b994701494b99aba20001');
+INSERT INTO `t_equipmentmap` (`equipmentmapid`,`equipmentid`,`supplierid`) VALUES ('96269999219408975','ef33683d6e5311e5bc1f002564e7234d','4037d681494b994701494b99aba20003');
+INSERT INTO `t_equipmentmap` (`equipmentmapid`,`equipmentid`,`supplierid`) VALUES ('96269999219408976','ef3735566e5311e5bc1f002564e7234d','4037d681494b994701494b99aba20002');
 
 
 -- -----------------------------------------------
@@ -549,9 +546,10 @@ CREATE TABLE `t_expinstruction` (
 -- ----------------------------
 -- Records of t_expinstructionsmain
 -- ----------------------------
-INSERT INTO t_expinstruction VALUES ('4028c681494b994701494b99bab60000', 'ELISA检测血清TNF-a浓度', '我也不知道', '还是不知道', '', '4037d681494b994701494b99aba50000', '海尔', 'hhd', '24201826039496705', '24201826039496710', '2015-09-16', 1, 1, '', 0, 0);
-INSERT INTO t_expinstruction VALUES ('4028c681494b994701494b99bab61111', 'ELISA检测血清TNF-b浓度', '我也不知道', '还是不知道', '', '4037d681494b994701494b99aba50000', '海尔', 'hhd', '24201826039496705', '24201826039496710', '2015-09-16', 1, 1, '', 0, 20);
-INSERT INTO t_expinstruction VALUES ('4028c681494b994701494b99bab62222', 'ELISA检测血清TNF-c浓度', '我也不知道', '还是不知道', '', '4037d681494b994701494b99aba50000', '海尔', 'hhd', '24201826039496705', '24201826039496710', '2015-09-16', 1, 1, '', 0, 5);
+INSERT INTO t_expinstruction VALUES ('4028c681494b994701494b99bab60000', 'ELISA检测血清TNF-a浓度', '我也不知道', '还是不知道', '', '4037d681494b994701494b99aba50000', '海尔', 'hhd', '24201826039496705', '24201826039496710', '2015-09-16', 1, 1, '|121|海尔|hhd|', 0, 0);
+INSERT INTO t_expinstruction VALUES ('4028c681494b994701494b99bab61111', 'ELISA检测血清TNF-b浓度', '我也不知道', '还是不知道', '', '4037d681494b994701494b99aba50000', '海尔', 'hhd', '24201826039496705', '24201826039496710', '2015-09-16', 1, 1, '|121|海尔|hhd|', 0, 20);
+INSERT INTO t_expinstruction VALUES ('4028c681494b994701494b99bab62222', 'ELISA检测血清TNF-c浓度', '我也不知道', '还是不知道', '', '4037d681494b994701494b99aba50000', '海尔', 'hhd', '24201826039496705', '24201826039496710', '2015-09-16', 1, 1, '|121|海尔|hhd|', 0, 5);
+INSERT INTO t_expinstruction VALUES ('4028c681494b994701494b99bab65555', 'ELISA检测血清TNF-d浓度', '我也不知道', '还是不知道', '', '4037d681494b994701494b99aba50000', '海尔', 'hhd', '24201826039496705', '24201826039496710', '2015-09-16', 1, 0, '|121|海尔|hhd|', 0, 5);
 
 
 -- -----------------------------------------------
@@ -590,23 +588,24 @@ CREATE TABLE `t_expreagent` (
   `createMethod` varchar(1000),
   `reagentspec` varchar(50),
   `useamount` int,
+  `supplierid` varchar(40),
   PRIMARY KEY (`expreagentid`)
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8;
 -- ----------------------------
 -- Records of t_expreagent
 -- ----------------------------
-INSERT INTO `t_expreagent` (`expreagentid`,`expinstructionid`,`reagentid`,`reagentname`,`reagentcommonname`,`createMethod`,`reagentspec`,`useamount`) VALUES ('4028c681494b994701494b99aba50000','4028c681494b994701494b99bab60000','0eb9cf476e4c11e5bc1f002564e7234d','Anti-Ras','Anti-Ras','洗涤液','洗涤液',50);
-INSERT INTO `t_expreagent` (`expreagentid`,`expinstructionid`,`reagentid`,`reagentname`,`reagentcommonname`,`createMethod`,`reagentspec`,`useamount`) VALUES ('4028c681494b994701494b99aba50001','4028c681494b994701494b99bab60000','0d647dee6e4b11e5bc1f002564e7234d','植物激素','植物激素','洗涤液1','洗涤液1',500);
-INSERT INTO `t_expreagent` (`expreagentid`,`expinstructionid`,`reagentid`,`reagentname`,`reagentcommonname`,`createMethod`,`reagentspec`,`useamount`) VALUES ('4028c681494b994701494b99aba50002','4028c681494b994701494b99bab60000','2213288c6e4e11e5bc1f002564e7234d','单克隆抗体','单克隆抗体','单克隆抗体','洗涤液2',60);
-INSERT INTO `t_expreagent` (`expreagentid`,`expinstructionid`,`reagentid`,`reagentname`,`reagentcommonname`,`createMethod`,`reagentspec`,`useamount`) VALUES ('96269999219408977','4028c681494b994701494b99bab60000','2234ae706e4e11e5bc1f002564e7234d','羊抗人胱抑素C','羊抗人胱抑素C','1','1',10);
-INSERT INTO `t_expreagent` (`expreagentid`,`expinstructionid`,`reagentid`,`reagentname`,`reagentcommonname`,`createMethod`,`reagentspec`,`useamount`) VALUES ('96269999219408978','4028c681494b994701494b99bab61111','224636826e4e11e5bc1f002564e7234d','FITC ** anti-Interleukin 7','FITC ** anti-Interleukin 7','1','1',10);
-INSERT INTO `t_expreagent` (`expreagentid`,`expinstructionid`,`reagentid`,`reagentname`,`reagentcommonname`,`createMethod`,`reagentspec`,`useamount`) VALUES ('96269999219408979','4028c681494b994701494b99bab61111','225e70bf6e4e11e5bc1f002564e7234d','Sybr Green I','Sybr Green I','1','1',10);
-INSERT INTO `t_expreagent` (`expreagentid`,`expinstructionid`,`reagentid`,`reagentname`,`reagentcommonname`,`createMethod`,`reagentspec`,`useamount`) VALUES ('96269999219408980','4028c681494b994701494b99bab61111','227052776e4e11e5bc1f002564e7234d','三羟甲基氨基甲烷','三羟甲基氨基甲烷','2','2',20);
-INSERT INTO `t_expreagent` (`expreagentid`,`expinstructionid`,`reagentid`,`reagentname`,`reagentcommonname`,`createMethod`,`reagentspec`,`useamount`) VALUES ('96269999219408981','4028c681494b994701494b99bab61111','0eb9cf476e4c11e5bc1f002564e7234d','Anti-Ras','Anti-Ras','2','2',20);
-INSERT INTO `t_expreagent` (`expreagentid`,`expinstructionid`,`reagentid`,`reagentname`,`reagentcommonname`,`createMethod`,`reagentspec`,`useamount`) VALUES ('96269999219408982','4028c681494b994701494b99bab61111','2219d51f6e4e11e5bc1f002564e7234d','GAPDH抗体','GAPDH抗体','2','2',20);
-INSERT INTO `t_expreagent` (`expreagentid`,`expinstructionid`,`reagentid`,`reagentname`,`reagentcommonname`,`createMethod`,`reagentspec`,`useamount`) VALUES ('96269999219408983','4028c681494b994701494b99bab62222','2230b8706e4e11e5bc1f002564e7234d','抗鼠RANKL','抗鼠RANKL','3','3',30);
-INSERT INTO `t_expreagent` (`expreagentid`,`expinstructionid`,`reagentid`,`reagentname`,`reagentcommonname`,`createMethod`,`reagentspec`,`useamount`) VALUES ('96269999219408984','4028c681494b994701494b99bab62222','224f30656e4e11e5bc1f002564e7234d','GPR85 Over-expression Lysate','GPR85 Over-expression Lysate','3','3',31);
-INSERT INTO `t_expreagent` (`expreagentid`,`expinstructionid`,`reagentid`,`reagentname`,`reagentcommonname`,`createMethod`,`reagentspec`,`useamount`) VALUES ('96269999219408985','4028c681494b994701494b99bab62222','22776fd96e4e11e5bc1f002564e7234d','农药速测卡','农药速测卡','3','3',25);
+INSERT INTO `t_expreagent` (`expreagentid`,`expinstructionid`,`reagentid`,`reagentname`,`reagentcommonname`,`createMethod`,`reagentspec`,`useamount`,`supplierid`) VALUES ('4028c681494b994701494b99aba50000','4028c681494b994701494b99bab60000','0eb9cf476e4c11e5bc1f002564e7234d','Anti-Ras','Anti-Ras','洗涤液','洗涤液',50,'4037d681494b994701494b99aba50002');
+INSERT INTO `t_expreagent` (`expreagentid`,`expinstructionid`,`reagentid`,`reagentname`,`reagentcommonname`,`createMethod`,`reagentspec`,`useamount`,`supplierid`) VALUES ('4028c681494b994701494b99aba50001','4028c681494b994701494b99bab60000','0d647dee6e4b11e5bc1f002564e7234d','植物激素','植物激素','洗涤液1','洗涤液1',500,'4037d681494b994701494b99aba50003');
+INSERT INTO `t_expreagent` (`expreagentid`,`expinstructionid`,`reagentid`,`reagentname`,`reagentcommonname`,`createMethod`,`reagentspec`,`useamount`,`supplierid`) VALUES ('4028c681494b994701494b99aba50002','4028c681494b994701494b99bab60000','2213288c6e4e11e5bc1f002564e7234d','单克隆抗体','单克隆抗体','单克隆抗体','洗涤液2',60,'4037d681494b994701494b99aba50002');
+INSERT INTO `t_expreagent` (`expreagentid`,`expinstructionid`,`reagentid`,`reagentname`,`reagentcommonname`,`createMethod`,`reagentspec`,`useamount`,`supplierid`) VALUES ('96269999219408977','4028c681494b994701494b99bab60000','2234ae706e4e11e5bc1f002564e7234d','羊抗人胱抑素C','羊抗人胱抑素C','1','1',10,'4037d681494b994701494b99aba50004');
+INSERT INTO `t_expreagent` (`expreagentid`,`expinstructionid`,`reagentid`,`reagentname`,`reagentcommonname`,`createMethod`,`reagentspec`,`useamount`,`supplierid`) VALUES ('96269999219408978','4028c681494b994701494b99bab61111','224636826e4e11e5bc1f002564e7234d','FITC ** anti-Interleukin 7','FITC ** anti-Interleukin 7','1','1',10,'4037d681494b994701494b99aba50001');
+INSERT INTO `t_expreagent` (`expreagentid`,`expinstructionid`,`reagentid`,`reagentname`,`reagentcommonname`,`createMethod`,`reagentspec`,`useamount`,`supplierid`) VALUES ('96269999219408979','4028c681494b994701494b99bab61111','225e70bf6e4e11e5bc1f002564e7234d','Sybr Green I','Sybr Green I','1','1',10,'4037d681494b994701494b99aba50002');
+INSERT INTO `t_expreagent` (`expreagentid`,`expinstructionid`,`reagentid`,`reagentname`,`reagentcommonname`,`createMethod`,`reagentspec`,`useamount`,`supplierid`) VALUES ('96269999219408980','4028c681494b994701494b99bab61111','227052776e4e11e5bc1f002564e7234d','三羟甲基氨基甲烷','三羟甲基氨基甲烷','2','2',20,'4037d681494b994701494b99aba50003');
+INSERT INTO `t_expreagent` (`expreagentid`,`expinstructionid`,`reagentid`,`reagentname`,`reagentcommonname`,`createMethod`,`reagentspec`,`useamount`,`supplierid`) VALUES ('96269999219408981','4028c681494b994701494b99bab61111','0eb9cf476e4c11e5bc1f002564e7234d','Anti-Ras','Anti-Ras','2','2',20,'4037d681494b994701494b99aba50002');
+INSERT INTO `t_expreagent` (`expreagentid`,`expinstructionid`,`reagentid`,`reagentname`,`reagentcommonname`,`createMethod`,`reagentspec`,`useamount`,`supplierid`) VALUES ('96269999219408982','4028c681494b994701494b99bab61111','2219d51f6e4e11e5bc1f002564e7234d','GAPDH抗体','GAPDH抗体','2','2',20,'4037d681494b994701494b99aba50001');
+INSERT INTO `t_expreagent` (`expreagentid`,`expinstructionid`,`reagentid`,`reagentname`,`reagentcommonname`,`createMethod`,`reagentspec`,`useamount`,`supplierid`) VALUES ('96269999219408983','4028c681494b994701494b99bab62222','2230b8706e4e11e5bc1f002564e7234d','抗鼠RANKL','抗鼠RANKL','3','3',30,'4037d681494b994701494b99aba50002');
+INSERT INTO `t_expreagent` (`expreagentid`,`expinstructionid`,`reagentid`,`reagentname`,`reagentcommonname`,`createMethod`,`reagentspec`,`useamount`,`supplierid`) VALUES ('96269999219408984','4028c681494b994701494b99bab62222','224f30656e4e11e5bc1f002564e7234d','GPR85 Over-expression Lysate','GPR85 Over-expression Lysate','3','3',31,'4037d681494b994701494b99aba50005');
+INSERT INTO `t_expreagent` (`expreagentid`,`expinstructionid`,`reagentid`,`reagentname`,`reagentcommonname`,`createMethod`,`reagentspec`,`useamount`,`supplierid`) VALUES ('96269999219408985','4028c681494b994701494b99bab62222','22776fd96e4e11e5bc1f002564e7234d','农药速测卡','农药速测卡','3','3',25,'4037d681494b994701494b99aba50002');
 
 
 -- -----------------------------------------------
@@ -621,18 +620,19 @@ CREATE TABLE `t_expconsumable` (
   `consumabletype` varchar(20),
   `consumablecount` int,
   `consumablefactory` varchar(100),
+  `supplierid` varchar(40),
   PRIMARY KEY (`expconsumableid`)
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8;
 -- ----------------------------
 -- Records of t_expconsumable
 -- ----------------------------
-INSERT INTO `labassistant`.`t_expconsumable` (`expconsumableid`, `expinstructionid`, `consumableid`, `consumablename`, `consumabletype`, `consumablecount`, `consumablefactory`) VALUES ('0b211cbf6e5711e5bc1f002564e7234d', '4028c681494b994701494b99bab60000', '578aea5e6e5211e5bc1f002564e7234d', '50ul枪头', '50ul', '10', 'no');
-INSERT INTO `labassistant`.`t_expconsumable` (`expconsumableid`, `expinstructionid`, `consumableid`, `consumablename`, `consumabletype`, `consumablecount`, `consumablefactory`) VALUES ('1249c2f56e5711e5bc1f002564e7234d', '4028c681494b994701494b99bab60000', '57a2d41a6e5211e5bc1f002564e7234d', 'BD细胞培养瓶', '25ml', '5', 'no');
-INSERT INTO `labassistant`.`t_expconsumable` (`expconsumableid`, `expinstructionid`, `consumableid`, `consumablename`, `consumabletype`, `consumablecount`, `consumablefactory`) VALUES ('5e86183f6e5711e5bc1f002564e7234d', '4028c681494b994701494b99bab61111', '579205006e5211e5bc1f002564e7234d', 'watson顶级吸头', '100ml', '20', 'no');
-INSERT INTO `labassistant`.`t_expconsumable` (`expconsumableid`, `expinstructionid`, `consumableid`, `consumablename`, `consumabletype`, `consumablecount`, `consumablefactory`) VALUES ('6294070b6e5711e5bc1f002564e7234d', '4028c681494b994701494b99bab61111', '579ee2d26e5211e5bc1f002564e7234d', 'DropArray 96', '96T', '2', 'no');
-INSERT INTO `labassistant`.`t_expconsumable` (`expconsumableid`, `expinstructionid`, `consumableid`, `consumablename`, `consumabletype`, `consumablecount`, `consumablefactory`) VALUES ('66d48e706e5711e5bc1f002564e7234d', '4028c681494b994701494b99bab62222', '92bf98916e5111e5bc1f002564e7234d', '1000µl微量吸头', '1000ul', '2', 'no');
-INSERT INTO `labassistant`.`t_expconsumable` (`expconsumableid`, `expinstructionid`, `consumableid`, `consumablename`, `consumabletype`, `consumablecount`, `consumablefactory`) VALUES ('6a70172a6e5711e5bc1f002564e7234d', '4028c681494b994701494b99bab62222', '57a7833a6e5211e5bc1f002564e7234d', '细胞培养转瓶', '2000ml', '2', 'no');
-INSERT INTO `labassistant`.`t_expconsumable` (`expconsumableid` ,`expinstructionid`, `consumableid`, `consumablename`, `consumabletype`, `consumablecount`, `consumablefactory`) VALUES ('4028c791494b994701494b99aba50000','4028c681494b994701494b99bab60000','92bf98916e5111e5bc1f002564e7234d','1000µl微量吸头', '96T', 2, '不知道');
+INSERT INTO `t_expconsumable` (`expconsumableid`,`expinstructionid`,`consumableid`,`consumablename`,`consumabletype`,`consumablecount`,`consumablefactory`,`supplierid`) VALUES ('0b211cbf6e5711e5bc1f002564e7234d','4028c681494b994701494b99bab60000','578aea5e6e5211e5bc1f002564e7234d','50ul枪头','50ul',10,'no','4037d681494b994701494b99aba10003');
+INSERT INTO `t_expconsumable` (`expconsumableid`,`expinstructionid`,`consumableid`,`consumablename`,`consumabletype`,`consumablecount`,`consumablefactory`,`supplierid`) VALUES ('1249c2f56e5711e5bc1f002564e7234d','4028c681494b994701494b99bab60000','57a2d41a6e5211e5bc1f002564e7234d','BD细胞培养瓶','25ml',5,'no','4037d681494b994701494b99aba10005');
+INSERT INTO `t_expconsumable` (`expconsumableid`,`expinstructionid`,`consumableid`,`consumablename`,`consumabletype`,`consumablecount`,`consumablefactory`,`supplierid`) VALUES ('4028c791494b994701494b99aba50000','4028c681494b994701494b99bab60000','92bf98916e5111e5bc1f002564e7234d','1000µl微量吸头','96T',2,'不知道','4037d681494b994701494b99aba10002');
+INSERT INTO `t_expconsumable` (`expconsumableid`,`expinstructionid`,`consumableid`,`consumablename`,`consumabletype`,`consumablecount`,`consumablefactory`,`supplierid`) VALUES ('5e86183f6e5711e5bc1f002564e7234d','4028c681494b994701494b99bab61111','579205006e5211e5bc1f002564e7234d','watson顶级吸头','100ml',20,'no','4037d681494b994701494b99aba10003');
+INSERT INTO `t_expconsumable` (`expconsumableid`,`expinstructionid`,`consumableid`,`consumablename`,`consumabletype`,`consumablecount`,`consumablefactory`,`supplierid`) VALUES ('6294070b6e5711e5bc1f002564e7234d','4028c681494b994701494b99bab61111','579ee2d26e5211e5bc1f002564e7234d','DropArray 96','96T',2,'no','4037d681494b994701494b99aba10005');
+INSERT INTO `t_expconsumable` (`expconsumableid`,`expinstructionid`,`consumableid`,`consumablename`,`consumabletype`,`consumablecount`,`consumablefactory`,`supplierid`) VALUES ('66d48e706e5711e5bc1f002564e7234d','4028c681494b994701494b99bab62222','92bf98916e5111e5bc1f002564e7234d','1000µl微量吸头','1000ul',2,'no','4037d681494b994701494b99aba10002');
+INSERT INTO `t_expconsumable` (`expconsumableid`,`expinstructionid`,`consumableid`,`consumablename`,`consumabletype`,`consumablecount`,`consumablefactory`,`supplierid`) VALUES ('6a70172a6e5711e5bc1f002564e7234d','4028c681494b994701494b99bab62222','57a7833a6e5211e5bc1f002564e7234d','细胞培养转瓶','2000ml',2,'no','4037d681494b994701494b99aba10003');
 
 
 -- -----------------------------------------------
@@ -645,18 +645,19 @@ CREATE TABLE `t_expequipment` (
   `equipmentid` varchar(40),
   `equipmentname` varchar(100),
   `equipmentfactory` varchar(100),
+  `supplierid` varchar(40),
   PRIMARY KEY (`expequipmentid`)
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8;
 -- ----------------------------
 -- Records of t_expequipment
 -- ----------------------------
-INSERT INTO `t_expequipment` (`expequipmentid`,`expinstructionid`,`equipmentid`,`equipmentname`,`equipmentfactory`) VALUES ('1d56f8ce6e5811e5bc1f002564e7234d','4028c681494b994701494b99bab62222','ef33683d6e5311e5bc1f002564e7234d','三目体式显微镜','no');
-INSERT INTO `t_expequipment` (`expequipmentid`,`expinstructionid`,`equipmentid`,`equipmentname`,`equipmentfactory`) VALUES ('208d40ea6e5811e5bc1f002564e7234d','4028c681494b994701494b99bab62222','ef3735566e5311e5bc1f002564e7234d','小型玻片离心机','no');
-INSERT INTO `t_expequipment` (`expequipmentid`,`expinstructionid`,`equipmentid`,`equipmentname`,`equipmentfactory`) VALUES ('4028c791564b994701494b99aba50000','4028c681494b994701494b99bab60000','ef1ec2556e5311e5bc1f002564e7234d','漩涡混合器','海尔');
-INSERT INTO `t_expequipment` (`expequipmentid`,`expinstructionid`,`equipmentid`,`equipmentname`,`equipmentfactory`) VALUES ('4028c791564b994701494b99aba50001','4028c681494b994701494b99bab60000','ef257ac26e5311e5bc1f002564e7234d','推拉模式注射泵','上海一恒');
-INSERT INTO `t_expequipment` (`expequipmentid`,`expinstructionid`,`equipmentid`,`equipmentname`,`equipmentfactory`) VALUES ('4028c791564b994701494b99aba50002','4028c681494b994701494b99bab60000','ef2f778f6e5311e5bc1f002564e7234d','进口冻干机用真空泵','Tecan 200');
-INSERT INTO `t_expequipment` (`expequipmentid`,`expinstructionid`,`equipmentid`,`equipmentname`,`equipmentfactory`) VALUES ('f9d436f66e5711e5bc1f002564e7234d','4028c681494b994701494b99bab61111','ef2903d66e5311e5bc1f002564e7234d','AH2010新型药剂型高压均质机','no');
-INSERT INTO `t_expequipment` (`expequipmentid`,`expinstructionid`,`equipmentid`,`equipmentname`,`equipmentfactory`) VALUES ('fd6ce4226e5711e5bc1f002564e7234d','4028c681494b994701494b99bab61111','ef3735566e5311e5bc1f002564e7234d','小型玻片离心机','no');
+INSERT INTO `t_expequipment` (`expequipmentid`,`expinstructionid`,`equipmentid`,`equipmentname`,`equipmentfactory`,`supplierid`) VALUES ('1d56f8ce6e5811e5bc1f002564e7234d','4028c681494b994701494b99bab62222','ef33683d6e5311e5bc1f002564e7234d','三目体式显微镜','no',NULL);
+INSERT INTO `t_expequipment` (`expequipmentid`,`expinstructionid`,`equipmentid`,`equipmentname`,`equipmentfactory`,`supplierid`) VALUES ('208d40ea6e5811e5bc1f002564e7234d','4028c681494b994701494b99bab62222','ef3735566e5311e5bc1f002564e7234d','小型玻片离心机','no',NULL);
+INSERT INTO `t_expequipment` (`expequipmentid`,`expinstructionid`,`equipmentid`,`equipmentname`,`equipmentfactory`,`supplierid`) VALUES ('4028c791564b994701494b99aba50000','4028c681494b994701494b99bab60000','ef1ec2556e5311e5bc1f002564e7234d','漩涡混合器','海尔',NULL);
+INSERT INTO `t_expequipment` (`expequipmentid`,`expinstructionid`,`equipmentid`,`equipmentname`,`equipmentfactory`,`supplierid`) VALUES ('4028c791564b994701494b99aba50001','4028c681494b994701494b99bab60000','ef257ac26e5311e5bc1f002564e7234d','推拉模式注射泵','上海一恒',NULL);
+INSERT INTO `t_expequipment` (`expequipmentid`,`expinstructionid`,`equipmentid`,`equipmentname`,`equipmentfactory`,`supplierid`) VALUES ('4028c791564b994701494b99aba50002','4028c681494b994701494b99bab60000','ef2f778f6e5311e5bc1f002564e7234d','进口冻干机用真空泵','Tecan 200',NULL);
+INSERT INTO `t_expequipment` (`expequipmentid`,`expinstructionid`,`equipmentid`,`equipmentname`,`equipmentfactory`,`supplierid`) VALUES ('f9d436f66e5711e5bc1f002564e7234d','4028c681494b994701494b99bab61111','ef2903d66e5311e5bc1f002564e7234d','AH2010新型药剂型高压均质机','no',NULL);
+INSERT INTO `t_expequipment` (`expequipmentid`,`expinstructionid`,`equipmentid`,`equipmentname`,`equipmentfactory`,`supplierid`) VALUES ('fd6ce4226e5711e5bc1f002564e7234d','4028c681494b994701494b99bab61111','ef3735566e5311e5bc1f002564e7234d','小型玻片离心机','no',NULL);
 
 
 -- -----------------------------------------------
@@ -722,9 +723,9 @@ CREATE TABLE `t_myexp` (
 -- ----------------------------
 -- Records of t_myexp
 -- ----------------------------
-INSERT INTO t_myexp VALUES ('4039c681494b994701494b99aba51236', '4028c681494b994701494b99bab60000','4028c681494b994701494b99aba50000', '2015-09-16', 2015, 09, '2015-09-16', 1, 0, 0, 0, '', '', '', 0, '');
-INSERT INTO t_myexp VALUES ('4039c681494b994701494b99aba51237', '4028c681494b994701494b99bab61111','4028c681494b994701494b99aba50000', '2015-09-16', 2015, 09, '2015-09-16', 1, 0, 0, 0, '', '', '', 2, '');
-INSERT INTO t_myexp VALUES ('4039c681494b994701494b99aba51238', '4028c681494b994701494b99bab62222','4028c681494b994701494b99aba50000', '2015-09-16', 2015, 09, '2015-09-16', 1, 0, 0, 0, '', '', '', 2, '');
+-- INSERT INTO t_myexp VALUES ('4039c681494b994701494b99aba51236', '4028c681494b994701494b99bab60000','4028c681494b994701494b99aba50000', '2015-09-16', 2015, 09, '2015-09-16', 1, 0, 0, 0, '', '', '', 0, '');
+-- INSERT INTO t_myexp VALUES ('4039c681494b994701494b99aba51237', '4028c681494b994701494b99bab61111','4028c681494b994701494b99aba50000', '2015-09-16', 2015, 09, '2015-09-16', 1, 0, 0, 0, '', '', '', 2, '');
+-- INSERT INTO t_myexp VALUES ('4039c681494b994701494b99aba51238', '4028c681494b994701494b99bab62222','4028c681494b994701494b99aba50000', '2015-09-16', 2015, 09, '2015-09-16', 1, 0, 0, 0, '', '', '', 2, '');
 
 
 -- -----------------------------------------------
@@ -746,8 +747,8 @@ CREATE TABLE `t_myexpprocess` (
 -- ----------------------------
 -- Records of t_myexpprocess
 -- ----------------------------
-INSERT INTO t_myexpprocess VALUES ('4039c681494b994701494b99aba50000', '4039c681494b994701494b99aba51236', '4028c681494b994701494b99bab60000', '4028c681494b994701494b00bab60000', 0, '', 5, 1, '');
-INSERT INTO t_myexpprocess VALUES ('4039c681494b994701494b99aba50010', '4039c681494b994701494b99aba51237', '4028c681494b994701494b99bab61111', '4028c681494b994701494b00bab60123', 0, '', 5, 1, '');
+-- INSERT INTO t_myexpprocess VALUES ('4039c681494b994701494b99aba50000', '4039c681494b994701494b99aba51236', '4028c681494b994701494b99bab60000', '4028c681494b994701494b00bab60000', 0, '', 5, 1, '');
+-- INSERT INTO t_myexpprocess VALUES ('4039c681494b994701494b99aba50010', '4039c681494b994701494b99aba51237', '4028c681494b994701494b99bab61111', '4028c681494b994701494b00bab60123', 0, '', 5, 1, '');
 
 
 -- -----------------------------------------------
@@ -765,8 +766,8 @@ CREATE TABLE `t_myexpreagent` (
 -- ----------------------------
 -- Records of t_myexpreagent
 -- ----------------------------
-INSERT INTO t_myexpreagent VALUES ('5039c681494b994701494b99aba50000', '4039c681494b994701494b99aba51236', '4028c681494b994701494b99bab60000', '111', '4037d681494b994701494b99aba50000');
-INSERT INTO t_myexpreagent VALUES ('5039c681494b994701494b99aba50010', '4039c681494b994701494b99aba51237', '4028c681494b994701494b99bab61111', '112', '4037d681494b994701494b99aba50000');
+-- INSERT INTO t_myexpreagent VALUES ('5039c681494b994701494b99aba50000', '4039c681494b994701494b99aba51236', '4028c681494b994701494b99bab60000', '111', '4037d681494b994701494b99aba50000');
+-- INSERT INTO t_myexpreagent VALUES ('5039c681494b994701494b99aba50010', '4039c681494b994701494b99aba51237', '4028c681494b994701494b99bab61111', '112', '4037d681494b994701494b99aba50000');
 
 
 -- -----------------------------------------------
@@ -784,8 +785,8 @@ CREATE TABLE `t_myexpconsumable` (
 -- ----------------------------
 -- Records of t_myexpconsumable
 -- ----------------------------
-INSERT INTO t_myexpconsumable VALUES ('6039c681494b994701494b99aba50000', '4039c681494b994701494b99aba51236', '4028c681494b994701494b99bab60000', '4028c791494b994701494b99aba50000', '4037d681494b994701494b99aba50000');
-INSERT INTO t_myexpconsumable VALUES ('6039c681494b994701494b99aba50010', '4039c681494b994701494b99aba51237', '4028c681494b994701494b99bab61111', '4028c791494b994701494b99aba50000', '4037d681494b994701494b99aba50000');
+-- INSERT INTO t_myexpconsumable VALUES ('6039c681494b994701494b99aba50000', '4039c681494b994701494b99aba51236', '4028c681494b994701494b99bab60000', '4028c791494b994701494b99aba50000', '4037d681494b994701494b99aba50000');
+-- INSERT INTO t_myexpconsumable VALUES ('6039c681494b994701494b99aba50010', '4039c681494b994701494b99aba51237', '4028c681494b994701494b99bab61111', '4028c791494b994701494b99aba50000', '4037d681494b994701494b99aba50000');
 
 
 -- -----------------------------------------------
@@ -803,8 +804,8 @@ CREATE TABLE `t_myexpequipment` (
 -- ----------------------------
 -- Records of t_myexpequipment
 -- ----------------------------
-INSERT INTO t_myexpequipment VALUES ('7039c681494b994701494b99aba50000', '4039c681494b994701494b99aba51236', '4028c681494b994701494b99bab60000', '4028c791564b994701494b99aba50000', '4037d681494b994701494b99aba50000');
-INSERT INTO t_myexpequipment VALUES ('7039c681494b994701494b99aba50010', '4039c681494b994701494b99aba51237', '4028c681494b994701494b99bab61111', '4028c791564b994701494b99aba50000', '4037d681494b994701494b99aba50000');
+-- INSERT INTO t_myexpequipment VALUES ('7039c681494b994701494b99aba50000', '4039c681494b994701494b99aba51236', '4028c681494b994701494b99bab60000', '4028c791564b994701494b99aba50000', '4037d681494b994701494b99aba50000');
+-- INSERT INTO t_myexpequipment VALUES ('7039c681494b994701494b99aba50010', '4039c681494b994701494b99aba51237', '4028c681494b994701494b99bab61111', '4028c791564b994701494b99aba50000', '4037d681494b994701494b99aba50000');
 
 
 -- -----------------------------------------------

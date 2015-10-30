@@ -1,6 +1,7 @@
 package com.labassistant.service;
 
 import java.io.IOException;
+import java.util.ArrayList;
 import java.util.List;
 
 import org.apache.commons.lang3.StringUtils;
@@ -9,8 +10,8 @@ import org.springframework.stereotype.Service;
 
 import com.itextpdf.text.DocumentException;
 import com.itextpdf.text.Paragraph;
-import com.labassistant.beans.ExpInstructionsMainEntity;
-import com.labassistant.beans.MyExpMainEntity;
+import com.labassistant.beans.ExpInstructionEntity;
+import com.labassistant.beans.MyExpEntity;
 import com.labassistant.beans.MyExpProcessAttchEntity;
 import com.labassistant.beans.MyExpProcessEntity;
 import com.labassistant.constants.AppConfig;
@@ -55,9 +56,9 @@ public class ToPDFServiceImpl implements ToPDFService {
 		String experimentDesc = "";
 		String experimentTheory = "";
 		// 获取说明书名/技术简介/实验原理
-		MyExpMainEntity myExp = myExpMainService.getByExpID(myExpID);
+		MyExpEntity myExp = myExpMainService.getByExpID(myExpID);
 		if(myExp != null){
-			ExpInstructionsMainEntity expInstruction = expInstructionsMainService.get(myExp.getExpInstructionID());
+			ExpInstructionEntity expInstruction = expInstructionsMainService.get(myExp.getExpInstructionID());
 			if(expInstruction != null){
 				experimentName = expInstruction.getExperimentName();
 				experimentDesc = expInstruction.getExperimentDesc();
@@ -160,12 +161,14 @@ public class ToPDFServiceImpl implements ToPDFService {
 				pdf.add(pMemo);
 			}
 			
-			if(stepAttches != null){
+			if(stepAttches != null && stepAttches.size() > 0){
+				List<String> imgUrls = new ArrayList<String>();
 				for(MyExpProcessAttchEntity stepAttch : stepAttches){
 					String imgUrl = AppConfig.DOMAIN_PAGE + "/" + stepAttch.getAttchmentServerPath();
 					imgUrl = FileUtil.toURLPath(imgUrl);
-					pdf.add(pdf.image(imgUrl));
+					imgUrls.add(imgUrl);
 				}
+				pdf.add(pdf.imageBlock(imgUrls));
 			}
 		}
 	}

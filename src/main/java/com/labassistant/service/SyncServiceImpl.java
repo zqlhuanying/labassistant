@@ -1,13 +1,18 @@
 package com.labassistant.service;
 
+import java.beans.BeanInfo;
+import java.beans.IntrospectionException;
 import java.io.ByteArrayInputStream;
 import java.io.IOException;
 import java.io.InputStream;
 import java.io.Serializable;
 import java.util.ArrayList;
+import java.util.Date;
 import java.util.HashMap;
+import java.util.Iterator;
 import java.util.List;
 import java.util.Map;
+import java.util.Map.Entry;
 
 import javax.servlet.http.HttpServletRequest;
 
@@ -17,10 +22,11 @@ import org.springframework.stereotype.Service;
 
 import sun.misc.BASE64Decoder;
 
+import com.labassistant.annotation.MyAnnotation;
 import com.labassistant.beans.MyExpInstructionEntity;
-import com.labassistant.beans.MyExpMainEntity;
-import com.labassistant.constants.LabConstant;
+import com.labassistant.beans.MyExpEntity;
 import com.labassistant.dao.service.BaseAbstractService;
+import com.labassistant.exception.MyRuntimeException;
 import com.labassistant.service.common.ConsumableMapService;
 import com.labassistant.service.common.ConsumableService;
 import com.labassistant.service.common.EquipmentMapService;
@@ -37,6 +43,8 @@ import com.labassistant.service.myexp.MyExpPlanService;
 import com.labassistant.service.myexp.MyExpProcessAttchService;
 import com.labassistant.service.myexp.MyExpProcessService;
 import com.labassistant.service.myexp.MyExpReagentService;
+import com.labassistant.utils.BeanUtil;
+import com.labassistant.utils.JSONUtil;
 import com.labassistant.utils.Uploader;
 
 /**
@@ -83,14 +91,70 @@ public class SyncServiceImpl extends BaseAbstractService implements SyncService 
 	private MyExpPlanService myExpPlanService;
 	
 	@Override
-	public void pushMyExp(HttpServletRequest request, Map<String, Object> map, String tableName){
-		Map<String, Object> tmp = map;
+	public void pushMyExp(HttpServletRequest request, String json){		
+		Map<String, Object> requestMap = JSONUtil.json2Map(json);
+		//requestMap = (Map)requestMap.get("data");
+		
+		// requestMap 中的Value有可能是数组，即Object有可能是数组
+		Iterator<Map.Entry<String, Object>> iterator = requestMap.entrySet().iterator();
+		while(iterator.hasNext()){
+			Map.Entry<String, Object> entry = iterator.next();
+			String tableName = getTableName(entry.getKey());
+			if(entry.getValue().getClass() == ArrayList.class){
+				for(Map<String, Object> innerMap : (ArrayList<Map<String, Object>>)entry.getValue()){
+					// TODO request最好不要传递，最好能在上下文中获得
+					pushMyExp(request, innerMap, tableName);
+				}
+			} else {
+				pushMyExp(request, (Map<String, Object>)entry.getValue(), tableName);
+			}
+		}
+	}
+	
+	@Override
+	public void pushExpInstruction(HttpServletRequest request, String json){		
+		Map<String, Object> requestMap = JSONUtil.json2Map(json);
+		//requestMap = (Map)requestMap.get("data");
+		
+		// requestMap 中的Value有可能是数组，即Object有可能是数组
+		Iterator<Map.Entry<String, Object>> iterator = requestMap.entrySet().iterator();
+		while(iterator.hasNext()){
+			Map.Entry<String, Object> entry = iterator.next();
+			String tableName = getTableName(entry.getKey());
+			if(entry.getValue().getClass() == ArrayList.class){
+				for(Map<String, Object> innerMap : (ArrayList<Map<String, Object>>)entry.getValue()){
+					pushExpInstruction(innerMap, tableName);
+				}
+			} else {
+				pushExpInstruction((Map<String, Object>)entry.getValue(), tableName);
+			}
+		}
+	}
+	
+	/**
+	 * 同步数据
+	 * @param map
+	 * @param tableName
+	 */
+	private void sync(Map<String, Object> map, String tableName){		
+		String sql = createSql(map, tableName);
+		saveOrUpdateBySql(sql);
+	}
+	
+	private void pushMyExp(HttpServletRequest request, Map<String, Object> map, String tableName){	
+		checkNonAvailable(map, getBeanName(tableName));
+		checkNameOnlyInServer(map, getBeanName(tableName));
 		// 将我的实验步骤附件表(MyExpProcessAttch)单独对待，因涉及到图片上传
 		if("t_myExpProcessAttch".equals(tableName)){
-			tmp = processAttch(request,map);
+			processAttch(request, map);
 		}
-		String sql = createSql(tmp, tableName);
-		saveOrUpdateBySql(sql);
+		sync(map, tableName);
+	}
+	
+	private void pushExpInstruction(Map<String, Object> map, String tableName){	
+		checkNonAvailable(map, getBeanName(tableName));
+		checkNameOnlyInServer(map, getBeanName(tableName));
+		sync(map, tableName);
 	}
 	
 	/**
@@ -137,9 +201,9 @@ public class SyncServiceImpl extends BaseAbstractService implements SyncService 
 	private Map<String, Object> pullMyExp(String userID){
 		Map<String, Object> map = new HashMap<String, Object>();
 		List<Object> objects = new ArrayList<Object>();
-		List<MyExpMainEntity> myExps= myExpMainService.getByUserID(userID);
+		List<MyExpEntity> myExps= myExpMainService.getByUserID(userID);
 		if(myExps != null){
-			for(MyExpMainEntity myExp : myExps){
+			for(MyExpEntity myExp : myExps){
 				Map<String, Object> innerMap = new HashMap<String, Object>();
 				// 我的实验
 				innerMap.put("myExp", myExp);
@@ -174,6 +238,15 @@ public class SyncServiceImpl extends BaseAbstractService implements SyncService 
 	}
 	
 	/**
+	 * 根据getTableName函数所获得的表名，逆向得到key
+	 * @param tableName
+	 * @return
+	 */
+	private String getBeanName(String tableName){
+		return tableName.substring(2);
+	}
+	
+	/**
 	 * 根据表名获取对应的主键
 	 * 表名和主键的命名有一定的要求
 	 * @param tableName
@@ -184,37 +257,111 @@ public class SyncServiceImpl extends BaseAbstractService implements SyncService 
 		return str + "ID";
 	}
 	
-	// 处理我的实验步骤附件表
-	private Map<String, Object> processAttch(HttpServletRequest request, Map<String, Object> map){
-		InputStream inputStream = null;
-		try{
-			byte[] img = new BASE64Decoder().decodeBuffer((String)map.get("imgStream"));
-			inputStream = new ByteArrayInputStream(img);
-		} catch (IOException e) {
-			System.out.println("处理图片二进制流失败");
-			e.printStackTrace();
-		}
-		Uploader upload = new Uploader(request);
-		upload.setSavePath("upload/images");
-		String imgName = (String)map.get("attchmentName");
-		if(StringUtils.isNotBlank(imgName)){
-			imgName = "1.jpg";
-		}
-		upload.setOriginalName(imgName);
-		upload.setInputStream(inputStream);
+	/**
+	 * 过滤map中不属于beanName所代表的实体类的key
+	 * @param map
+	 * @throws IntrospectionException 
+	 * @throws MyRuntimeException 
+	 */
+	private void checkNonAvailable(Map<String, Object> map, String beanName){
+		List<String> fields = new ArrayList<String>();
 		try {
-			upload.upload();
-		} catch (Exception e) {
-			System.out.println("上传图片失败");
+			fields = BeanUtil.getFieldsName(BeanUtil.getBeanInfo(beanName));
+		} catch (MyRuntimeException e) {
+			e.printStackTrace();
+		} catch (IntrospectionException e) {
 			e.printStackTrace();
 		}
 		
-		// 更新map
-		map.put("attchmentName", upload.getFileName());
-		map.put("attchmentServerPath", upload.getUrl());
-		map.put("isUpload", 1);
-		map.remove("imgStream");
-		return map;
+		// Map.Entry 不允许这样删除
+		/*for(Map.Entry<String, Object> entry : map.entrySet()){
+			if(!in(entry.getKey(), fields)){
+				map.remove(entry.getKey());
+			}
+		}*/
+		
+		Iterator<Entry<String, Object>> iterator = map.entrySet().iterator();
+		while(iterator.hasNext()){
+			Entry<String, Object> entry = iterator.next();
+			if(!in(entry.getKey(), fields)){
+				iterator.remove();
+			}
+		}
+	}
+	
+	/**
+	 * 过滤map中只允许在服务器端修改的参数
+	 * @param map
+	 * @param beanName
+	 */
+	private void checkNameOnlyInServer(Map<String, Object> map, String beanName){
+		List<String> fields = new ArrayList<String>();
+		try {
+			fields = BeanUtil.getFieldsName(BeanUtil.getBeanInfo(beanName));
+		} catch (MyRuntimeException e) {
+			e.printStackTrace();
+		} catch (IntrospectionException e) {
+			e.printStackTrace();
+		}
+		
+		// Map.Entry 不允许这样删除
+		/*for(Map.Entry<String, Object> entry : map.entrySet()){
+			if(!in(entry.getKey(), fields)){
+				map.remove(entry.getKey());
+			}
+		}*/
+		
+		Iterator<Entry<String, Object>> iterator = map.entrySet().iterator();
+		while(iterator.hasNext()){
+			Entry<String, Object> entry = iterator.next();
+			if(BeanUtil.hasTheAnnotation(beanName, entry.getKey(), MyAnnotation.class)){
+				iterator.remove();
+			}
+		}
+	}
+	
+	private Boolean in(String key, List<String> list){
+		for(String str : list){
+			if(str.equals(key)){
+				return true;
+			}
+		}
+		return false;
+	}
+	
+	// 处理我的实验步骤附件表
+	private void processAttch(HttpServletRequest request, Map<String, Object> map){
+		InputStream inputStream = null;
+		String imgString = (String)map.get("imgStream");
+		if(StringUtils.isNotBlank(imgString)){
+			try{
+				byte[] img = new BASE64Decoder().decodeBuffer(imgString);
+				inputStream = new ByteArrayInputStream(img);
+			} catch (IOException e) {
+				System.out.println("处理图片二进制流失败");
+				e.printStackTrace();
+			}
+			Uploader upload = new Uploader(request);
+			upload.setSavePath("upload/images");
+			String imgName = (String)map.get("attchmentName");
+			if(StringUtils.isBlank(imgName)){
+				imgName = "1.jpg";
+			}
+			upload.setOriginalName(imgName);
+			upload.setInputStream(inputStream);
+			try {
+				upload.upload();
+			} catch (Exception e) {
+				System.out.println("上传图片失败");
+				e.printStackTrace();
+			}
+			
+			// 更新map
+			map.put("attchmentName", upload.getFileName());
+			map.put("attchmentServerPath", upload.getUrl());
+			map.put("isUpload", 1);
+			map.remove("imgStream");
+		}
 	}
 	
 	/**
@@ -248,7 +395,7 @@ public class SyncServiceImpl extends BaseAbstractService implements SyncService 
 			Object value = entry.getValue();
 			
 			// 在mysql中date或datetime类型不能插入空字符串，所以将空字符串转换成null
-			if(isDateClassAndBlank(entry.getKey(), entry.getValue())){
+			if(isDateClassAndBlank(entry.getKey(), entry.getValue(), tableName)){
 				value = null;
 			}
 			
@@ -277,7 +424,7 @@ public class SyncServiceImpl extends BaseAbstractService implements SyncService 
 			if(!id.equals(entry.getKey())){
 				Object value = entry.getValue();
 				// 在mysql中date或datetime类型不能插入空字符串，所以将空字符串转换成null
-				if(isDateClassAndBlank(entry.getKey(), entry.getValue())){
+				if(isDateClassAndBlank(entry.getKey(), entry.getValue(), tableName)){
 					value = null;
 				}
 				sb.append(entry.getKey());
@@ -297,13 +444,20 @@ public class SyncServiceImpl extends BaseAbstractService implements SyncService 
 	}
 	
 	// 判断是否是Date类型并且为空字符串
-	// 暂时根据字段名进行判断
-	// TODO 
-	private Boolean isDateClassAndBlank(String key, Object value){
+	private Boolean isDateClassAndBlank(String key, Object value, String tableName){
+		BeanInfo beanInfo = null;
+		try {
+			beanInfo = BeanUtil.getBeanInfo(getBeanName(tableName));
+		} catch (MyRuntimeException e) {
+			System.out.println("获取JavaBean信息出错");
+			e.printStackTrace();
+		} catch (IntrospectionException e) {
+			System.out.println("获取JavaBean信息出错");
+			e.printStackTrace();
+		}
+		
 		if(value == ""){
-			if(LabConstant.MYEXP_CREATETIME.equals(key) ||
-					LabConstant.MYEXP_FINISHTIME.equals(key) ||
-					LabConstant.MYEXPPLAN_PLANDATE.equals(key)){
+			if(BeanUtil.getFieldClass(beanInfo, key) == Date.class){
 				return true;
 			}
 		}

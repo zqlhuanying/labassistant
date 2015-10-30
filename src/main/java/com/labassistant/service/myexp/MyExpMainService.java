@@ -2,7 +2,7 @@ package com.labassistant.service.myexp;
 
 import java.util.List;
 
-import com.labassistant.beans.MyExpMainEntity;
+import com.labassistant.beans.MyExpEntity;
 import com.labassistant.dao.service.IBaseAbstractService;
 
 /**
@@ -10,13 +10,13 @@ import com.labassistant.dao.service.IBaseAbstractService;
  * @author zql
  * @date 2015/09/16
  */
-public interface MyExpMainService extends IBaseAbstractService<MyExpMainEntity> {
+public interface MyExpMainService extends IBaseAbstractService<MyExpEntity> {
 
-	public MyExpMainEntity getByExpID(String myExpID);
+	public MyExpEntity getByExpID(String myExpID);
 	
-	public List<MyExpMainEntity> getByUserID(String userID);
+	public List<MyExpEntity> getByUserID(String userID);
 	
-	public List<MyExpMainEntity> getComplete(String userID);
+	public List<MyExpEntity> getComplete(String userID);
 	
-	public List<MyExpMainEntity> getDoing(String userID);
+	public List<MyExpEntity> getDoing(String userID);
 }

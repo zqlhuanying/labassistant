@@ -16,7 +16,6 @@ import org.hibernate.annotations.GenericGenerator;
  * EquipmentMapID			试剂供应商关联ID
  * EquipmentID				设备ID
  * SupplierID				供应商ID
- * IsSuggestion				是否建议供应商
  */
 @Table(name = "t_equipmentmap")
 @Entity
@@ -27,7 +26,6 @@ public class EquipmentMapEntity extends ToStringBase {
 	private String equipmentMapID;
 	private String equipmentID;
 	private String supplierID;
-	private int isSuggestion;
 	
 	@Id
 	@GeneratedValue(generator="system-uuid")
@@ -50,11 +48,5 @@ public class EquipmentMapEntity extends ToStringBase {
 	}
 	public void setSupplierID(String supplierID) {
 		this.supplierID = supplierID;
-	}
-	public int getIsSuggestion() {
-		return isSuggestion;
-	}
-	public void setIsSuggestion(int isSuggestion) {
-		this.isSuggestion = isSuggestion;
 	}
 }

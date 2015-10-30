@@ -18,7 +18,7 @@ import org.hibernate.annotations.GenericGenerator;
  * EquipmentID				设备ID
  * EquipmentName			设备名称
  * EquipmentFactory			设备厂商
- * 
+ * SupplierID				供应商ID
  */
 @Table(name = "t_expequipment")
 @Entity
@@ -31,6 +31,7 @@ public class ExpEquipmentEntity extends ToStringBase {
 	private String equipmentID;
 	private String equipmentName;
 	private String equipmentFactory;
+	private String supplierID;
 	
 	@Id
 	@GeneratedValue(generator="system-uuid")
@@ -76,4 +77,11 @@ public class ExpEquipmentEntity extends ToStringBase {
 		this.equipmentFactory = equipmentFactory;
 	}
 	
+	public String getSupplierID() {
+		return supplierID;
+	}
+
+	public void setSupplierID(String supplierID) {
+		this.supplierID = supplierID;
+	}
 }

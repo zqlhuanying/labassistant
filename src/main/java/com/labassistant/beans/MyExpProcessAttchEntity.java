@@ -5,8 +5,11 @@ import javax.persistence.Entity;
 import javax.persistence.GeneratedValue;
 import javax.persistence.Id;
 import javax.persistence.Table;
+import javax.persistence.Transient;
 
 import org.hibernate.annotations.GenericGenerator;
+
+import com.labassistant.annotation.MyAnnotation;
 
 /**
  * 我的实验步骤附件表
@@ -21,7 +24,7 @@ import org.hibernate.annotations.GenericGenerator;
  * AttchmentLocation			附件本地存放路径
  * AttchmentServerPath			附件服务器存放路径
  * IsUpload						是否已经上传
- * 
+ * imgStream					图片二进制流，经过BASE64编码后的字符串
  */
 @Table(name = "t_myexpprocessattch")
 @Entity
@@ -35,8 +38,11 @@ public class MyExpProcessAttchEntity extends ToStringBase {
 	private String expStepID;
 	private String attchmentName;
 	private String attchmentLocation;
+	@MyAnnotation
 	private String attchmentServerPath;
-	private int isUpload;
+	@MyAnnotation
+	private Integer isUpload;
+	private String imgStream;
 	
 	@Id
 	@GeneratedValue(generator="system-uuid")
@@ -84,10 +90,14 @@ public class MyExpProcessAttchEntity extends ToStringBase {
 	public void setAttchmentServerPath(String attchmentServerPath) {
 		this.attchmentServerPath = attchmentServerPath;
 	}
-	public int getIsUpload() {
+	public Integer getIsUpload() {
 		return isUpload;
 	}
-	public void setIsUpload(int isUpload) {
+	public void setIsUpload(Integer isUpload) {
 		this.isUpload = isUpload;
+	}
+	@Transient
+	public String getImgStream() {
+		return imgStream;
 	}
 }

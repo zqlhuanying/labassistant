@@ -1,5 +1,7 @@
 package com.labassistant.service.common;
 
+import java.util.List;
+
 import com.labassistant.beans.ConsumableMapEntity;
 import com.labassistant.dao.service.IBaseAbstractService;
 
@@ -11,4 +13,5 @@ import com.labassistant.dao.service.IBaseAbstractService;
 public interface ConsumableMapService extends
 		IBaseAbstractService<ConsumableMapEntity> {
 
+	public List<ConsumableMapEntity> getListByConsumableID(String consumableID);
 }

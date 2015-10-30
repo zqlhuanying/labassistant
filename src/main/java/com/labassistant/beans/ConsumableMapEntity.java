@@ -16,7 +16,6 @@ import org.hibernate.annotations.GenericGenerator;
  * ConsumableMapID		耗材供应商关联ID
  * ConsumableID			耗材ID	
  * SupplierID			供应商ID
- * IsSuggestion			是否建议供应商
  *
  */
 @Table(name = "t_consumablemap")
@@ -28,7 +27,6 @@ public class ConsumableMapEntity extends ToStringBase {
 	private String consumableMapID;
 	private String consumableID;
 	private String supplierID;
-	private int isSuggestion;
 	
 	@Id
 	@GeneratedValue(generator="system-uuid")
@@ -51,11 +49,5 @@ public class ConsumableMapEntity extends ToStringBase {
 	}
 	public void setSupplierID(String supplierID) {
 		this.supplierID = supplierID;
-	}
-	public int getIsSuggestion() {
-		return isSuggestion;
-	}
-	public void setIsSuggestion(int isSuggestion) {
-		this.isSuggestion = isSuggestion;
 	}
 }

@@ -4,7 +4,7 @@ import java.util.List;
 
 import org.springframework.stereotype.Service;
 
-import com.labassistant.beans.MyExpMainEntity;
+import com.labassistant.beans.MyExpEntity;
 import com.labassistant.dao.service.BaseAbstractService;
 
 /**
@@ -13,7 +13,7 @@ import com.labassistant.dao.service.BaseAbstractService;
  * @date 2015/09/16
  */
 @Service
-public class MyExpMainServiceImpl extends BaseAbstractService<MyExpMainEntity> implements
+public class MyExpMainServiceImpl extends BaseAbstractService<MyExpEntity> implements
 		MyExpMainService {
 
 	/**
@@ -22,17 +22,17 @@ public class MyExpMainServiceImpl extends BaseAbstractService<MyExpMainEntity> i
 	 * @return
 	 */
 	@Override
-	public MyExpMainEntity getByExpID(String myExpID){
-		String hql = "from MyExpMainEntity where myExpID = ?";
-		return (MyExpMainEntity)findOneByHql(hql, myExpID);
+	public MyExpEntity getByExpID(String myExpID){
+		String hql = "from MyExpEntity where myExpID = ?";
+		return (MyExpEntity)findOneByHql(hql, myExpID);
 	}
 	
 	/**
 	 * 获取用户所做的实验
 	 */
 	@Override
-	public List<MyExpMainEntity> getByUserID(String userID){
-		String hql ="from MyExpMainEntity where userID = ?";
+	public List<MyExpEntity> getByUserID(String userID){
+		String hql ="from MyExpEntity where userID = ?";
 		return findListByHql(hql, userID);
 	}
 	
@@ -42,7 +42,7 @@ public class MyExpMainServiceImpl extends BaseAbstractService<MyExpMainEntity> i
 	 * @return
 	 */
 	@Override
-	public List<MyExpMainEntity> getComplete(String userID){
+	public List<MyExpEntity> getComplete(String userID){
 		return getMyExp(userID, 2);
 	}
 
@@ -52,13 +52,13 @@ public class MyExpMainServiceImpl extends BaseAbstractService<MyExpMainEntity> i
 	 * @return
 	 */
 	@Override
-	public List<MyExpMainEntity> getDoing(String userID){
+	public List<MyExpEntity> getDoing(String userID){
 		return getMyExp(userID, 0);
 	}
 	
-	private List<MyExpMainEntity> getMyExp(String userID, int expState){
-		String hql = "from MyExpMainEntity where userID = ? and expState = ?";
-		List<MyExpMainEntity> lists = findListByHql(hql, userID, expState);
+	private List<MyExpEntity> getMyExp(String userID, int expState){
+		String hql = "from MyExpEntity where userID = ? and expState = ?";
+		List<MyExpEntity> lists = findListByHql(hql, userID, expState);
 		return lists;
 	}
 }

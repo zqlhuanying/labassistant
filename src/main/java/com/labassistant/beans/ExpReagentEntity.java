@@ -21,7 +21,7 @@ import org.hibernate.annotations.GenericGenerator;
  * CreateMethod				配置方法
  * ReagentSpec				规格
  * UseAmount				用量
- * 
+ * SupplierID				供应商ID
  */
 @Table(name = "t_expreagent")
 @Entity
@@ -37,6 +37,7 @@ public class ExpReagentEntity extends ToStringBase {
 	private String CreateMethod;
 	private String reagentSpec;
 	private int useAmount;
+	private String supplierID;
 	
 	@Id
 	@GeneratedValue(generator="system-uuid")
@@ -106,4 +107,11 @@ public class ExpReagentEntity extends ToStringBase {
 		this.useAmount = useAmount;
 	}
 	
+	public String getSupplierID() {
+		return supplierID;
+	}
+
+	public void setSupplierID(String supplierID) {
+		this.supplierID = supplierID;
+	}
 }
