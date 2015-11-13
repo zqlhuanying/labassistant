@@ -20,8 +20,6 @@ import org.apache.commons.lang3.StringUtils;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
-import sun.misc.BASE64Decoder;
-
 import com.labassistant.annotation.MyAnnotation;
 import com.labassistant.beans.MyExpInstructionEntity;
 import com.labassistant.beans.MyExpEntity;
@@ -44,6 +42,7 @@ import com.labassistant.service.myexp.MyExpProcessAttchService;
 import com.labassistant.service.myexp.MyExpProcessService;
 import com.labassistant.service.myexp.MyExpReagentService;
 import com.labassistant.utils.BeanUtil;
+import com.labassistant.utils.EncryptUtil;
 import com.labassistant.utils.JSONUtil;
 import com.labassistant.utils.Uploader;
 
@@ -112,7 +111,7 @@ public class SyncServiceImpl extends BaseAbstractService implements SyncService 
 	}
 	
 	@Override
-	public void pushExpInstruction(HttpServletRequest request, String json){		
+	public void pushExpInstruction(HttpServletRequest request, String json, int allowDownload){		
 		Map<String, Object> requestMap = JSONUtil.json2Map(json);
 		//requestMap = (Map)requestMap.get("data");
 		
@@ -123,10 +122,10 @@ public class SyncServiceImpl extends BaseAbstractService implements SyncService 
 			String tableName = getTableName(entry.getKey());
 			if(entry.getValue().getClass() == ArrayList.class){
 				for(Map<String, Object> innerMap : (ArrayList<Map<String, Object>>)entry.getValue()){
-					pushExpInstruction(innerMap, tableName);
+					pushExpInstruction(innerMap, allowDownload, tableName);
 				}
 			} else {
-				pushExpInstruction((Map<String, Object>)entry.getValue(), tableName);
+				pushExpInstruction((Map<String, Object>)entry.getValue(), allowDownload, tableName);
 			}
 		}
 	}
@@ -151,9 +150,14 @@ public class SyncServiceImpl extends BaseAbstractService implements SyncService 
 		sync(map, tableName);
 	}
 	
-	private void pushExpInstruction(Map<String, Object> map, String tableName){	
+	private void pushExpInstruction(Map<String, Object> map, int allowDownload, String tableName){	
 		checkNonAvailable(map, getBeanName(tableName));
 		checkNameOnlyInServer(map, getBeanName(tableName));
+		
+		// 将实验说明书主表(ExpInstruction)单独对待，因要修改allowDownload字段
+		if("t_expInstruction".equals(tableName)){
+			processExpInstruction(map, allowDownload);
+		}
 		sync(map, tableName);
 	}
 	
@@ -335,7 +339,7 @@ public class SyncServiceImpl extends BaseAbstractService implements SyncService 
 		String imgString = (String)map.get("imgStream");
 		if(StringUtils.isNotBlank(imgString)){
 			try{
-				byte[] img = new BASE64Decoder().decodeBuffer(imgString);
+				byte[] img = EncryptUtil.BASE64Decode(imgString);
 				inputStream = new ByteArrayInputStream(img);
 			} catch (IOException e) {
 				System.out.println("处理图片二进制流失败");
@@ -362,6 +366,11 @@ public class SyncServiceImpl extends BaseAbstractService implements SyncService 
 			map.put("isUpload", 1);
 			map.remove("imgStream");
 		}
+	}
+	
+	// 处理我的说明书主表
+	private void processExpInstruction(Map<String, Object> map, int allowDownload){
+		map.put("allowDownload", allowDownload);
 	}
 	
 	/**
@@ -443,7 +452,7 @@ public class SyncServiceImpl extends BaseAbstractService implements SyncService 
 		return sb.toString();
 	}
 	
-	// 判断是否是Date类型并且为空字符串
+	// 判断是否是Date类型并且为空字符串(或"null"或"(null)",客户端的特殊情况)
 	private Boolean isDateClassAndBlank(String key, Object value, String tableName){
 		BeanInfo beanInfo = null;
 		try {
@@ -456,7 +465,7 @@ public class SyncServiceImpl extends BaseAbstractService implements SyncService 
 			e.printStackTrace();
 		}
 		
-		if(value == ""){
+		if(value == "" || "null".equals(value) || "(null)".equals(value)){
 			if(BeanUtil.getFieldClass(beanInfo, key) == Date.class){
 				return true;
 			}

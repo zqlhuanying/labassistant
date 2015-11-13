@@ -111,8 +111,8 @@ public class ToPDF {
 	}
 	
 	// 图片以块的方式呈现
-	public PdfPTable imageBlock(List<String> imgUrls) throws BadElementException, MalformedURLException, IOException{
-		PdfPTable pdfTable = new PdfPTable(1);
+	public PdfPTable imageBlock(List<String> imgUrls, int columns) throws BadElementException, MalformedURLException, IOException{
+		PdfPTable pdfTable = new PdfPTable(columns);
 		pdfTable.setWidthPercentage(100);
 		
 		for(String imgUrl : imgUrls){

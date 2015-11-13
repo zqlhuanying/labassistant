@@ -2,6 +2,7 @@ package com.labassistant.utils;
 
 import java.io.BufferedInputStream;
 import java.io.File;
+import java.io.FileInputStream;
 import java.io.FileOutputStream;
 import java.io.InputStream;
 import java.util.Date;
@@ -75,7 +76,7 @@ public class Uploader {
 		
 	}
 	
-	public FileOutputStream download() throws Exception{
+	public FileInputStream download() throws Exception{
 		if(this.url == null){
 			logger.info("url is null");
 			throw new NullPointerException("url is null");
@@ -85,7 +86,7 @@ public class Uploader {
 				this.url = this.url.substring(AppConfig.DOMAIN_PAGE.length());
 			}
 			String savePath = getPhysicalPathByRoot(this.url);
-			return new FileOutputStream(new File(savePath));
+			return new FileInputStream(new File(savePath));
 		} catch (Exception e){
 			e.printStackTrace();
 			logger.info("download is failed");
@@ -147,6 +148,10 @@ public class Uploader {
 		return url;
 	}
 
+	public void setUrl(String url){
+		this.url = url;
+	}
+	
 	public String getFileName() {
 		return fileName;
 	}

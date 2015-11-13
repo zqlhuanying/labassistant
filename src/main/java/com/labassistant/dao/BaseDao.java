@@ -13,6 +13,8 @@ import org.hibernate.criterion.CriteriaSpecification;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Repository;
 
+import com.labassistant.beans.Pagination;
+import com.labassistant.context.PaginationContext;
 import com.labassistant.exception.MyRuntimeException;
 
 /**
@@ -229,6 +231,11 @@ public class BaseDao implements IBaseDao {
 		return total;
 	}
 
+	@Override
+	public <X> Pagination<X> pageByHql(final String hql,final Object... parameters){
+		return findPage(hql, true,false, parameters);
+	}
+	
 	/**
 	 * 查询唯一的一个字段
 	 * 
@@ -264,5 +271,23 @@ public class BaseDao implements IBaseDao {
 		}
 		return null;
 	}
-
+	
+	/**
+	 * 分页查询
+	 * @param hql
+	 * @param isHql
+	 * @param parameters
+	 * @return
+	 */
+	private <X> Pagination<X> findPage(final String hql, boolean isHql, boolean isMap, final Object... parameters){
+		Query q = createMyQuery(hql, isHql, parameters);
+		q.setFirstResult(PaginationContext.getOffset()); 	// 分页上下文的分页参数
+		q.setMaxResults(PaginationContext.getPagesize());	// 分页上下文的分页参数
+		if(isMap){
+			q.setResultTransformer(CriteriaSpecification.ALIAS_TO_ENTITY_MAP);
+		}
+		List<X> datas = q.list();
+		Pagination<X> pagination = new Pagination<X>(datas);
+		return pagination;
+	}
 }

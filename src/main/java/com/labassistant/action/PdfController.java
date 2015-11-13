@@ -1,11 +1,12 @@
 package com.labassistant.action;
 
 import java.io.File;
+import java.io.FileInputStream;
 import java.io.IOException;
 import java.util.Date;
 import java.util.HashMap;
+import java.util.List;
 import java.util.Map;
-import java.util.Random;
 
 import javax.servlet.http.HttpServletRequest;
 
@@ -23,7 +24,9 @@ import com.labassistant.service.SyncService;
 import com.labassistant.service.ToPDFService;
 import com.labassistant.service.myexp.MyExpMainService;
 import com.labassistant.utils.DateUtil;
+import com.labassistant.utils.EncryptUtil;
 import com.labassistant.utils.FileUtil;
+import com.labassistant.utils.Uploader;
 
 /**
  * 
@@ -72,6 +75,35 @@ public class PdfController extends BaseController {
 		return map;
 	}
 	
+	@RequestMapping(value = "pdfList")
+	@ResponseBody
+	public Map<String, Object> getPdfList(HttpServletRequest request){
+		setErrorMsg(request, "获取PDF列表失败");
+		Map<String, Object> map = new HashMap<String, Object>();
+		
+		List<Object> object = toPDFService.getPdfList();
+		
+		map.putAll(retSuccess());
+		map.put("data", object);
+		return map;
+	}
+	
+	@RequestMapping(value = "downloadPdf")
+	@ResponseBody
+	public Map<String, Object> downloadPdf(HttpServletRequest request, String myExpID) throws Exception{
+		setErrorMsg(request, "下载PDF失败");
+		Map<String, Object> map = new HashMap<String, Object>();
+		Map<String, Object> innerMap = new HashMap<String, Object>();
+		
+		Uploader upload = new Uploader(request);
+		String pdfUrl = myExpMainService.get(myExpID).getReportServerPath();
+		upload.setUrl(pdfUrl);
+		FileInputStream fin = upload.download();
+		innerMap.put("pdfStream", EncryptUtil.BASE64Encode(fin));
+		map.putAll(retSuccess());
+		map.put("data", innerMap);
+		return map;
+	}
 	/**
 	 * 创建保存的目录,根据创建的日期来创建子目录
 	 * @param path
@@ -105,8 +137,6 @@ public class PdfController extends BaseController {
      * @return
      */
     private String getName() {
-        Random random = new Random();
-        return random.nextInt(10000)
-                + System.currentTimeMillis() + ".pdf";
+        return System.currentTimeMillis() + ".pdf";
     }
 }

@@ -9,6 +9,7 @@ import java.util.Map;
 
 import org.springframework.beans.factory.annotation.Autowired;
 
+import com.labassistant.beans.Pagination;
 import com.labassistant.dao.IBaseDao;
 import com.labassistant.exception.MyRuntimeException;
 
@@ -150,5 +151,9 @@ public class BaseAbstractService<T> implements IBaseAbstractService<T> {
 	public int getCount(String ql, boolean isHql, Object... parameters) {
 		return baseDao.getCount(ql, isHql, parameters);
 	}
-
+	
+	@Override
+	public <X> Pagination<X> pageByHql(String hql, Object... parameters) {
+		return baseDao.pageByHql(hql, parameters);
+	}
 }

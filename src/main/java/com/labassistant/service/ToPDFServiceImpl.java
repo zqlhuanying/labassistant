@@ -2,7 +2,10 @@ package com.labassistant.service;
 
 import java.io.IOException;
 import java.util.ArrayList;
+import java.util.Date;
+import java.util.HashMap;
 import java.util.List;
+import java.util.Map;
 
 import org.apache.commons.lang3.StringUtils;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -22,6 +25,7 @@ import com.labassistant.service.myexp.MyExpMainService;
 import com.labassistant.service.myexp.MyExpProcessAttchService;
 import com.labassistant.service.myexp.MyExpProcessService;
 import com.labassistant.service.myexp.MyExpReagentService;
+import com.labassistant.utils.DateUtil;
 import com.labassistant.utils.FileUtil;
 import com.labassistant.utils.ToPDF;
 
@@ -81,6 +85,24 @@ public class ToPDFServiceImpl implements ToPDFService {
 		
 		// 关闭文档
 		pdf.close();
+	}
+	
+	@Override
+	public List<Object> getPdfList(){
+		List<Object> object = new ArrayList<Object>();
+		List<MyExpEntity> pdfs = myExpMainService.getPdfs();
+		if(pdfs != null){
+			for(MyExpEntity pdf : pdfs){
+				Map<String, String> map = new HashMap<String, String>();
+				String experimentName = expInstructionsMainService.get(pdf.getExpInstructionID()).getExperimentName();
+				String pdfName = pdf.getReportName();
+				pdfName = experimentName + DateUtil.formatDate("yyyy.MM.dd HH:mm:ss", new Date(Long.parseLong(pdfName.replace(".pdf", ""))));
+				map.put("myExpID", pdf.getMyExpID());
+				map.put("pdfName", pdfName);
+				object.add(map);
+			}
+		}
+		return object;
 	}
 	
 	private void setTopic(String topic) throws DocumentException, IOException{
@@ -168,7 +190,7 @@ public class ToPDFServiceImpl implements ToPDFService {
 					imgUrl = FileUtil.toURLPath(imgUrl);
 					imgUrls.add(imgUrl);
 				}
-				pdf.add(pdf.imageBlock(imgUrls));
+				pdf.add(pdf.imageBlock(imgUrls, 1));
 			}
 		}
 	}

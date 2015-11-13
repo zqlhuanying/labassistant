@@ -12,10 +12,14 @@ import javax.servlet.http.HttpServletRequest;
 import org.apache.commons.lang3.StringUtils;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Controller;
+import org.springframework.web.bind.annotation.RequestBody;
 import org.springframework.web.bind.annotation.RequestMapping;
+import org.springframework.web.bind.annotation.RequestMethod;
+import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.web.bind.annotation.ResponseBody;
 
 import com.labassistant.beans.ExpInstructionEntity;
+import com.labassistant.beans.ExpReviewDetailEntity;
 import com.labassistant.beans.ExpStepEntity;
 import com.labassistant.beans.ExpReagentEntity;
 import com.labassistant.beans.ExpReviewEntity;
@@ -31,6 +35,7 @@ import com.labassistant.service.exp.ExpEquipmentService;
 import com.labassistant.service.exp.ExpInstructionsMainService;
 import com.labassistant.service.exp.ExpProcessService;
 import com.labassistant.service.exp.ExpReagentService;
+import com.labassistant.service.exp.ExpReviewDetailService;
 import com.labassistant.service.exp.ExpReviewService;
 import com.labassistant.service.myexp.MyExpInstructionService;
 import com.labassistant.service.myexp.MyExpMainService;
@@ -69,7 +74,8 @@ public class LabController extends BaseController {
 	private MyExpPlanService myExpPlanService;
 	@Autowired
 	private MyExpProcessService myExpProcessService;
-	
+	@Autowired
+	private ExpReviewDetailService expReviewDetailService;
 	
 	@RequestMapping(value = "/allReagents")
 	@ResponseBody
@@ -258,6 +264,9 @@ public class LabController extends BaseController {
 			
 			// 实验步骤
 			innerMap.put("steps", expProcesses);
+			
+			// 实验评论
+			innerMap.put("reviews", expReviewService.getReviewList(expInstructionID, null, 10));
 			//object.add(innerMap);
 		}
 		map.putAll(retSuccess());
@@ -329,35 +338,37 @@ public class LabController extends BaseController {
 	
 	@RequestMapping(value = "/reviewList")
 	@ResponseBody
-	public Map<String, Object> getReviewList(HttpServletRequest request, String expInstructionID){
+	public Map<String, Object> getReviewList(HttpServletRequest request, String expInstructionID, String lastExpReviewID, int pageSize){
 		setErrorMsg(request, "获取评论列表失败");
 		Map<String, Object>  map = new HashMap<String, Object>();
-		List<Object> object = new ArrayList<Object>();	
-		List<ExpReviewEntity> reviews = expReviewService.getReviews(expInstructionID);
-		if(reviews != null){
-			for(ExpReviewEntity review : reviews){
-				Map<String, Object> innerMap = new HashMap<String, Object>();
-				innerMap.put("expReviewID", review.getExpReviewID());
-				innerMap.put("reviewDate", DateUtil.formatDate(LabConstant.DATEFORMAT, review.getReviewDate()));
-				innerMap.put("reviewInfo", review.getReviewInfo());
-				innerMap.put("nickName", sysUserService.get(review.getReviewerID()).getNickName());
-				innerMap.put("agreeCount", review.getAgreeCount());
-				innerMap.put("disagreeCount", review.getDisagreeCount());
-				object.add(innerMap);
-			}
-		}
+		
+		List<Object> object = expReviewService.getReviewList(expInstructionID, lastExpReviewID, pageSize);	
+		
 		map.putAll(retSuccess());
 		map.put("data", object);
 		return map;
 	}
 	
-	@RequestMapping(value = "/responseReview")
+	@RequestMapping(value = "/reviewDetail")
+	@ResponseBody
+	public Map<String, Object> getReviewDetail(HttpServletRequest request, String expReviewID){
+		setErrorMsg(request, "获取评论详细信息失败");
+		Map<String, Object>  map = new HashMap<String, Object>();
+		
+		Map<String, Object> innerMap = expReviewService.getReviewDetail(expReviewID);	
+		
+		map.putAll(retSuccess());
+		map.put("data", innerMap);
+		return map;
+	}
+	
+	@RequestMapping(value = "/responseReview", method = RequestMethod.POST)
 	@ResponseBody
 	// 虽然设置了是整个实体类，但主要的是expInstructionID，reviewerID，reviewInfo, expScore等字段
-	public Map<String, Object> responseReview(HttpServletRequest request, ExpReviewEntity expReview){
+	public Map<String, Object> responseReview(HttpServletRequest request, String json){
 		setErrorMsg(request, "对实验进行评论失败");
 		Map<String, Object>  map = new HashMap<String, Object>();
-		expReviewService.responseReview(expReview);
+		expReviewService.responseReview(json);
 		map.putAll(retSuccess());
 		map.put("data", "");
 		return map;
@@ -370,8 +381,30 @@ public class LabController extends BaseController {
 		setErrorMsg(request, "删除评论失败");
 		Map<String, Object>  map = new HashMap<String, Object>();
 		expReviewService.deleteEntity(expReview);
+		List<ExpReviewDetailEntity> expReviewDetails = expReviewDetailService.getExpReviewDetails(expReview.getExpReviewID());
+		expReviewDetailService.deleteAll(expReviewDetails);
 		map.putAll(retSuccess());
 		map.put("data", "");
+		return map;
+	}
+	
+	@RequestMapping(value = "/isReviewed")
+	@ResponseBody
+	public Map<String, Object> isReviewed(HttpServletRequest request, String userID, String myExpID){
+		setErrorMsg(request, "查询是否已评论失败");
+		Map<String, Object>  map = new HashMap<String, Object>();
+		
+		Map<String, String> innerMap = new HashMap<String, String>();
+		MyExpEntity myExp = myExpMainService.getByExpID(myExpID);
+		boolean isReviewed = false;
+		if(myExp != null){
+			isReviewed = expReviewService.isReviewed(userID, myExp.getExpInstructionID());
+		}
+		 
+		innerMap.put("isReviewed", isReviewed ? "1" : "0");
+		
+		map.putAll(retSuccess());
+		map.put("data", innerMap);
 		return map;
 	}
 	

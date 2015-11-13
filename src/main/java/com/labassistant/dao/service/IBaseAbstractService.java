@@ -5,6 +5,8 @@ import java.util.Collection;
 import java.util.List;
 import java.util.Map;
 
+import com.labassistant.beans.Pagination;
+
 /**
  * 通用DAO服务
  * @author zql
@@ -186,5 +188,13 @@ public interface IBaseAbstractService<T> {
 	 */
 	public int getCount(String ql, boolean isHql, Object... parameters);
 
-	
+	/**
+	 * 分页查询
+	 * @param hql
+	 * @param parameters
+	 * @return	返回list分页数据 X 可以是实体对象或者Map类型
+	 * @throws HibernateException
+	 * @throws SQLException
+	 */
+	public <X> Pagination<X> pageByHql (String hql, Object... parameters);
 }

@@ -1,14 +1,25 @@
 package com.labassistant.service.exp;
 
+import java.io.Serializable;
+import java.util.ArrayList;
 import java.util.Date;
+import java.util.HashMap;
 import java.util.List;
+import java.util.Map;
 
+import org.apache.commons.lang3.StringUtils;
+import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
+import com.labassistant.beans.ExpReviewDetailEntity;
 import com.labassistant.beans.ExpReviewEntity;
+import com.labassistant.beans.Pagination;
 import com.labassistant.constants.LabConstant;
+import com.labassistant.context.PaginationContext;
 import com.labassistant.dao.service.BaseAbstractService;
+import com.labassistant.service.SysUserService;
 import com.labassistant.utils.DateUtil;
+import com.labassistant.utils.JSONUtil;
 
 /**
  * 实验评论服务
@@ -19,6 +30,13 @@ import com.labassistant.utils.DateUtil;
 public class ExpReviewServiceImpl extends BaseAbstractService<ExpReviewEntity>
 		implements ExpReviewService {
 
+	@Autowired
+	private SysUserService sysUserService;
+	@Autowired
+	private ExpReviewDetailService expReviewDetailService;
+	@Autowired
+	private ExpReviewOptService expReviewOptService;
+	
 	/**
 	 * 获取实验评论
 	 */
@@ -30,15 +48,83 @@ public class ExpReviewServiceImpl extends BaseAbstractService<ExpReviewEntity>
 	}
 	
 	/**
+	 * 获取实验评论
+	 */
+	@Override
+	public List<Object> getReviewList(String expInstructionID, String lastExpReviewID, int pageSize){
+		List<Object> object = new ArrayList<Object>();
+		Pagination<ExpReviewEntity> reviews = getPage(expInstructionID, lastExpReviewID, pageSize);
+		if(reviews != null){
+			for(ExpReviewEntity review : reviews.getRows()){
+				Map<String, Object> innerMap = new HashMap<String, Object>();
+				innerMap.put("expReviewID", review.getExpReviewID());
+				innerMap.put("reviewDate", DateUtil.formatDate(LabConstant.DATEFORMAT, review.getReviewDate()));
+				//innerMap.put("reviewInfo", review.getReviewInfo());
+				innerMap.put("expScore", review.getExpScore());
+				innerMap.put("nickName", sysUserService.get(review.getReviewerID()).getNickName());
+				innerMap.put("agreeCount", review.getAgreeCount());
+				innerMap.put("disagreeCount", review.getDisagreeCount());
+				object.add(innerMap);
+			}
+		}
+		return object;
+	}
+	
+	/**
+	 * 获取实验评论详细信息
+	 */
+	@Override
+	public Map<String, Object> getReviewDetail(String expReviewID){
+		Map<String, Object> map = new HashMap<String, Object>();
+		List<Object> object = new ArrayList<Object>();
+		ExpReviewEntity expReview = get(expReviewID);
+		map.put("reviewInfo", expReview.getReviewInfo());
+		List<ExpReviewDetailEntity> expReviewDetails = expReviewDetailService.getExpReviewDetails(expReviewID);
+		if(expReviewDetails != null && expReviewDetails.size() > 0){
+			for(ExpReviewDetailEntity expReviewDetail : expReviewDetails){
+				Map<String, String> innerMap = new HashMap<String, String>();
+				innerMap.put("expReviewOptName", expReviewOptService.get(expReviewDetail.getReviewOptID()).getExpReviewOptName());
+				innerMap.put("reviewOptScore", String.valueOf(expReviewDetail.getReviewOptScore()));
+				object.add(innerMap);
+			}
+		}
+		map.put("reviewOpts", object);
+		return map;
+	}
+	
+	/**
 	 * 对实验进行评论
 	 */
 	@Override
-	public void responseReview(ExpReviewEntity expReview){
+	public void responseReview(String json){
+		Map<String, Object> requestMap = (Map<String, Object>)JSONUtil.json2Map(json);
+		
+		ExpReviewEntity expReview = new ExpReviewEntity();
 		Date now = new Date();
 		expReview.setReviewDate(DateUtil.str2Date(LabConstant.DATEFORMAT, DateUtil.formatDate(LabConstant.DATEFORMAT, now)));
 		expReview.setReviewYear(DateUtil.getYear(now));
-		expReview.setReviewMonth(DateUtil.getMonth(now));
-		save(expReview);
+		expReview.setReviewMonth(DateUtil.getMonth(now));		
+		expReview.setExpInstructionID((String)requestMap.get("expInstructionID"));
+		expReview.setReviewerID((String)requestMap.get("reviewerID"));
+		expReview.setReviewInfo((String)requestMap.get("reviewInfo"));
+		expReview.setExpScore((Integer)requestMap.get("expScore"));
+		Serializable pk = save(expReview);
+		
+		List<Map<String, Object>> expReviewDetails = (List<Map<String, Object>>)requestMap.get("expReviewDetails");
+		
+		for(Map<String, Object> expReviewDetail : expReviewDetails){
+			ExpReviewDetailEntity expReviewDetailEntity = new ExpReviewDetailEntity();
+			expReviewDetailEntity.setExpReviewID((String)pk);
+			expReviewDetailEntity.setReviewOptID((String)expReviewDetail.get("reviewOptID"));
+			expReviewDetailEntity.setReviewOptScore((Integer)expReviewDetail.get("reviewOptScore"));
+			save(expReviewDetailEntity);
+		}
+	}
+	
+	@Override
+	public boolean isReviewed(String userID, String expInstructionID){
+		String hql = "from ExpReviewEntity where expInstructionID = ? and reviewerID = ?";
+		return getCount(hql, true, expInstructionID, userID) > 0;
 	}
 	
 	@Override
@@ -71,5 +157,22 @@ public class ExpReviewServiceImpl extends BaseAbstractService<ExpReviewEntity>
 		expReview.setDisagreeCount(expReview.getDisagreeCount() + 1);
 		update(expReview);
 		return disagreeCount;
+	}
+	
+	private Pagination<ExpReviewEntity> getPage(String expInstructionID, String lastExpReviewID, int pageSize){
+		// 获取 lastExpReviewID 在数据库中的行号
+		StringBuffer offsetHql = new StringBuffer(); 
+		offsetHql.append("select sum(1) from ExpReviewEntity where expInstructionID = ?");
+		offsetHql.append(" and reviewDate >= (select reviewDate from ExpReviewEntity where expreviewID = ?)");	
+		Long offset = findOneByHql(offsetHql.toString(), expInstructionID, lastExpReviewID);
+		if(offset == null){
+			offset = 0L;
+		}
+		
+		// 获取接下去的pageSize的记录数
+		PaginationContext.setOffset(offset.intValue());
+		PaginationContext.setPagesize(pageSize);
+		String pageHql = "from ExpReviewEntity order by reviewDate desc";
+		return pageByHql(pageHql);
 	}
 }

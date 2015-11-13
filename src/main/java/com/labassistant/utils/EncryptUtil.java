@@ -1,7 +1,13 @@
 package com.labassistant.utils;
 
+import java.io.IOException;
+import java.io.InputStream;
+
 import com.encryptcore.EnCryptCore;
 import org.apache.commons.codec.digest.DigestUtils;
+
+import sun.misc.BASE64Decoder;
+import sun.misc.BASE64Encoder;
 
 /**
  * 
@@ -25,6 +31,17 @@ public final class EncryptUtil {
 	
 	public static String decode(String content){
 		return enCryptCore.decrypt(key, content);
+	}
+	
+	public static String BASE64Encode(InputStream in) throws IOException{
+		byte[] buffer = new byte[in.available()];
+        in.read(buffer);
+        in.close();
+        return new BASE64Encoder().encode(buffer);
+	}
+	
+	public static byte[] BASE64Decode(String str) throws IOException{
+		return new BASE64Decoder().decodeBuffer(str);
 	}
 	
 	/**

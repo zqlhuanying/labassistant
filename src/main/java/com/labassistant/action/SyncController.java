@@ -43,11 +43,11 @@ public class SyncController extends BaseController {
 	// 上传实验说明书部分
 	@RequestMapping(value = "pushExpInstruction", method = RequestMethod.POST)
 	@ResponseBody
-	public Map<String, Object> pushExpInstruction(HttpServletRequest request, String json){
+	public Map<String, Object> pushExpInstruction(HttpServletRequest request, String json, int allowDownload){
 		setErrorMsg(request, "同步实验说明书失败");
 		Map<String, Object>  map = new HashMap<String, Object>();
 		
-		syncService.pushExpInstruction(request, json);
+		syncService.pushExpInstruction(request, json, allowDownload);
 		
 		map.putAll(retSuccess());
 		map.put("data", "");

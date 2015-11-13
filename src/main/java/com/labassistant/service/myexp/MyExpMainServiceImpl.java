@@ -37,6 +37,15 @@ public class MyExpMainServiceImpl extends BaseAbstractService<MyExpEntity> imple
 	}
 	
 	/**
+	 * 获取用户已生成的PDF
+	 */
+	@Override
+	public List<MyExpEntity> getPdfs(){
+		String hql ="from MyExpEntity where isCreateReport = 1 order by reportName desc";
+		return findListByHql(hql);
+	}
+	
+	/**
 	 * 获取已完成的实验
 	 * @param userID
 	 * @return

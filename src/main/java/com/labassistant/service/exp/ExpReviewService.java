@@ -1,6 +1,7 @@
 package com.labassistant.service.exp;
 
 import java.util.List;
+import java.util.Map;
 
 import com.labassistant.beans.ExpReviewEntity;
 import com.labassistant.dao.service.IBaseAbstractService;
@@ -14,7 +15,13 @@ public interface ExpReviewService extends IBaseAbstractService<ExpReviewEntity> 
 
 	public List<ExpReviewEntity> getReviews(String expInstructionID);
 	
-	public void responseReview(ExpReviewEntity expReview);
+	public List<Object> getReviewList(String expInstructionID, String lastExpReviewID, int pageSize);
+	
+	public Map<String, Object> getReviewDetail(String expReviewID);
+	
+	public void responseReview(String json);
+	
+	public boolean isReviewed(String userID, String expInstructionID);
 	
 	public int agreeOrNot(String expReviewID, Boolean isAgree);
 }

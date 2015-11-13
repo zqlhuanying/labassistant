@@ -681,7 +681,63 @@ CREATE TABLE `t_expreview` (
 -- Records of t_expreview
 -- ----------------------------
 INSERT INTO t_expreview VALUES ('4045c791564b994701494b99aba50000','4028c681494b994701494b99bab60000', '4028c681494b994701494b99aba50000', '2015-09-22', 2015, 09, 5, '这是什么鬼', 5, 0);
-INSERT INTO t_expreview VALUES ('4045c791564b994701494b99aba50001','4028c681494b994701494b99bab60000', '4028c681494b994701494b99aba50000', '2015-09-22', 2015, 09, 5, '这到底是什么鬼', 5, 0);
+INSERT INTO t_expreview VALUES ('4045c791564b994701494b99aba50001','4028c681494b994701494b99bab60000', '4028c681494b994701494b99aba50000', '2015-09-23', 2015, 09, 5, '这到底是什么鬼', 5, 0);
+INSERT INTO t_expreview VALUES ('4045c791564b994701494b99aba50002','4028c681494b994701494b99bab60000', '4028c681494b994701494b99aba50000', '2015-09-24', 2015, 09, 5, '这是什么鬼', 5, 0);
+INSERT INTO t_expreview VALUES ('4045c791564b994701494b99aba50003','4028c681494b994701494b99bab60000', '4028c681494b994701494b99aba50000', '2015-10-22', 2015, 10, 5, '这到底是什么鬼', 5, 0);
+INSERT INTO t_expreview VALUES ('4045c791564b994701494b99aba50004','4028c681494b994701494b99bab60000', '4028c681494b994701494b99aba50000', '2015-10-25', 2015, 10, 5, '这是什么鬼', 5, 0);
+INSERT INTO t_expreview VALUES ('4045c791564b994701494b99aba50005','4028c681494b994701494b99bab60000', '4028c681494b994701494b99aba50000', '2015-08-22', 2015, 08, 5, '这到底是什么鬼', 5, 0);
+INSERT INTO t_expreview VALUES ('4045c791564b994701494b99aba50006','4028c681494b994701494b99bab60000', '4028c681494b994701494b99aba50000', '2015-08-12', 2015, 08, 5, '这是什么鬼', 5, 0);
+INSERT INTO t_expreview VALUES ('4045c791564b994701494b99aba50007','4028c681494b994701494b99bab60000', '4028c681494b994701494b99aba50000', '2015-08-20', 2015, 08, 5, '这到底是什么鬼', 5, 0);
+INSERT INTO t_expreview VALUES ('4045c791564b994701494b99aba50008','4028c681494b994701494b99bab60000', '4028c681494b994701494b99aba50000', '2015-11-08', 2015, 11, 5, '这是什么鬼', 5, 0);
+INSERT INTO t_expreview VALUES ('4045c791564b994701494b99aba50009','4028c681494b994701494b99bab60000', '4028c681494b994701494b99aba50000', '2015-11-09', 2015, 11, 5, '这到底是什么鬼', 5, 0);
+INSERT INTO t_expreview VALUES ('4045c791564b994701494b99aba50010','4028c681494b994701494b99bab60000', '4028c681494b994701494b99aba50000', '2015-11-11', 2015, 11, 5, '这是什么鬼', 5, 0);
+INSERT INTO t_expreview VALUES ('4045c791564b994701494b99aba50011','4028c681494b994701494b99bab60000', '4028c681494b994701494b99aba50000', '2015-10-12', 2015, 10, 5, '这到底是什么鬼', 5, 0);
+
+
+-- -----------------------------------------------
+-- Table structure for `t_expreviewdetail` 实验评论详细表
+-- -----------------------------------------------
+DROP TABLE IF EXISTS `t_expreviewdetail`;
+CREATE TABLE `t_expreviewdetail` (
+  `expreviewdetailid` varchar(40) NOT NULL,
+  `expreviewid` varchar(40) NOT NULL,
+  `reviewoptid` varchar(40) NOT NULL,
+  `reviewoptscore` int NOT NULL,
+  PRIMARY KEY (`expreviewdetailid`)
+) ENGINE=InnoDB DEFAULT CHARSET=utf8;
+-- ----------------------------
+-- Records of t_expreviewdetail
+-- ----------------------------
+INSERT INTO `t_expreviewdetail` (`expreviewdetailid`,`expreviewid`,`reviewoptid`,`reviewoptscore`) VALUES ('37df9ad0810e11e5b78d002564e8751d','4045c791564b994701494b99aba50000','37df9ad0810e11e5b78d002564e7234d',4);
+
+-- -----------------------------------------------
+-- Table structure for `t_expreviewopt` 实验评论项表
+-- -----------------------------------------------
+DROP TABLE IF EXISTS `t_expreviewopt`;
+CREATE TABLE `t_expreviewopt` (
+  `expreviewoptid` varchar(40) NOT NULL,
+  `expreviewoptname` varchar(100) NOT NULL,
+  PRIMARY KEY (`expreviewoptid`)
+) ENGINE=InnoDB DEFAULT CHARSET=utf8;
+-- ----------------------------
+-- Records of t_expreviewopt
+-- ----------------------------
+INSERT INTO `t_expreviewopt` (`expreviewoptid`,`expreviewoptname`) VALUES ('37df9ad0810e11e5b78d002564e7234d','实验试剂');
+INSERT INTO `t_expreviewopt` (`expreviewoptid`,`expreviewoptname`) VALUES ('8d9fa484810e11e5b78d002564e7234d','实验耗材');
+INSERT INTO `t_expreviewopt` (`expreviewoptid`,`expreviewoptname`) VALUES ('92817d95810e11e5b78d002564e7234d','实验仪器');
+INSERT INTO `t_expreviewopt` (`expreviewoptid`,`expreviewoptname`) VALUES ('973d5126810e11e5b78d002564e7234d','实验步骤');
+
+-- -----------------------------------------------
+-- Table structure for `t_expreviewattch` 实验评论附件表
+-- -----------------------------------------------
+DROP TABLE IF EXISTS `t_expreviewattch`;
+CREATE TABLE `t_expreviewattch` (
+  `expreviewattchid` varchar(40) NOT NULL,
+  `attchmentname` varchar(100),
+  `attchmentlocation` varchar(500),
+  `attchmentserverpath` varchar(500),
+  PRIMARY KEY (`expreviewattchid`)
+) ENGINE=InnoDB DEFAULT CHARSET=utf8;
 
 
 -- -----------------------------------------------

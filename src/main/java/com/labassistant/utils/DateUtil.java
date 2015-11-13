@@ -94,5 +94,10 @@ public final class DateUtil {
 		System.out.println(formatDate(end));
 		System.out.println(diff(start, end));
 		System.out.println(getYear(str2Date("yyyyMMdd","20140922")));
+		
+		System.out.println(new Date().getTime());
+		String name = "1446704449263.pdf".replace(".pdf", "");
+		System.out.println(name);
+		System.out.println(formatDate("yyyy.MM.dd HH:mm:ss", new Date(Long.parseLong(name))));
 	}
 }

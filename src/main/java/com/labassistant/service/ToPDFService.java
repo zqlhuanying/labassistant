@@ -1,6 +1,7 @@
 package com.labassistant.service;
 
 import java.io.IOException;
+import java.util.List;
 
 import com.itextpdf.text.DocumentException;
 
@@ -12,4 +13,6 @@ import com.itextpdf.text.DocumentException;
 public interface ToPDFService {
 
 	public void toPdf(String pdfName, String myExpID) throws DocumentException, IOException;
+	
+	public List<Object> getPdfList();
 }

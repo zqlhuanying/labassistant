@@ -15,7 +15,7 @@ public interface SyncService extends IBaseAbstractService {
 
 	public void pushMyExp(HttpServletRequest request, String json);
 	
-	public void pushExpInstruction(HttpServletRequest request, String json);
+	public void pushExpInstruction(HttpServletRequest request, String json, int allowDownload);
 	
 	public Map<String, Object> pullCommon();
 	
