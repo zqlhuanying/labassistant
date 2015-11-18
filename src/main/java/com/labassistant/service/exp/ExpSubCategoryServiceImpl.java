@@ -1,10 +1,10 @@
 package com.labassistant.service.exp;
 
-import java.util.List;
-
 import org.springframework.stereotype.Service;
 
 import com.labassistant.beans.ExpSubCategoryEntity;
+import com.labassistant.beans.Pagination;
+import com.labassistant.context.PaginationContext;
 import com.labassistant.dao.service.BaseAbstractService;
 
 @Service
@@ -12,12 +12,15 @@ public class ExpSubCategoryServiceImpl extends BaseAbstractService<ExpSubCategor
 				implements ExpSubCategoryService{
 
 	@Override
-	public List<ExpSubCategoryEntity> getSubCategoryByParentID(
-			String sCategortID) {
+	public Pagination<ExpSubCategoryEntity> getSubCategoryByParentID(String sCategortID, int limit) {
+
+		String hql = "from ExpSubCategoryEntity Where expCategoryID = ? ";
+
+		if(limit > 0){
+			PaginationContext.setPagesize(limit);
+		}
 		
-		String hql = "from ExpSubCategoryEntity Where expCategoryID = ?";
-		
-		List<ExpSubCategoryEntity> lists = findListByHql(hql,sCategortID);
+		Pagination<ExpSubCategoryEntity> lists = pageByHql(hql, sCategortID);
 		
 		return lists;
 	}

@@ -22,6 +22,7 @@ import com.labassistant.beans.MyExpEntity;
 import com.labassistant.common.BaseController;
 import com.labassistant.service.SyncService;
 import com.labassistant.service.ToPDFService;
+import com.labassistant.service.exp.ExpReviewService;
 import com.labassistant.service.myexp.MyExpMainService;
 import com.labassistant.utils.DateUtil;
 import com.labassistant.utils.EncryptUtil;
@@ -43,15 +44,30 @@ public class PdfController extends BaseController {
 	private MyExpMainService myExpMainService;
 	@Autowired
 	private SyncService syncService;
+	@Autowired
+	private ExpReviewService expReviewService;
 	
 	@RequestMapping(value = "", method = RequestMethod.POST)
 	@ResponseBody
-	public Map<String, Object> toPdf(HttpServletRequest request, String json, String myExpID) throws DocumentException, IOException{
+	public Map<String, Object> toPdf(HttpServletRequest request, String json, String userID, String myExpID) throws DocumentException, IOException{
 		setErrorMsg(request, "生成PDF出错");
 		Map<String, Object> map = new HashMap<String, Object>();
 		
+		MyExpEntity myExp = myExpMainService.getByExpID(myExpID);
+		boolean isReviewed = false;
+		if(myExp != null){
+			isReviewed = expReviewService.isReviewed(userID, myExp.getExpInstructionID());
+		}
+		if(!isReviewed){
+			map.put("code", "2");
+			map.put("msg", "实验未评论");
+			return map;
+		}
+		
 		// 先同步数据
-		syncService.pushMyExp(request, json);
+		if(StringUtils.isNotBlank(json)){
+			syncService.pushMyExp(request, json);
+		}
 		
 		// 生成PDF
 		String savePath = "/upload/pdf";
@@ -64,7 +80,7 @@ public class PdfController extends BaseController {
 		toPDFService.toPdf(FileUtil.toFilePath(pdfPath), myExpID);
 		
 		// 更新我的实验主表
-		MyExpEntity myExp = myExpMainService.get(myExpID);
+		//MyExpEntity myExp = myExpMainService.get(myExpID);
 		myExp.setIsCreateReport(1);
 		myExp.setReportName(pdfName);
 		myExp.setReportServerPath(FileUtil.toURLPath(relativePath));

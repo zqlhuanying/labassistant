@@ -6,6 +6,9 @@ import java.io.IOException;
 import java.net.MalformedURLException;
 import java.util.ArrayList;
 import java.util.List;
+import java.util.Map;
+
+import org.apache.commons.lang3.StringUtils;
 
 import com.itextpdf.text.BadElementException;
 import com.itextpdf.text.Document;
@@ -111,17 +114,34 @@ public class ToPDF {
 	}
 	
 	// 图片以块的方式呈现
-	public PdfPTable imageBlock(List<String> imgUrls, int columns) throws BadElementException, MalformedURLException, IOException{
+	public PdfPTable imageBlock(List<Map<String, String>> imgs, int columns) throws MalformedURLException, IOException, DocumentException{
 		PdfPTable pdfTable = new PdfPTable(columns);
 		pdfTable.setWidthPercentage(100);
 		
-		for(String imgUrl : imgUrls){
-			PdfPCell cell = new PdfPCell(image(imgUrl));
+		for(Map<String, String> img : imgs){
+			PdfPCell cell = new PdfPCell();
+			Image im = null;
+			Paragraph paragraph = paragraph();
+			paragraph.setAlignment(ALIGN_CENTER);
+			paragraph.setFont(setFont(null, 8, Font.NORMAL));
+			paragraph.setSpacingBefore(-5.0f);
+			try{
+				im = image(img.get("imgUrl"));
+			} catch (IOException e) {
+				continue;
+			}
+			if(StringUtils.isNotBlank(img.get("title"))){
+				paragraph.add(img.get("title") + ": ");
+			}
+			if(StringUtils.isNotBlank(img.get("desc"))){
+				paragraph.add(img.get("desc"));
+			}
+			cell.addElement(im);
+			cell.addElement(paragraph);
 			// 居中显示
 			cell.setHorizontalAlignment(ALIGN_CENTER);
 			cell.setBorder(0);
 			pdfTable.addCell(cell);
-			
 			pdfTable.completeRow();
 		}
 		return pdfTable;
@@ -157,30 +177,29 @@ public class ToPDF {
 	
 	// 设置默认字体
 	public Font setDefaultFont() throws DocumentException, IOException{
-		BaseFont baseFont = BaseFont.createFont("STSong-Light", "UniGB-UCS2-H",BaseFont.NOT_EMBEDDED);
-		Font font = new Font(baseFont, 10);
-		return font;
+		return setFont(null, 10, Font.NORMAL);
 	}
 	
 	// 设置题目字体
 	public Font setTitleFont() throws DocumentException, IOException{
-		BaseFont baseFont = BaseFont.createFont("STSong-Light", "UniGB-UCS2-H",BaseFont.NOT_EMBEDDED);
-		Font font = new Font(baseFont, 16, Font.BOLD);
-		return font;
+		return setFont(null, 16, Font.BOLD);
 	}
 	
 	// 设置一级标题字体
 	public Font setH1Font() throws DocumentException, IOException{
-		BaseFont baseFont = BaseFont.createFont("STSong-Light", "UniGB-UCS2-H",BaseFont.NOT_EMBEDDED);
-		Font font = new Font(baseFont, 14, Font.BOLD);
-		return font;
+		return setFont(null, 14, Font.BOLD);
 	}
 	
 	// 设置二级标题字体
 	public Font setH2Font() throws DocumentException, IOException{
-		BaseFont baseFont = BaseFont.createFont("STSong-Light", "UniGB-UCS2-H",BaseFont.NOT_EMBEDDED);
-		Font font = new Font(baseFont, 13, Font.BOLD);
-		return font;
+		return setFont(null, 13, Font.BOLD);
+	}
+	
+	public Font setFont(BaseFont baseFont, float size, int style) throws DocumentException, IOException{
+		if(baseFont == null){
+			baseFont = BaseFont.createFont("STSong-Light", "UniGB-UCS2-H", BaseFont.NOT_EMBEDDED);
+		}
+		return new Font(baseFont, size, style);
 	}
 	
 	// test

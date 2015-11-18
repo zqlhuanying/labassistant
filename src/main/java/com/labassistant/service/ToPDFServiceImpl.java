@@ -178,19 +178,23 @@ public class ToPDFServiceImpl implements ToPDFService {
 			
 			String memo = step.getProcessMemo();
 			if(StringUtils.isNotBlank(memo)){
-				Paragraph pMemo = pdf.paragraph(memo);
+				Paragraph pMemo = pdf.paragraph("备注: " + memo);
 				pMemo.setFirstLineIndent(12);
 				pdf.add(pMemo);
 			}
 			
 			if(stepAttches != null && stepAttches.size() > 0){
-				List<String> imgUrls = new ArrayList<String>();
+				List<Map<String, String>> imgs = new ArrayList<Map<String, String>>();
 				for(MyExpProcessAttchEntity stepAttch : stepAttches){
+					Map<String, String> imgDesc = new HashMap<String, String>();
 					String imgUrl = AppConfig.DOMAIN_PAGE + "/" + stepAttch.getAttchmentServerPath();
 					imgUrl = FileUtil.toURLPath(imgUrl);
-					imgUrls.add(imgUrl);
+					imgDesc.put("imgUrl", imgUrl);
+					imgDesc.put("title", stepAttch.getTitle());
+					imgDesc.put("desc", stepAttch.getDescription());
+					imgs.add(imgDesc);
 				}
-				pdf.add(pdf.imageBlock(imgUrls, 1));
+				pdf.add(pdf.imageBlock(imgs, 1));
 			}
 		}
 	}

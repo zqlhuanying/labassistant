@@ -24,6 +24,8 @@ import com.labassistant.annotation.MyAnnotation;
  * AttchmentLocation			附件本地存放路径
  * AttchmentServerPath			附件服务器存放路径
  * IsUpload						是否已经上传
+ * Title						图片的标题
+ * Description					图片的描述
  * imgStream					图片二进制流，经过BASE64编码后的字符串
  */
 @Table(name = "t_myexpprocessattch")
@@ -42,6 +44,8 @@ public class MyExpProcessAttchEntity extends ToStringBase {
 	private String attchmentServerPath;
 	@MyAnnotation
 	private Integer isUpload;
+	private String title;
+	private String description;
 	private String imgStream;
 	
 	@Id
@@ -95,6 +99,18 @@ public class MyExpProcessAttchEntity extends ToStringBase {
 	}
 	public void setIsUpload(Integer isUpload) {
 		this.isUpload = isUpload;
+	}
+	public String getTitle() {
+		return title;
+	}
+	public void setTitle(String title) {
+		this.title = title;
+	}
+	public String getDescription() {
+		return description;
+	}
+	public void setDescription(String description) {
+		this.description = description;
 	}
 	@Transient
 	public String getImgStream() {

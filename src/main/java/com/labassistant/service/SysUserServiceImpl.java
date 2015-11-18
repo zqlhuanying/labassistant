@@ -1,5 +1,8 @@
 package com.labassistant.service;
 
+import java.io.ByteArrayInputStream;
+import java.io.IOException;
+import java.io.InputStream;
 import java.io.Serializable;
 import java.sql.Timestamp;
 import java.util.Date;
@@ -13,11 +16,13 @@ import org.springframework.stereotype.Service;
 
 import com.labassistant.beans.SysUserEntity;
 import com.labassistant.constants.AppConfig;
+import com.labassistant.context.MySystemContext;
 import com.labassistant.dao.service.BaseAbstractService;
 import com.labassistant.email.EmailService;
 import com.labassistant.email.SendMailInfo;
 import com.labassistant.exception.MyRuntimeException;
 import com.labassistant.utils.EncryptUtil;
+import com.labassistant.utils.Uploader;
 
 /**
  * 用户登录服务
@@ -78,7 +83,13 @@ public class SysUserServiceImpl extends BaseAbstractService<SysUserEntity>
 			throw new MyRuntimeException("手机号已被使用");
 		}
 		sysUser.setPwd(EncryptUtil.MD5Digest(sysUser.getPwd()));
-		save(sysUser);
+		Serializable pk = save(sysUser);
+		// 对用户头像进行处理
+		if(StringUtils.isNotBlank(sysUser.getIconStream())){
+			sysUser.setUserID((String)pk);
+			sysUser.setIcon(processIcon(sysUser));
+			super.update(sysUser);
+		}
 	}
 
 	@Override
@@ -145,6 +156,9 @@ public class SysUserServiceImpl extends BaseAbstractService<SysUserEntity>
 		if(StringUtils.isNotBlank(user.getEducationID())){
 			sysUser.setEducationID(user.getEducationID());
 		}
+		if(StringUtils.isNotBlank(user.getIconStream())){
+			sysUser.setIcon(processIcon(user));
+		}
 		super.update(sysUser);
 	}
 	
@@ -167,6 +181,40 @@ public class SysUserServiceImpl extends BaseAbstractService<SysUserEntity>
 		String hql = "from SysUserEntity where telNo = ?";
 		int total = getCount(hql, true, telephone);
 		return total > 0;
+	}
+	
+	/**
+	 * 对用户头像处理
+	 * @param sysUser
+	 * @return
+	 * @throws Exception 
+	 */
+	private String processIcon(SysUserEntity sysUser){
+		InputStream inputStream = null;
+		try{
+			byte[] img = EncryptUtil.BASE64Decode(sysUser.getIconStream());
+			inputStream = new ByteArrayInputStream(img);
+		} catch (IOException e) {
+			System.out.println("处理图片二进制流失败");
+			e.printStackTrace();
+		}
+		
+		Uploader upload = new Uploader(MySystemContext.getMyRequest());
+		String iconName = sysUser.getIconName();
+		if(StringUtils.isBlank(iconName)){
+			iconName = "1.jpg";
+		}
+		upload.setOriginalName(iconName);
+		upload.setSavePath("upload/icon/" + sysUser.getUserID());
+		upload.setInputStream(inputStream);
+		try {
+			upload.upload();
+		} catch (Exception e) {
+			System.out.println("上传头像失败");
+			e.printStackTrace();
+		}
+		
+		return upload.getUrl();
 	}
 	
 	private String findPwdHtmlTemplate(String validUrl){

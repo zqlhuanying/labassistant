@@ -16,7 +16,6 @@ public class PaginationContext {
 	}
 
 	public static void setPagesize(int _pagesize) {
-		pagesize = new ThreadLocal<Integer>();
 		pagesize.set(_pagesize);
 	}
 
@@ -29,7 +28,6 @@ public class PaginationContext {
 	}
 
 	public static void setOffset(int _offset) {
-		offset = new ThreadLocal<Integer>();
 		offset.set(_offset);
 	}
 }

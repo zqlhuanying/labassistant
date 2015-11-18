@@ -26,12 +26,13 @@ CREATE TABLE `t_user` (
   `access_token` nvarchar(100),
   `f_validcode` varchar(32),
   `f_timestamp` timestamp,
+  `icon` nvarchar(200),
   PRIMARY KEY (`userid`)
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8;
 -- ----------------------------
 -- Records of t_user
 -- ----------------------------
-INSERT INTO t_user VALUES ('4028c681494b994701494b99aba50000', 'admin', '25d55ad283aa400af464c76d713c07ad', '1416091730@qq.com', '', '7728c681494b994701494b00aba50000', '7828c681494b994701494b00aba51111', '8728c681494b994701494b00aba51111', '8928c681494b994701494b00aba50000', '9428c681494b994701494b00aba51111', '9628c681494b994701494b00aba53333', 0, 0, '', '', '2015-10-09 10:34:12');
+INSERT INTO t_user VALUES ('4028c681494b994701494b99aba50000', 'admin', '25d55ad283aa400af464c76d713c07ad', '1416091730@qq.com', '', '7728c681494b994701494b00aba50000', '7828c681494b994701494b00aba51111', '8728c681494b994701494b00aba51111', '8928c681494b994701494b00aba50000', '9428c681494b994701494b00aba51111', '9628c681494b994701494b00aba53333', 0, 0, '', '', '2015-10-09 10:34:12', '');
 
 
 -- -----------------------------------
@@ -897,6 +898,8 @@ CREATE TABLE `t_myexpprocessattch` (
   `attchmentlocation` varchar(500),
   `attchmentserverpath` varchar(500),
   `isupload` int,
+  `title` varchar(50),
+  `description` nvarchar(500),
   PRIMARY KEY (`myexpprocessattchid`)
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8;
 

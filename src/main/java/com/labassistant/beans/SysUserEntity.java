@@ -7,8 +7,11 @@ import javax.persistence.Entity;
 import javax.persistence.GeneratedValue;
 import javax.persistence.Id;
 import javax.persistence.Table;
+import javax.persistence.Transient;
 
 import org.hibernate.annotations.GenericGenerator;
+
+import com.labassistant.annotation.MyAnnotation;
 
 
 /**
@@ -33,6 +36,7 @@ import org.hibernate.annotations.GenericGenerator;
  * access_token		第三方登录时的凭证
  * f_validCode		找回密码时的验证码
  * f_timestamp		找回密码时的时间戳
+ * Icon				用户头像URL地址
  */
 @Table(name = "t_user")
 @Entity
@@ -56,6 +60,10 @@ public class SysUserEntity extends ToStringBase{
 	private String access_token;
 	private String f_validCode;
 	private Timestamp f_timestamp;
+	@MyAnnotation
+	private String icon;
+	private String iconStream;
+	private String iconName;
 	
 	@Id
 	@GeneratedValue(generator="system-uuid")
@@ -187,6 +195,32 @@ public class SysUserEntity extends ToStringBase{
 
 	public void setF_timestamp(Timestamp f_timestamp) {
 		this.f_timestamp = f_timestamp;
+	}
+
+	public String getIcon() {
+		return icon;
+	}
+
+	public void setIcon(String icon) {
+		this.icon = icon;
+	}
+
+	@Transient
+	public String getIconStream() {
+		return iconStream;
+	}
+
+	public void setIconStream(String iconStream) {
+		this.iconStream = iconStream;
+	}
+
+	@Transient
+	public String getIconName() {
+		return iconName;
+	}
+
+	public void setIconName(String iconName) {
+		this.iconName = iconName;
 	}
 	
 }

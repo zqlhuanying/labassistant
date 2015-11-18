@@ -230,19 +230,23 @@ public class UploadImgTest {
 		uploadFile(url, files, lists);*/
 		
 		try{
-            String url = "http://172.18.1.55:8080/LabAssistant/sync/pushMyExp";
+            String url = "http://172.18.1.55:8080/LabAssistant/myInfo/edit";
             List<Map<String, String>> params = new ArrayList<Map<String, String>>();
             Map<String, String> img = new HashMap<String, String>();
-            String path = "F:\\1.jpg";
+            String path = "F:\\2.jpg";
             FileInputStream fin = new FileInputStream(new File(path));
             byte[] buffer = new byte[fin.available()];
             fin.read(buffer);
             fin.close();
-            System.out.println(new BASE64Encoder().encode(buffer));
-            Map<String, String> pMap = new HashMap<String, String>();
-            pMap.put("imgStream", new BASE64Encoder().encode(buffer));
-            System.out.println(JSONUtil.map2Json(pMap));
-            img.put("json", new BASE64Encoder().encode(buffer));
+            
+            img.put("iconStream", new BASE64Encoder().encode(buffer));
+            
+            Map<String, String> others = new HashMap<String, String>();
+            //others.put("nickName", "me4");
+            others.put("userID", "2c9281b751192b330151192b9f330000");
+            //others.put("pwd", "12345678");
+            //others.put("eMail", "11123@qq.com");
+            params.add(others);
             params.add(img);
             sendPost(url, params);
         } catch (Exception e){

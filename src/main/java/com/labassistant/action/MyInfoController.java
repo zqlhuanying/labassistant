@@ -21,6 +21,7 @@ import com.labassistant.beans.ProvinceEntity;
 import com.labassistant.beans.SysUserEntity;
 import com.labassistant.beans.TitleEntity;
 import com.labassistant.common.BaseController;
+import com.labassistant.constants.AppConfig;
 import com.labassistant.exception.MyRuntimeException;
 import com.labassistant.service.CityService;
 import com.labassistant.service.CollegeService;
@@ -66,6 +67,7 @@ public class MyInfoController extends BaseController {
 		innerMap.put("nickName", sysUser.getNickName());
 		innerMap.put("email", sysUser.geteMail());
 		innerMap.put("telNo", sysUser.getTelNo());
+		innerMap.put("icon", AppConfig.DOMAIN_PAGE + sysUser.getIcon());
 		ProvinceEntity province = provinceService.get(sysUser.getProvinceID());
 		innerMap.put("province", province != null ? province : "");
 		CityEntity city = cityService.get(sysUser.getCityID());
@@ -91,12 +93,6 @@ public class MyInfoController extends BaseController {
 		//setErrorMsg(request, "修改个人基本信息失败");
 		Map<String, Object> map = new HashMap<String, Object>();
 		
-		// 将原始的用户名和密码覆盖user中的用户名和密码，可以实现不允许修改用户名和密码的功能，就算修改了，也不会有效果
-		// 只是防止测试时误操作的一个方法，最后根据需要应注释
-		// TODO 需注释
-		//SysUserEntity sysUser = sysUserService.get(user.getUserID());
-		//user.setNickName(sysUser.getNickName());
-		//user.setPwd(sysUser.getPwd());
 		if(sysUserService.validUsername(user.getNickName())){
 			throw new MyRuntimeException("用户名已存在");
 		}

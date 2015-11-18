@@ -17,7 +17,7 @@ public interface SysUserService extends IBaseAbstractService<SysUserEntity>{
 	
 	public SysUserEntity thirdLogin(String old_token, String new_token, int source);
 	
-	public void register(SysUserEntity sysUserEntity);
+	public void register(SysUserEntity sysUser);
 	
 	public void sendFindPwdMail(SysUserEntity user) throws MyRuntimeException, MessagingException;
 	
