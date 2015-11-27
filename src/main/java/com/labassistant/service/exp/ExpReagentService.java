@@ -12,6 +12,8 @@ import com.labassistant.dao.service.IBaseAbstractService;
  */
 public interface ExpReagentService extends IBaseAbstractService<ExpReagentEntity>{
 
+	public String getSuggestionSupplier(String expInstructionID, String reagentID);
+	
 	public List<ExpReagentEntity> getExpReagentLists(String expInstructionID);
 	
 	public List<Object> getExpReagentAndAmount(String expInstructionID);

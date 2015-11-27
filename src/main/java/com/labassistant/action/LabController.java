@@ -12,14 +12,13 @@ import javax.servlet.http.HttpServletRequest;
 import org.apache.commons.lang3.StringUtils;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Controller;
-import org.springframework.web.bind.annotation.RequestBody;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestMethod;
-import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.web.bind.annotation.ResponseBody;
 
 import com.labassistant.beans.ExpInstructionEntity;
 import com.labassistant.beans.ExpReviewDetailEntity;
+import com.labassistant.beans.ExpReviewOptEntity;
 import com.labassistant.beans.ExpStepEntity;
 import com.labassistant.beans.ExpReagentEntity;
 import com.labassistant.beans.ExpReviewEntity;
@@ -27,21 +26,30 @@ import com.labassistant.beans.MyExpInstructionEntity;
 import com.labassistant.beans.MyExpEntity;
 import com.labassistant.beans.MyExpPlanEntity;
 import com.labassistant.beans.MyExpProcessEntity;
+import com.labassistant.beans.ReagentEntity;
+import com.labassistant.beans.ReagentLevelOneEntity;
+import com.labassistant.beans.ReagentLevelTwoEntity;
+import com.labassistant.beans.SupplierEntity;
 import com.labassistant.common.BaseController;
 import com.labassistant.constants.LabConstant;
-import com.labassistant.service.SysUserService;
+import com.labassistant.service.common.ReagentLevelOneService;
+import com.labassistant.service.common.ReagentLevelTwoService;
+import com.labassistant.service.common.ReagentService;
+import com.labassistant.service.common.SupplierService;
 import com.labassistant.service.exp.ExpConsumableService;
 import com.labassistant.service.exp.ExpEquipmentService;
 import com.labassistant.service.exp.ExpInstructionsMainService;
 import com.labassistant.service.exp.ExpProcessService;
 import com.labassistant.service.exp.ExpReagentService;
 import com.labassistant.service.exp.ExpReviewDetailService;
+import com.labassistant.service.exp.ExpReviewOptService;
 import com.labassistant.service.exp.ExpReviewService;
 import com.labassistant.service.myexp.MyExpInstructionService;
 import com.labassistant.service.myexp.MyExpMainService;
 import com.labassistant.service.myexp.MyExpPlanService;
 import com.labassistant.service.myexp.MyExpProcessService;
 import com.labassistant.utils.DateUtil;
+import static com.labassistant.utils.CommonUtil.saveNull;
 
 /**
  * 实验控制类
@@ -53,7 +61,13 @@ import com.labassistant.utils.DateUtil;
 public class LabController extends BaseController {
 
 	@Autowired
-	private SysUserService sysUserService;
+	private SupplierService supplierService;
+	@Autowired
+	private ReagentService reagentService;
+	@Autowired
+	private ReagentLevelOneService reagentLevelOneService;
+	@Autowired
+	private ReagentLevelTwoService reagentLevelTwoService;
 	@Autowired
 	private ExpInstructionsMainService expInstructionsMainService;
 	@Autowired
@@ -67,6 +81,10 @@ public class LabController extends BaseController {
 	@Autowired
 	private ExpReviewService expReviewService;
 	@Autowired
+	private ExpReviewDetailService expReviewDetailService;
+	@Autowired
+	private ExpReviewOptService expReviewOptService;
+	@Autowired
 	private MyExpMainService myExpMainService;
 	@Autowired
 	private MyExpInstructionService myExpInstructionService;
@@ -74,9 +92,7 @@ public class LabController extends BaseController {
 	private MyExpPlanService myExpPlanService;
 	@Autowired
 	private MyExpProcessService myExpProcessService;
-	@Autowired
-	private ExpReviewDetailService expReviewDetailService;
-	
+		
 	@RequestMapping(value = "/allReagents")
 	@ResponseBody
 	public Map<String, Object> getAllReagents(HttpServletRequest request, String expInstructionID){
@@ -200,6 +216,39 @@ public class LabController extends BaseController {
 		return map;
 	}
 	
+	@RequestMapping(value = "/expReagentDetail")
+	@ResponseBody
+	public Map<String, Object> expReagentDetail(HttpServletRequest request, String expInstructionID, String reagentID){
+		setErrorMsg(request, "获取试剂详细信息出错");	
+		Map<String, Object>  map = new HashMap<String, Object>();
+		Map<String, Object> innerMap = new HashMap<String, Object>();
+		
+		ReagentEntity reagent = reagentService.get(reagentID);
+		if(reagent != null){
+			ReagentLevelOneEntity reagentLevelOneEntity = reagentLevelOneService.get(reagent.getLevelOneSortID());
+			ReagentLevelTwoEntity reagentLevelTwoEntity = reagentLevelTwoService.get(reagent.getLevelTwoSortID());
+			SupplierEntity supplier = supplierService.get(expReagentService.getSuggestionSupplier(expInstructionID, reagentID));
+			
+			innerMap.put("reagentName", saveNull(reagent.getReagentName()));
+			innerMap.put("chemicalName", saveNull(reagent.getChemicalName()));
+			innerMap.put("supplier", supplier == null ?
+									"" : supplier.getSupplierName());
+			innerMap.put("levelOne", reagentLevelOneEntity == null ? 
+									"" :  reagentLevelOneEntity.getLevelOneSortName());
+			innerMap.put("levelTwo", reagentLevelTwoEntity == null ?
+									"" : reagentLevelTwoEntity.getLevelTwoSortName());
+			innerMap.put("originPlace", saveNull(reagent.getOriginPlace()));
+			innerMap.put("productNo", saveNull(reagent.getProductNo()));
+			innerMap.put("agents", saveNull(reagent.getAgents()));
+			innerMap.put("specification", saveNull(reagent.getSpecification()));
+			innerMap.put("casNo", saveNull(reagent.getCasNo()));
+			innerMap.put("memo", saveNull(reagent.getMemo()));
+		}
+		map.putAll(retSuccess());
+		map.put("data", innerMap);
+		return map;
+	}
+	
 	// todo 结构略有不同
 	@RequestMapping(value = "/getHotInstructions")
 	@ResponseBody
@@ -247,8 +296,6 @@ public class LabController extends BaseController {
 			if(expInstruction.getSupplierName() != null
 					&& !"".equals(expInstruction.getSupplierName())) innerMap.put("supplierName", expInstruction.getSupplierName());
 			innerMap.put("productNum", expInstruction.getProductNum());
-			//if(isDownload) innerMap.put("instructState", "已下载");
-			//else innerMap.put("instructState", "未下载");
 			
 			// 实验简介
 			innerMap.put("experimentDesc", expInstruction.getExperimentDesc());
@@ -359,6 +406,19 @@ public class LabController extends BaseController {
 		
 		map.putAll(retSuccess());
 		map.put("data", innerMap);
+		return map;
+	}
+	
+	@RequestMapping(value = "/reviewOptional")
+	@ResponseBody
+	public Map<String, Object> reviewOptional(HttpServletRequest request){
+		setErrorMsg(request, "获取评论项失败");
+		Map<String, Object>  map = new HashMap<String, Object>();	
+		
+		List<ExpReviewOptEntity> expReviewOpts = expReviewOptService.findList();
+		
+		map.putAll(retSuccess());
+		map.put("data", expReviewOpts);
 		return map;
 	}
 	
@@ -494,12 +554,11 @@ public class LabController extends BaseController {
 	 */
 	@RequestMapping(value = "/getInstructionsBySubCategoryID")
 	@ResponseBody
-	public Map<String, Object> getInstructionsBySubCategoryID(HttpServletRequest request, String expSubCategoryID){
-		
+	public Map<String, Object> getInstructionsBySubCategoryID(HttpServletRequest request, String userID, String expSubCategoryID){		
 		setErrorMsg(request, "获取实验列表出错");
 		Map<String, Object>  map = new HashMap<String, Object>();
 		
-		List<ExpInstructionEntity> lists = expInstructionsMainService.getInstructionsBySubCategoryID(expSubCategoryID);
+		List<ExpInstructionEntity> lists = expInstructionsMainService.getInstructionsBySubCategoryID(userID, expSubCategoryID);
 		
 		map.putAll(retSuccess());
 		map.put("data", lists);
@@ -516,18 +575,14 @@ public class LabController extends BaseController {
 	 */
 	@RequestMapping(value = "/getInstructionsByFilter")
 	@ResponseBody
-	public Map<String, Object> getInstructionsByFilter(HttpServletRequest request, String filterStr){
-		
+	public Map<String, Object> getInstructionsByFilter(HttpServletRequest request, String userID, String filterStr){
 		setErrorMsg(request, "获取实验列表出错");
-		Map<String, Object>  map = new HashMap<String, Object>();
+		Map<String, Object>  map = new HashMap<String, Object>();				
 		
-		
-		
-		List<ExpInstructionEntity> lists = expInstructionsMainService.getInstructionsByFilter(filterStr);
+		List<ExpInstructionEntity> lists = expInstructionsMainService.getInstructionsByFilter(userID, filterStr);
 		
 		map.putAll(retSuccess());
 		map.put("data", lists);
-		
 		return map; 
 	}
 }

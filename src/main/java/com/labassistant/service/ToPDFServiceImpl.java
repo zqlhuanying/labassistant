@@ -13,12 +13,19 @@ import org.springframework.stereotype.Service;
 
 import com.itextpdf.text.DocumentException;
 import com.itextpdf.text.Paragraph;
+import com.itextpdf.text.pdf.PdfPCell;
+import com.itextpdf.text.pdf.PdfPTable;
 import com.labassistant.beans.ExpInstructionEntity;
+import com.labassistant.beans.ExpReviewDetailEntity;
+import com.labassistant.beans.ExpReviewEntity;
 import com.labassistant.beans.MyExpEntity;
 import com.labassistant.beans.MyExpProcessAttchEntity;
 import com.labassistant.beans.MyExpProcessEntity;
 import com.labassistant.constants.AppConfig;
 import com.labassistant.service.exp.ExpInstructionsMainService;
+import com.labassistant.service.exp.ExpReviewDetailService;
+import com.labassistant.service.exp.ExpReviewOptService;
+import com.labassistant.service.exp.ExpReviewService;
 import com.labassistant.service.myexp.MyExpConsumableService;
 import com.labassistant.service.myexp.MyExpEquipmentService;
 import com.labassistant.service.myexp.MyExpMainService;
@@ -38,9 +45,15 @@ import com.labassistant.utils.ToPDF;
 public class ToPDFServiceImpl implements ToPDFService {
 
 	@Autowired
-	private MyExpMainService myExpMainService;
-	@Autowired
 	private ExpInstructionsMainService expInstructionsMainService;
+	@Autowired
+	private ExpReviewService expReviewService;
+	@Autowired
+	private ExpReviewDetailService expReviewDetailService;
+	@Autowired
+	private ExpReviewOptService expReviewOptService;
+	@Autowired
+	private MyExpMainService myExpMainService;
 	@Autowired
 	private MyExpReagentService myExpReagentService;
 	@Autowired
@@ -54,37 +67,41 @@ public class ToPDFServiceImpl implements ToPDFService {
 	
 	private final ToPDF pdf = new ToPDF();
 	
-	public void toPdf(String pdfName, String myExpID) throws DocumentException, IOException{
-		pdf.getDocument(pdfName);
-		String experimentName = "";
-		String experimentDesc = "";
-		String experimentTheory = "";
+	public void toPdf(String pdfName, String myExpID) throws DocumentException, IOException{			
 		// 获取说明书名/技术简介/实验原理
 		MyExpEntity myExp = myExpMainService.getByExpID(myExpID);
 		if(myExp != null){
+			pdf.getDocument(pdfName);
+			String experimentName = "";
+			String experimentDesc = "";
+			String experimentTheory = "";
 			ExpInstructionEntity expInstruction = expInstructionsMainService.get(myExp.getExpInstructionID());
 			if(expInstruction != null){
 				experimentName = expInstruction.getExperimentName();
 				experimentDesc = expInstruction.getExperimentDesc();
 				experimentTheory = expInstruction.getExperimentTheory();
 			}
+			setTopic(experimentName + "实验报告");
+			setExperimentDesc(experimentDesc);
+			setExperimentTheory(experimentTheory);
+			
+			// 实验准备
+			List<String> reagents = myExpReagentService.getAllReagentsName(myExpID);
+			List<String> consumables = myExpConsumableService.getAllConsumablesName(myExpID);
+			List<String> equipments = myExpEquipmentService.getAllEquipmentsName(myExpID);
+			setExperimentReady(reagents, consumables, equipments);
+			
+			// 实验流程
+			List<MyExpProcessEntity> steps = myExpProcessService.getList(myExpID);
+			setExperimentSteps(steps);
+			
+			// 实验评价
+			ExpReviewEntity expReview = expReviewService.getReview(myExp.getUserID(), myExp.getExpInstructionID());
+			setExperimentReview(expReview);
+			
+			// 关闭文档
+			pdf.close();
 		}
-		setTopic(experimentName + "实验报告");
-		setExperimentDesc(experimentDesc);
-		setExperimentTheory(experimentTheory);
-		
-		// 实验准备
-		List<String> reagents = myExpReagentService.getAllReagentsName(myExpID);
-		List<String> consumables = myExpConsumableService.getAllConsumablesName(myExpID);
-		List<String> equipments = myExpEquipmentService.getAllEquipmentsName(myExpID);
-		setExperimentReady(reagents, consumables, equipments);
-		
-		// 实验流程
-		List<MyExpProcessEntity> steps = myExpProcessService.getList(myExpID);
-		setExperimentSteps(steps);
-		
-		// 关闭文档
-		pdf.close();
 	}
 	
 	@Override
@@ -196,6 +213,41 @@ public class ToPDFServiceImpl implements ToPDFService {
 				}
 				pdf.add(pdf.imageBlock(imgs, 1));
 			}
+		}
+	}
+	
+	private void setExperimentReview(ExpReviewEntity expReview) throws DocumentException, IOException{
+		if(expReview != null){
+			pdf.add(pdf.paragraph("实验评论", pdf.setH1Font()));
+
+			PdfPTable pdfTable = new PdfPTable(2);
+			pdfTable.setWidthPercentage(100);
+			pdfTable.setSpacingBefore(10.0f);
+			pdfTable.setTotalWidth(new float[]{100.0f, 75.0f});
+			pdfTable.setLockedWidth(true);
+			pdfTable.setHorizontalAlignment(ToPDF.ALIGN_LEFT);
+			
+			Paragraph header1 = pdf.paragraph("评论项");
+			header1.setAlignment(ToPDF.ALIGN_CENTER);
+			Paragraph header2 = pdf.paragraph("评论项得分");
+			header2.setAlignment(ToPDF.ALIGN_CENTER);
+			pdf.pCell(pdfTable, header1);
+			pdf.pCell(pdfTable, header2);
+			pdfTable.completeRow();
+			
+			List<ExpReviewDetailEntity> expReviewDetails = expReviewDetailService.getExpReviewDetails(expReview.getExpReviewID());
+			for(ExpReviewDetailEntity expReviewDetail : expReviewDetails){
+				pdf.pCell(pdfTable, pdf.paragraph(expReviewOptService.get(expReviewDetail.getExpReviewOptID()).getExpReviewOptName()));
+				pdf.pCell(pdfTable, pdf.paragraph(String.valueOf((expReviewDetail.getExpReviewOptScore()))));
+				pdfTable.completeRow();
+			}
+			
+			PdfPCell cell = pdf.pCell(pdf.paragraph("实验评论：\n    " + expReview.getReviewInfo()));
+			cell.setColspan(2);
+			pdf.pCell(pdfTable, cell);
+			pdfTable.completeRow();
+			
+			pdf.add(pdfTable);
 		}
 	}
 }

@@ -7,6 +7,7 @@ import java.util.Map;
 
 import javax.servlet.http.HttpServletRequest;
 
+import org.apache.commons.lang3.StringUtils;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Controller;
 import org.springframework.web.bind.annotation.RequestMapping;
@@ -31,6 +32,7 @@ import com.labassistant.service.ProvinceService;
 import com.labassistant.service.SysUserService;
 import com.labassistant.service.TitleService;
 import com.labassistant.utils.EncryptUtil;
+import static com.labassistant.utils.CommonUtil.saveNull;
 
 /**
  * 我的信息
@@ -64,22 +66,37 @@ public class MyInfoController extends BaseController {
 		Map<String, Object> innerMap = new HashMap<String, Object>();
 		SysUserEntity sysUser = sysUserService.get(user.getUserID());
 		
-		innerMap.put("nickName", sysUser.getNickName());
-		innerMap.put("email", sysUser.geteMail());
-		innerMap.put("telNo", sysUser.getTelNo());
-		innerMap.put("icon", AppConfig.DOMAIN_PAGE + sysUser.getIcon());
+		innerMap.put("nickName", saveNull(sysUser.getNickName()));
+		innerMap.put("email", saveNull(sysUser.geteMail()));
+		innerMap.put("telNo", saveNull(sysUser.getTelNo()));
 		ProvinceEntity province = provinceService.get(sysUser.getProvinceID());
-		innerMap.put("province", province != null ? province : "");
+		innerMap.put("province", province != null ? province : new ProvinceEntity());
 		CityEntity city = cityService.get(sysUser.getCityID());
-		innerMap.put("city", city != null ? city : "");
+		innerMap.put("city", city != null ? city : new CityEntity());
 		CollegeEntity college = collegeService.get(sysUser.getCollegeID());
-		innerMap.put("college", college != null ? college : "");
+		innerMap.put("college", college != null ? college : new CollegeEntity());
 		MajorEntity major = majorService.get(sysUser.getMajorID());
-		innerMap.put("major", major != null ? major : "");
+		innerMap.put("major", major != null ? major : new MajorEntity());
 		EducationEntity education = educationService.get(sysUser.getEducationID());
-		innerMap.put("education", education != null ? education : "");
+		innerMap.put("education", education != null ? education : new EducationEntity());
 		TitleEntity title = titleService.get(sysUser.getTitleID());
-		innerMap.put("title", title != null ? title : "");
+		innerMap.put("title", title != null ? title : new TitleEntity());
+
+		map.putAll(retSuccess());
+		map.put("data", innerMap);
+		return map;
+	}
+	
+	@RequestMapping(value = "/icon")
+	@ResponseBody
+	public Map<String, Object> userIcon(HttpServletRequest request, SysUserEntity user){
+		setErrorMsg(request, "获取用户头像失败");
+		Map<String, Object> map = new HashMap<String, Object>();
+		Map<String, Object> innerMap = new HashMap<String, Object>();
+		SysUserEntity sysUser = sysUserService.get(user.getUserID());
+		
+		innerMap.put("nickName", saveNull(sysUser.getNickName()));
+		innerMap.put("icon", StringUtils.isNotBlank(sysUser.getIcon()) ? AppConfig.DOMAIN_PAGE + sysUser.getIcon() : "");
 
 		map.putAll(retSuccess());
 		map.put("data", innerMap);

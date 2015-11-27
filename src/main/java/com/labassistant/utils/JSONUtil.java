@@ -41,6 +41,7 @@ public final class JSONUtil {
 		try{
 			return new ObjectMapper().readValue(json, Map.class);
 		} catch (Exception ex){
+			ex.printStackTrace();
 			throw new MyRuntimeException("json转换异常");
 		}
 	}

@@ -1,7 +1,6 @@
 package com.labassistant.action;
 
 import java.io.File;
-import java.io.FileInputStream;
 import java.io.IOException;
 import java.util.Date;
 import java.util.HashMap;
@@ -20,14 +19,13 @@ import org.springframework.web.bind.annotation.ResponseBody;
 import com.itextpdf.text.DocumentException;
 import com.labassistant.beans.MyExpEntity;
 import com.labassistant.common.BaseController;
+import com.labassistant.constants.AppConfig;
 import com.labassistant.service.SyncService;
 import com.labassistant.service.ToPDFService;
 import com.labassistant.service.exp.ExpReviewService;
 import com.labassistant.service.myexp.MyExpMainService;
 import com.labassistant.utils.DateUtil;
-import com.labassistant.utils.EncryptUtil;
 import com.labassistant.utils.FileUtil;
-import com.labassistant.utils.Uploader;
 
 /**
  * 
@@ -53,6 +51,11 @@ public class PdfController extends BaseController {
 		setErrorMsg(request, "生成PDF出错");
 		Map<String, Object> map = new HashMap<String, Object>();
 		
+		// 先同步数据
+		if(StringUtils.isNotBlank(json)){
+			syncService.pushMyExp(json);
+		}
+		
 		MyExpEntity myExp = myExpMainService.getByExpID(myExpID);
 		boolean isReviewed = false;
 		if(myExp != null){
@@ -62,11 +65,6 @@ public class PdfController extends BaseController {
 			map.put("code", "2");
 			map.put("msg", "实验未评论");
 			return map;
-		}
-		
-		// 先同步数据
-		if(StringUtils.isNotBlank(json)){
-			syncService.pushMyExp(request, json);
 		}
 		
 		// 生成PDF
@@ -111,11 +109,12 @@ public class PdfController extends BaseController {
 		Map<String, Object> map = new HashMap<String, Object>();
 		Map<String, Object> innerMap = new HashMap<String, Object>();
 		
-		Uploader upload = new Uploader(request);
 		String pdfUrl = myExpMainService.get(myExpID).getReportServerPath();
+		/*Uploader upload = new Uploader(request);
 		upload.setUrl(pdfUrl);
 		FileInputStream fin = upload.download();
-		innerMap.put("pdfStream", EncryptUtil.BASE64Encode(fin));
+		innerMap.put("pdfStream", EncryptUtil.BASE64Encode(fin));*/
+		innerMap.put("pdfPath", AppConfig.DOMAIN_PAGE + pdfUrl);
 		map.putAll(retSuccess());
 		map.put("data", innerMap);
 		return map;

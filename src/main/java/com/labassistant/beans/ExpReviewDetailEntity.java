@@ -15,8 +15,8 @@ import org.hibernate.annotations.GenericGenerator;
  * 
  * ExpReviewDetailID			实验评论详细分类ID	
  * ExpReviewID					评论ID
- * ReviewOptID					评论项ID
- * ReviewOptScore				评论项得分
+ * ExpReviewOptID				评论项ID
+ * ExpReviewOptScore			评论项得分
  * 
  */
 @Table(name = "t_expreviewdetail")
@@ -31,8 +31,8 @@ public class ExpReviewDetailEntity extends ToStringBase {
 	@Column(length=32)
 	private String expReviewDetailID;
 	private String expReviewID;
-	private String reviewOptID;
-	private Integer reviewOptScore;
+	private String expReviewOptID;
+	private Integer expReviewOptScore;
 	
 	public String getExpReviewDetailID() {
 		return expReviewDetailID;
@@ -46,17 +46,18 @@ public class ExpReviewDetailEntity extends ToStringBase {
 	public void setExpReviewID(String expReviewID) {
 		this.expReviewID = expReviewID;
 	}
-	public String getReviewOptID() {
-		return reviewOptID;
+	public String getExpReviewOptID() {
+		return expReviewOptID;
 	}
-	public void setReviewOptID(String reviewOptID) {
-		this.reviewOptID = reviewOptID;
+	public void setExpReviewOptID(String expReviewOptID) {
+		this.expReviewOptID = expReviewOptID;
 	}
-	public Integer getReviewOptScore() {
-		return reviewOptScore;
+	public Integer getExpReviewOptScore() {
+		return expReviewOptScore;
 	}
-	public void setReviewOptScore(Integer reviewOptScore) {
-		this.reviewOptScore = reviewOptScore;
+	public void setExpReviewOptScore(Integer expReviewOptScore) {
+		this.expReviewOptScore = expReviewOptScore;
 	}
+	
 	
 }

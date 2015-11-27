@@ -702,15 +702,15 @@ DROP TABLE IF EXISTS `t_expreviewdetail`;
 CREATE TABLE `t_expreviewdetail` (
   `expreviewdetailid` varchar(40) NOT NULL,
   `expreviewid` varchar(40) NOT NULL,
-  `reviewoptid` varchar(40) NOT NULL,
-  `reviewoptscore` int NOT NULL,
+  `expreviewoptid` varchar(40) NOT NULL,
+  `expreviewoptscore` int NOT NULL,
   PRIMARY KEY (`expreviewdetailid`)
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8;
 -- ----------------------------
 -- Records of t_expreviewdetail
 -- ----------------------------
-INSERT INTO `t_expreviewdetail` (`expreviewdetailid`,`expreviewid`,`reviewoptid`,`reviewoptscore`) VALUES ('37df9ad0810e11e5b78d002564e8751d','4045c791564b994701494b99aba50000','37df9ad0810e11e5b78d002564e7234d',4);
-
+INSERT INTO `t_expreviewdetail` (`expreviewdetailid`,`expreviewid`,`expreviewoptid`,`expreviewoptscore`) VALUES ('37df9ad0810e11e5b78d002564e8751d','4045c791564b994701494b99aba50000','37df9ad0810e11e5b78d002564e7234d',4);
+t_city
 -- -----------------------------------------------
 -- Table structure for `t_expreviewopt` 实验评论项表
 -- -----------------------------------------------

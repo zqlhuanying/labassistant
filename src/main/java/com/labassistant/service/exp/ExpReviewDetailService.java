@@ -14,4 +14,8 @@ public interface ExpReviewDetailService extends
 		IBaseAbstractService<ExpReviewDetailEntity> {
 
 	public List<ExpReviewDetailEntity> getExpReviewDetails(String expReviewID);
+	
+	public ExpReviewDetailEntity getExpReviewDetail(String expReviewID, String expReviewOptID);
+	
+	public boolean isReviewed(String expReviewID, String expReviewOptID);
 }

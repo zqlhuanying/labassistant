@@ -22,4 +22,16 @@ public class ExpReviewDetailServiceImpl extends
 		String hql = "from ExpReviewDetailEntity where expReviewID = ?";
 		return findListByHql(hql, expReviewID);
 	}
+	
+	@Override
+	public ExpReviewDetailEntity getExpReviewDetail(String expReviewID, String expReviewOptID){
+		String hql = "from ExpReviewDetailEntity where expReviewID = ? and expReviewOptID = ?";
+		return findOneByHql(hql, expReviewID, expReviewOptID);
+	}
+	
+	@Override
+	public boolean isReviewed(String expReviewID, String expReviewOptID){
+		String hql = "from ExpReviewDetailEntity where expReviewID = ? and expReviewOptID = ?";
+		return getCount(hql, true, expReviewID, expReviewOptID) > 0;
+	}
 }

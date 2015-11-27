@@ -15,6 +15,8 @@ public interface ExpReviewService extends IBaseAbstractService<ExpReviewEntity> 
 
 	public List<ExpReviewEntity> getReviews(String expInstructionID);
 	
+	public ExpReviewEntity getReview(String userID, String expInstructionID);
+	
 	public List<Object> getReviewList(String expInstructionID, String lastExpReviewID, int pageSize);
 	
 	public Map<String, Object> getReviewDetail(String expReviewID);

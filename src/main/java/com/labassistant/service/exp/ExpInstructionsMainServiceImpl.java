@@ -1,6 +1,7 @@
 package com.labassistant.service.exp;
 
 
+import java.util.Iterator;
 import java.util.LinkedHashMap;
 import java.util.List;
 import java.util.Map;
@@ -10,8 +11,6 @@ import org.springframework.stereotype.Service;
 
 import com.labassistant.beans.ExpInstructionEntity;
 import com.labassistant.dao.service.BaseAbstractService;
-import com.labassistant.service.myexp.MyExpInstructionService;
-
 /**
  * 实验说明书主表
  * @author zql
@@ -21,8 +20,6 @@ import com.labassistant.service.myexp.MyExpInstructionService;
 public class ExpInstructionsMainServiceImpl extends BaseAbstractService<ExpInstructionEntity>
 		implements ExpInstructionsMainService {
 
-	@Autowired
-	private MyExpInstructionService myExpInstructionService;
 	@Autowired
 	private ExpProcessService expProcessService;
 	@Autowired
@@ -87,14 +84,20 @@ public class ExpInstructionsMainServiceImpl extends BaseAbstractService<ExpInstr
 	}
 	
 	/**
+	 * 判断说明书是否属于本人
+	 */
+	@Override
+	public boolean isOwn(String expInstructionID, String userID){
+		String hql = "from ExpInstructionEntity where expInstructionID = ? and provideUser = ?";
+		return getCount(hql, true, expInstructionID, userID) > 0;
+	}
+	
+	/**
 	 * 判断说明书是否允许下载
 	 */
 	@Override
-	public boolean isAllowDownload(String userID, String expInstructionID){
-		String hql = "from ExpInstructionEntity where expInstructionID = ? and provideUser = ? and allowDownload = 0";
-		boolean isOwn = getCount(hql, true, expInstructionID, userID) > 0;
-		boolean isPublic = isPublic(expInstructionID);
-		return isPublic || isOwn;
+	public boolean isAllowDownload(String userID, String expInstructionID){		
+		return isPublic(expInstructionID) || isOwn(expInstructionID, userID);
 	}
 	
 	@Override
@@ -113,24 +116,36 @@ public class ExpInstructionsMainServiceImpl extends BaseAbstractService<ExpInstr
 	 * @return
 	 */
 	@Override
-	public List getInstructionsBySubCategoryID(String expSubCategoryID) {
-		
+	public List<ExpInstructionEntity> getInstructionsBySubCategoryID(String userID, String expSubCategoryID) {
 		String hql = "from ExpInstructionEntity where expSubCategoryID = ?";
-		
-		return findListByHql(hql,expSubCategoryID);
+		List<ExpInstructionEntity> expInstructions = findListByHql(hql,expSubCategoryID);
+		delNotAllowedExpInstruction(userID, expInstructions);
+		return expInstructions;
 	}
 
 	@Override
-	public List getInstructionsByFilter(String filterStr) {
-		
+	public List<ExpInstructionEntity> getInstructionsByFilter(String userID, String filterStr) {
 		String hql = "from ExpInstructionEntity where filterStr like ?";
-		
 		filterStr = "%" + filterStr + "%";
-		
-		System.out.println("filterStr:" + filterStr);
-	
-		
-		return findListByHql(hql,filterStr);
+		List<ExpInstructionEntity> expInstructions = findListByHql(hql,filterStr);
+		delNotAllowedExpInstruction(userID, expInstructions);
+		return expInstructions;
 	}
 
+	/**
+	 * 过滤不允许下载的说明书部分
+	 * @param expInstructions
+	 * @return
+	 */
+	private void delNotAllowedExpInstruction(String userID, List<ExpInstructionEntity> expInstructions){
+		if(expInstructions != null){
+			Iterator<ExpInstructionEntity> iterator = expInstructions.iterator();
+			while (iterator.hasNext()) {
+				ExpInstructionEntity expInstruction = iterator.next();
+				if(!isAllowDownload(userID, expInstruction.getExpInstructionID())){
+					iterator.remove();
+				}
+			}
+		}
+	}
 }

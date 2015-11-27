@@ -50,6 +50,15 @@ public class ExpReviewServiceImpl extends BaseAbstractService<ExpReviewEntity>
 	 * 获取实验评论
 	 */
 	@Override
+	public ExpReviewEntity getReview(String userID, String expInstructionID){
+		String hql = "from ExpReviewEntity where reviewerID = ? and expInstructionID = ?";
+		return findOneByHql(hql, userID, expInstructionID);
+	}
+	
+	/**
+	 * 获取实验评论
+	 */
+	@Override
 	public List<Object> getReviewList(String expInstructionID, String lastExpReviewID, int pageSize){
 		List<Object> object = new ArrayList<Object>();
 		Pagination<ExpReviewEntity> reviews = getPage(expInstructionID, lastExpReviewID, pageSize);
@@ -82,8 +91,8 @@ public class ExpReviewServiceImpl extends BaseAbstractService<ExpReviewEntity>
 		if(expReviewDetails != null && expReviewDetails.size() > 0){
 			for(ExpReviewDetailEntity expReviewDetail : expReviewDetails){
 				Map<String, String> innerMap = new HashMap<String, String>();
-				innerMap.put("expReviewOptName", expReviewOptService.get(expReviewDetail.getReviewOptID()).getExpReviewOptName());
-				innerMap.put("reviewOptScore", String.valueOf(expReviewDetail.getReviewOptScore()));
+				innerMap.put("expReviewOptName", expReviewOptService.get(expReviewDetail.getExpReviewOptID()).getExpReviewOptName());
+				innerMap.put("reviewOptScore", String.valueOf(expReviewDetail.getExpReviewOptScore()));
 				object.add(innerMap);
 			}
 		}
@@ -98,25 +107,46 @@ public class ExpReviewServiceImpl extends BaseAbstractService<ExpReviewEntity>
 	public void responseReview(String json){
 		Map<String, Object> requestMap = (Map<String, Object>)JSONUtil.json2Map(json);
 		
+		String expInstructionID = (String)requestMap.get("expInstructionID");
+		String reviewerID = (String)requestMap.get("reviewerID");
+		boolean isReviewed = isReviewed(reviewerID, expInstructionID); 
 		ExpReviewEntity expReview = new ExpReviewEntity();
+		if(isReviewed){
+			expReview = getReview(reviewerID, expInstructionID);
+		}
 		Date now = new Date();
 		expReview.setReviewDate(DateUtil.str2Date(LabConstant.DATEFORMAT, DateUtil.formatDate(LabConstant.DATEFORMAT, now)));
 		expReview.setReviewYear(DateUtil.getYear(now));
-		expReview.setReviewMonth(DateUtil.getMonth(now));		
-		expReview.setExpInstructionID((String)requestMap.get("expInstructionID"));
-		expReview.setReviewerID((String)requestMap.get("reviewerID"));
+		expReview.setReviewMonth(DateUtil.getMonth(now));
+		expReview.setExpInstructionID(expInstructionID);
+		expReview.setReviewerID(reviewerID);
 		expReview.setReviewInfo((String)requestMap.get("reviewInfo"));
 		expReview.setExpScore((Integer)requestMap.get("expScore"));
-		Serializable pk = save(expReview);
+		Serializable pk = null;
+		if(isReviewed){
+			update(expReview);
+			pk = expReview.getExpReviewID();
+		} else {
+			pk = save(expReview);
+		}
 		
 		List<Map<String, Object>> expReviewDetails = (List<Map<String, Object>>)requestMap.get("expReviewDetails");
 		
 		for(Map<String, Object> expReviewDetail : expReviewDetails){
 			ExpReviewDetailEntity expReviewDetailEntity = new ExpReviewDetailEntity();
+			String expReviewOptID = (String)expReviewDetail.get("expReviewOptID");
+			boolean isReviewedForDetail = expReviewDetailService.isReviewed((String)pk, expReviewOptID);
+			if(isReviewedForDetail){
+				expReviewDetailEntity = expReviewDetailService.getExpReviewDetail((String)pk, expReviewOptID);
+			}
 			expReviewDetailEntity.setExpReviewID((String)pk);
-			expReviewDetailEntity.setReviewOptID((String)expReviewDetail.get("reviewOptID"));
-			expReviewDetailEntity.setReviewOptScore((Integer)expReviewDetail.get("reviewOptScore"));
-			save(expReviewDetailEntity);
+			expReviewDetailEntity.setExpReviewOptID(expReviewOptID);
+			expReviewDetailEntity.setExpReviewOptScore((Integer)expReviewDetail.get("expReviewOptScore"));
+			if(isReviewedForDetail){
+				expReviewDetailService.update(expReviewDetailEntity);
+			} else{
+				expReviewDetailService.save(expReviewDetailEntity);
+			}
 		}
 	}
 	

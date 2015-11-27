@@ -67,6 +67,12 @@ public interface IBaseAbstractService<T> {
 	public <X> void deleteAll(Collection<X> entities) ;
 	
 	/**
+	 * 
+	 * 清空表内的数据
+	 */
+	public <X> void deleteAll(Class<?> entityClass);
+	
+	/**
 	 * 更新单条记录
 	 * @param entity
 	 */

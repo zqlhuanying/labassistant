@@ -1,12 +1,8 @@
 package com.labassistant.beans;
 
-import javax.persistence.Column;
 import javax.persistence.Entity;
-import javax.persistence.GeneratedValue;
 import javax.persistence.Id;
 import javax.persistence.Table;
-
-import org.hibernate.annotations.GenericGenerator;
 
 /**
  * 城市表
@@ -29,9 +25,6 @@ public class CityEntity extends ToStringBase {
 	private String cityName;
 	
 	@Id
-	@GeneratedValue(generator="system-uuid")
-	@GenericGenerator(name="system-uuid",strategy="uuid")
-	@Column(length=32)
 	public String getCityID() {
 		return cityID;
 	}

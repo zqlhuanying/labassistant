@@ -157,6 +157,12 @@ public class BaseDao implements IBaseDao {
 	}
 
 	@Override
+	public <X> void deleteAll(Class<?> entityClass){
+		String hql = "delete from " + entityClass.getName();
+		createMyQuery(hql, true).executeUpdate();
+	}
+	
+	@Override
 	public <X> void update(X entity) {
 		getCurrentSession().update(entity);
 	}

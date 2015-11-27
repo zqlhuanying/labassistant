@@ -13,6 +13,7 @@ import org.springframework.web.bind.annotation.ResponseBody;
 
 import com.labassistant.common.BaseController;
 import com.labassistant.service.SyncService;
+import com.labassistant.service.exp.ExpInstructionsMainService;
 
 /**
  * 同步数据
@@ -25,6 +26,8 @@ public class SyncController extends BaseController {
 
 	@Autowired
 	private SyncService syncService;
+	@Autowired
+	private ExpInstructionsMainService expInstructionsMainService;
 	
 	// 上传我的实验部分
 	@RequestMapping(value = "pushMyExp", method = RequestMethod.POST)
@@ -33,7 +36,7 @@ public class SyncController extends BaseController {
 		setErrorMsg(request, "同步我的实验失败");
 		Map<String, Object>  map = new HashMap<String, Object>();
 		
-		syncService.pushMyExp(request, json);
+		syncService.pushMyExp(json);
 		
 		map.putAll(retSuccess());
 		map.put("data", "");
@@ -43,11 +46,18 @@ public class SyncController extends BaseController {
 	// 上传实验说明书部分
 	@RequestMapping(value = "pushExpInstruction", method = RequestMethod.POST)
 	@ResponseBody
-	public Map<String, Object> pushExpInstruction(HttpServletRequest request, String json, int allowDownload){
+	public Map<String, Object> pushExpInstruction(HttpServletRequest request, String json, String userID, String expInstructionID, int allowDownload){
 		setErrorMsg(request, "同步实验说明书失败");
 		Map<String, Object>  map = new HashMap<String, Object>();
+
+		if(expInstructionsMainService.isPublic(expInstructionID) ||
+				!expInstructionsMainService.isOwn(expInstructionID, userID)){
+			map.put("code", "2");
+			map.put("msg", "没有权限提交说明书，有可能这份说明书已成为标准或不属于你");
+			return map;
+		}
 		
-		syncService.pushExpInstruction(request, json, allowDownload);
+		syncService.pushExpInstruction(json, allowDownload);
 		
 		map.putAll(retSuccess());
 		map.put("data", "");

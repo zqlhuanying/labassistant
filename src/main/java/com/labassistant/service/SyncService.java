@@ -13,9 +13,9 @@ import com.labassistant.dao.service.IBaseAbstractService;
  */
 public interface SyncService extends IBaseAbstractService {
 
-	public void pushMyExp(HttpServletRequest request, String json);
+	public void pushMyExp(String json);
 	
-	public void pushExpInstruction(HttpServletRequest request, String json, int allowDownload);
+	public void pushExpInstruction(String json, int allowDownload);
 	
 	public Map<String, Object> pullCommon();
 	

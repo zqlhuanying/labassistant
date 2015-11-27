@@ -15,7 +15,7 @@ public class PaginationContext {
 		return _pagesize;
 	}
 
-	public static void setPagesize(int _pagesize) {
+	public static void setPagesize(Integer _pagesize) {
 		pagesize.set(_pagesize);
 	}
 
@@ -27,7 +27,7 @@ public class PaginationContext {
 		return _offset;
 	}
 
-	public static void setOffset(int _offset) {
+	public static void setOffset(Integer _offset) {
 		offset.set(_offset);
 	}
 }

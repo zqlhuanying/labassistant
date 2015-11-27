@@ -19,13 +19,15 @@ public interface ExpInstructionsMainService extends IBaseAbstractService<ExpInst
 	
 	public boolean isPublic(String expInstructionID);
 	
+	public boolean isOwn(String expInstructionID, String userID);
+	
 	public boolean isAllowDownload(String userID, String expInstructionID);
 	
 	public int getReturnLimit();
 
 	public void setReturnLimit(int returnLimit);
 	
-	public List getInstructionsBySubCategoryID(String expSubCategoryID);
+	public List<ExpInstructionEntity> getInstructionsBySubCategoryID(String userID, String expSubCategoryID);
 	
-	public List getInstructionsByFilter(String filterStr);
+	public List<ExpInstructionEntity> getInstructionsByFilter(String userID, String filterStr);
 }

@@ -18,7 +18,7 @@ public class MyDispatcherServlet extends DispatcherServlet {
 	
 	@Override
 	protected void doService(HttpServletRequest request, HttpServletResponse response) throws Exception{
-		//将request放到MySystemContext，方便在javaBean中调用
+		// 将request放到MySystemContext，方便在javaBean中调用
 		MySystemContext.setMyRequest(request);
 		super.doService(request, response);
 	}

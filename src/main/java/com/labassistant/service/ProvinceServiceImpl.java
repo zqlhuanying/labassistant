@@ -36,6 +36,7 @@ public class ProvinceServiceImpl extends BaseAbstractService<ProvinceEntity>
 				Map<String, Object> map = new HashMap<String, Object>();
 				List<CityEntity> cities = cityService.getCities(province.getProvinceID());
 				map.put("provinceName", province.getProvinceName());
+				map.put("provinceID", province.getProvinceID());
 				map.put("cities", cities);
 				object.add(map);
 			}

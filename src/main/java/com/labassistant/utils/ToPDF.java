@@ -147,6 +147,22 @@ public class ToPDF {
 		return pdfTable;
 	}
 	
+	public PdfPCell pCell(Element element){
+		PdfPCell cell = new PdfPCell();
+		cell.addElement(element);
+		return cell;
+	}
+
+	public PdfPTable pCell(PdfPTable table, PdfPCell cell){
+		table.addCell(cell);
+		return table;
+	}
+	
+	public PdfPTable pCell(PdfPTable table, Element element){
+		table.addCell(pCell(element));
+		return table;
+	}
+	
 	// 获取表格的列数
 	private int getColumns(float width, float per_width){
 		float padding = 20.0f;				// 单元格内的间距

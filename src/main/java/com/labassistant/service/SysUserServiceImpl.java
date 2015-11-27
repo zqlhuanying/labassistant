@@ -178,6 +178,9 @@ public class SysUserServiceImpl extends BaseAbstractService<SysUserEntity>
 
 	@Override
 	public boolean validTelephone(String telephone) {
+		if(StringUtils.isBlank(telephone)){
+			return false;
+		}
 		String hql = "from SysUserEntity where telNo = ?";
 		int total = getCount(hql, true, telephone);
 		return total > 0;

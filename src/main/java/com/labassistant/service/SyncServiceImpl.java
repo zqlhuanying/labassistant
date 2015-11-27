@@ -23,6 +23,7 @@ import org.springframework.stereotype.Service;
 import com.labassistant.annotation.MyAnnotation;
 import com.labassistant.beans.MyExpInstructionEntity;
 import com.labassistant.beans.MyExpEntity;
+import com.labassistant.context.MySystemContext;
 import com.labassistant.dao.service.BaseAbstractService;
 import com.labassistant.exception.MyRuntimeException;
 import com.labassistant.service.common.ConsumableMapService;
@@ -90,7 +91,7 @@ public class SyncServiceImpl extends BaseAbstractService implements SyncService 
 	private MyExpPlanService myExpPlanService;
 	
 	@Override
-	public void pushMyExp(HttpServletRequest request, String json){		
+	public void pushMyExp(String json){		
 		Map<String, Object> requestMap = JSONUtil.json2Map(json);
 		//requestMap = (Map)requestMap.get("data");
 		
@@ -101,17 +102,16 @@ public class SyncServiceImpl extends BaseAbstractService implements SyncService 
 			String tableName = getTableName(entry.getKey());
 			if(entry.getValue().getClass() == ArrayList.class){
 				for(Map<String, Object> innerMap : (ArrayList<Map<String, Object>>)entry.getValue()){
-					// TODO request最好不要传递，最好能在上下文中获得
-					pushMyExp(request, innerMap, tableName);
+					pushMyExp(innerMap, tableName);
 				}
 			} else {
-				pushMyExp(request, (Map<String, Object>)entry.getValue(), tableName);
+				pushMyExp((Map<String, Object>)entry.getValue(), tableName);
 			}
 		}
 	}
 	
 	@Override
-	public void pushExpInstruction(HttpServletRequest request, String json, int allowDownload){		
+	public void pushExpInstruction(String json, int allowDownload){		
 		Map<String, Object> requestMap = JSONUtil.json2Map(json);
 		//requestMap = (Map)requestMap.get("data");
 		
@@ -140,12 +140,12 @@ public class SyncServiceImpl extends BaseAbstractService implements SyncService 
 		saveOrUpdateBySql(sql);
 	}
 	
-	private void pushMyExp(HttpServletRequest request, Map<String, Object> map, String tableName){	
+	private void pushMyExp(Map<String, Object> map, String tableName){	
 		checkNonAvailable(map, getBeanName(tableName));
 		checkNameOnlyInServer(map, getBeanName(tableName));
 		// 将我的实验步骤附件表(MyExpProcessAttch)单独对待，因涉及到图片上传
 		if("t_myExpProcessAttch".equals(tableName)){
-			processAttch(request, map);
+			processAttch(map);
 		}
 		sync(map, tableName);
 	}
@@ -334,7 +334,7 @@ public class SyncServiceImpl extends BaseAbstractService implements SyncService 
 	}
 	
 	// 处理我的实验步骤附件表
-	private void processAttch(HttpServletRequest request, Map<String, Object> map){
+	private void processAttch(Map<String, Object> map){
 		InputStream inputStream = null;
 		String imgString = (String)map.get("imgStream");
 		if(StringUtils.isNotBlank(imgString)){
@@ -345,7 +345,7 @@ public class SyncServiceImpl extends BaseAbstractService implements SyncService 
 				System.out.println("处理图片二进制流失败");
 				e.printStackTrace();
 			}
-			Uploader upload = new Uploader(request);
+			Uploader upload = new Uploader(MySystemContext.getMyRequest());
 			upload.setSavePath("upload/images");
 			String imgName = (String)map.get("attchmentName");
 			if(StringUtils.isBlank(imgName)){

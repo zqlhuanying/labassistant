@@ -30,6 +30,13 @@ public class ExpReagentServiceImpl extends BaseAbstractService<ExpReagentEntity>
 	@Autowired
 	private SupplierService supplierService;
 	
+	@Override
+	public String getSuggestionSupplier(String expInstructionID, String reagentID){
+		String hql = "from ExpReagentEntity where expInstructionID = ? and reagentID = ?";
+		ExpReagentEntity expReagent = findOneByHql(hql, expInstructionID, reagentID);
+		return getSuggestionSupplier(expReagent);
+	}
+	
 	/**
 	 * 获取说明书下所有的试剂
 	 */
@@ -99,6 +106,6 @@ public class ExpReagentServiceImpl extends BaseAbstractService<ExpReagentEntity>
 	 * @return
 	 */
 	private String getSuggestionSupplier(ExpReagentEntity expReagent){
-		return expReagent.getSupplierID();
+		return expReagent == null ? "" : expReagent.getSupplierID();
 	}
 }
