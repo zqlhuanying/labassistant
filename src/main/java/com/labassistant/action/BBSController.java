@@ -7,6 +7,7 @@ import java.util.Map;
 
 import javax.servlet.http.HttpServletRequest;
 
+import org.apache.commons.lang3.StringUtils;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Controller;
 import org.springframework.web.bind.annotation.RequestMapping;
@@ -17,10 +18,13 @@ import com.labassistant.beans.BBSModuleEntity;
 import com.labassistant.beans.BBSReviewEntity;
 import com.labassistant.beans.BBSTopicEntity;
 import com.labassistant.common.BaseController;
+import com.labassistant.constants.ReturnJson;
 import com.labassistant.service.bbs.BBSModuleService;
 import com.labassistant.service.bbs.BBSReviewService;
 import com.labassistant.service.bbs.BBSTopicService;
+import com.labassistant.utils.CommonUtil;
 import com.labassistant.utils.DateUtil;
+import com.labassistant.utils.JSONUtil;
 
 /**
  * BBS
@@ -74,11 +78,11 @@ public class BBSController extends BaseController {
 	
 	@RequestMapping(value = "/searchTopics")
 	@ResponseBody
-	public Map<String, Object> searchTopics(HttpServletRequest request, String moduleID, String searchString){
+	public Map<String, Object> searchTopics(HttpServletRequest request, String moduleID, String searchString, String lastTopicID){
 		setErrorMsg(request, "搜索BBS主题失败");
 		Map<String, Object> map = new HashMap<String, Object>();
 		List<Object> objects = new ArrayList<Object>();
-		List<BBSTopicEntity> topics = bbsTopicService.searchTopics(moduleID, searchString);
+		List<BBSTopicEntity> topics = bbsTopicService.searchTopics(moduleID, searchString, lastTopicID, 10).getRows();
 		if(topics != null){
 			for(BBSTopicEntity topic : topics){
 				Map<String, Object> innerMap = new HashMap<String, Object>();
@@ -107,6 +111,7 @@ public class BBSController extends BaseController {
 		return map;
 	}
 	
+	@SuppressWarnings("unchecked")
 	@RequestMapping(value = "/reviews")
 	@ResponseBody
 	public Map<String, Object> reviews(HttpServletRequest request, String topicID){
@@ -127,6 +132,9 @@ public class BBSController extends BaseController {
 				Map<String, Object> innerMap = new HashMap<String, Object>();
 				innerMap.put("reviewID", review.getReviewID());
 				innerMap.put("parentReviewID", review.getParentReviewID());
+				innerMap.put("parentReviewer", StringUtils.isNotBlank(review.getParentReviewID()) ?
+												bbsReviewService.get(review.getParentReviewID()).getReviewer() :
+													"");
 				innerMap.put("reviewer", review.getReviewer());
 				innerMap.put("reviewDetail", review.getReviewDetail());
 				innerMap.put("reviewDateTime", DateUtil.formatDate(review.getReviewDateTime()));
@@ -135,7 +143,7 @@ public class BBSController extends BaseController {
 			map1.put("reviews", objects);
 		}
 		map.putAll(retSuccess());
-		map.put("data", map1);
+		map.put("data", CommonUtil.unionMap((Map<String, Object>)JSONUtil.json2Map(ReturnJson.REVIEWS), map1));
 		return map;
 	}
 	

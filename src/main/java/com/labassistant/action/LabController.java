@@ -32,6 +32,7 @@ import com.labassistant.beans.ReagentLevelTwoEntity;
 import com.labassistant.beans.SupplierEntity;
 import com.labassistant.common.BaseController;
 import com.labassistant.constants.LabConstant;
+import com.labassistant.constants.ReturnJson;
 import com.labassistant.service.common.ReagentLevelOneService;
 import com.labassistant.service.common.ReagentLevelTwoService;
 import com.labassistant.service.common.ReagentService;
@@ -48,7 +49,10 @@ import com.labassistant.service.myexp.MyExpInstructionService;
 import com.labassistant.service.myexp.MyExpMainService;
 import com.labassistant.service.myexp.MyExpPlanService;
 import com.labassistant.service.myexp.MyExpProcessService;
+import com.labassistant.utils.CommonUtil;
 import com.labassistant.utils.DateUtil;
+import com.labassistant.utils.JSONUtil;
+
 import static com.labassistant.utils.CommonUtil.saveNull;
 
 /**
@@ -245,7 +249,7 @@ public class LabController extends BaseController {
 			innerMap.put("memo", saveNull(reagent.getMemo()));
 		}
 		map.putAll(retSuccess());
-		map.put("data", innerMap);
+		map.put("data", CommonUtil.unionMap((Map<String, Object>)JSONUtil.json2Map(ReturnJson.EXPREAGENTDETAILJSON), innerMap));
 		return map;
 	}
 	
@@ -405,7 +409,8 @@ public class LabController extends BaseController {
 		Map<String, Object> innerMap = expReviewService.getReviewDetail(expReviewID);	
 		
 		map.putAll(retSuccess());
-		map.put("data", innerMap);
+		System.out.println(ReturnJson.REVIEWDETAILJSON);
+		map.put("data", CommonUtil.unionMap((Map<String, Object>)JSONUtil.json2Map(ReturnJson.REVIEWDETAILJSON), innerMap));
 		return map;
 	}
 	

@@ -103,6 +103,7 @@ public class ExpReviewServiceImpl extends BaseAbstractService<ExpReviewEntity>
 	/**
 	 * 对实验进行评论
 	 */
+	@SuppressWarnings("unchecked")
 	@Override
 	public void responseReview(String json){
 		Map<String, Object> requestMap = (Map<String, Object>)JSONUtil.json2Map(json);

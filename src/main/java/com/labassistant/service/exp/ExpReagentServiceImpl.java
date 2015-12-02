@@ -94,6 +94,7 @@ public class ExpReagentServiceImpl extends BaseAbstractService<ExpReagentEntity>
 				map.put("expReagentID", expReagent.getExpReagentID());
 				map.put("reagentID", expReagent.getReagentID());
 				map.put("reagentName", expReagent.getReagentName());
+				map.put("expInstructionID", expInstructionID);
 				map.put("suppliers", list);
 				object.add(map);
 			}

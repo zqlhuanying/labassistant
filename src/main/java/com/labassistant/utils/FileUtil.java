@@ -85,7 +85,7 @@ public final class FileUtil {
      * @return
      */
     public static String toFilePath(String path){
-    	return path.replace("/", "\\");
+    	return path.replace("/", File.separator);
     }
     
     public static String toURLPath(String path){
