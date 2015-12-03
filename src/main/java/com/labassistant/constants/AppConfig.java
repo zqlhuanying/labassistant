@@ -14,5 +14,7 @@ public final class AppConfig {
 	
 	public static final String DOMAIN_PAGE = "http://172.18.1.55:8080/labassistant";
 	
+	public static final String COMPANY = "上海华浪计算机科技有限公司";
+	
 	//public static final String DOMAIN_PAGE = "http://hualang.wicp.net:8090/LabAssistant";
 }

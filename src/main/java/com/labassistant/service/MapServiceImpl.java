@@ -3,6 +3,7 @@ package com.labassistant.service;
 import java.util.ArrayList;
 import java.util.List;
 
+import org.apache.commons.lang3.StringUtils;
 import org.springframework.stereotype.Service;
 
 import com.labassistant.beans.MapEntity;
@@ -49,10 +50,22 @@ public class MapServiceImpl extends BaseAbstractService<MapEntity> implements
 	}
 	
 	@Override
-	public void setReagens(String mapID, String reagents) {
-		MapEntity map = get(mapID);
-		map.setReagentName(reagents);
-		update(map);
+	public void setReagent(String userID, String reagent) {
+		String hql = "from MapEntity where userID = ?";
+		MapEntity mapEntity = findOneByHql(hql, userID);
+		String reagents = reagent;
+		if(mapEntity != null){
+			if(StringUtils.isNotBlank(mapEntity.getReagentName())){
+				reagents += "," + mapEntity.getReagentName();
+			}
+			mapEntity.setReagentName(reagents);
+			update(mapEntity);
+		} else {
+			MapEntity map = new MapEntity();
+			map.setUserID(userID);
+			map.setReagentName(reagents);
+			save(map);
+		}
 	}
 	
 	/**

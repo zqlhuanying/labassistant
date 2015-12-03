@@ -1,5 +1,6 @@
 package com.labassistant.action;
 
+import java.io.Serializable;
 import java.util.HashMap;
 import java.util.Map;
 
@@ -31,27 +32,36 @@ public class MapController extends BaseController {
 	public Map<String, Object> getAround(HttpServletRequest request, MapEntity theUser){
 		setErrorMsg(request, "获取周围数据错误");
 		Map<String, Object> map = new HashMap<String, Object>();
+		Map<String, Object> innerMap = new HashMap<String, Object>();
 		String hql = "from MapEntity where userID = ?";
 		MapEntity mapEntity = mapService.findOneByHql(hql, theUser.getUserID());
 		if(mapEntity != null){
 			mapEntity.setLongitude(theUser.getLongitude());
 			mapEntity.setLatitude(theUser.getLatitude());
 			mapService.update(mapEntity);
-			map.put("data", mapService.getAround(mapEntity));
+			innerMap.put("arounds", mapService.getAround(mapEntity));
 		} else {
-			mapService.save(theUser);
-			map.put("data", mapService.getAround(mapEntity));
+			Serializable pk = mapService.save(theUser);
+			mapEntity = mapService.get(pk);
+			innerMap.put("arounds", mapService.getAround(mapEntity));
 		}
+		innerMap.put("mapID", mapEntity.getMapID());
+		innerMap.put("userID", mapEntity.getUserID());
+		innerMap.put("longitude", mapEntity.getLongitude());
+		innerMap.put("latitude", mapEntity.getLatitude());
+		innerMap.put("reagentName", mapEntity.getReagentName());
+		innerMap.put("distance", mapEntity.getDistance());
 		map.putAll(retSuccess());
+		map.put("data", innerMap);
 		return map;
 	}
 	
 	@RequestMapping(value = "/setReagents")
 	@ResponseBody
-	public Map<String, Object> setReagens(HttpServletRequest request, String mapID, String reagents){
+	public Map<String, Object> setReagens(HttpServletRequest request, String userID, String reagent){
 		setErrorMsg(request, "设置试剂失败");
 		Map<String, Object> map = new HashMap<String, Object>();
-		mapService.setReagens(mapID, reagents);
+		mapService.setReagent(userID, reagent);
 		map.putAll(retSuccess());
 		map.put("data", "");
 		return map;

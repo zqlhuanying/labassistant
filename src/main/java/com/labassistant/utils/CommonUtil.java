@@ -3,6 +3,7 @@ package com.labassistant.utils;
 import java.util.Iterator;
 import java.util.List;
 import java.util.Map;
+import java.util.Set;
 
 import com.labassistant.beans.ToStringBase;
 
@@ -21,10 +22,12 @@ public final class CommonUtil {
 	 * @return
 	 */
 	@SuppressWarnings("unchecked")
-	public static Map<String, Object> unionMap(Map<String, Object> templateMap, Map<String, Object> map){
+	public static void unionMap(Map<String, Object> templateMap, Map<String, Object> map){
 		if(map == null){
-			return templateMap;
+			map = templateMap;
 		}
+		
+		delOtherKey(templateMap, map);
 		
 		for(Iterator<? extends Map.Entry<String, Object>> iter = templateMap.entrySet().iterator(); iter.hasNext();){
 			Map.Entry<String, Object> e = iter.next();
@@ -34,7 +37,7 @@ public final class CommonUtil {
 			
 			// 若 v 是 map 类型，则递归
 			if(Map.class.isAssignableFrom(v.getClass())){
-				templateMap.put(k, unionMap((Map<String, Object>)v, tryConvert(m)));
+				unionMap((Map<String, Object>)v, (Map<String, Object>)m);
 				continue;
 			}
 			
@@ -45,20 +48,31 @@ public final class CommonUtil {
 				Class<?> class_in_v = getInnerClass(vv);
 				if(Map.class.isAssignableFrom(class_in_v)){
 					for(int index = 0; index < mm.size(); index ++){
-						vv.add(unionMap((Map<String, Object>)vv.get(0), tryConvert(mm.get(index))));
+						unionMap((Map<String, Object>)vv.get(0), (Map<String, Object>)(mm.get(index)));
 					}
-					vv.remove(0);
-					templateMap.put(k, vv);
 				}
 				continue;
 			}
 			
 			// else
-			if(map.get(k) != null){
-				templateMap.put(k, map.get(k));
+			if(map.get(k) == null){
+				map.put(k, templateMap.get(k));
 			}
 		}
-		return templateMap;
+	}
+	
+	/**
+	 * 以 templateMap key 为基础，删除 map 中多余的 Key
+	 * @param templateMap
+	 * @param map
+	 */
+	private static void delOtherKey(Map<String, Object> templateMap, Map<String, Object> map){
+		Set<String> templateKeys = templateMap.keySet();
+		for(String key : map.keySet()){
+			if(!templateKeys.contains(key)){
+				map.remove(key);
+			}
+		}
 	}
 	
 	/**

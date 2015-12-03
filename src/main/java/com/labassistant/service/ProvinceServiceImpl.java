@@ -13,7 +13,6 @@ import com.labassistant.beans.ProvinceEntity;
 import com.labassistant.constants.ReturnJson;
 import com.labassistant.dao.service.BaseAbstractService;
 import com.labassistant.utils.CommonUtil;
-import com.labassistant.utils.JSONUtil;
 
 /**
  * 省份
@@ -41,7 +40,8 @@ public class ProvinceServiceImpl extends BaseAbstractService<ProvinceEntity>
 				map.put("provinceName", province.getProvinceName());
 				map.put("provinceID", province.getProvinceID());
 				map.put("cities", cities);
-				object.add(CommonUtil.unionMap((Map<String, Object>)JSONUtil.json2Map(ReturnJson.PROVINCEANDCITY), map));
+				CommonUtil.unionMap(ReturnJson.PROVINCEANDCITY, map);
+				object.add(map);
 			}
 		}
 		return object;

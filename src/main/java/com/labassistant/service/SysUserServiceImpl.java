@@ -94,22 +94,21 @@ public class SysUserServiceImpl extends BaseAbstractService<SysUserEntity>
 
 	@Override
 	public void sendFindPwdMail(SysUserEntity user) throws MyRuntimeException, MessagingException{
-		if(!validEmail(user.geteMail())){
-			throw new MyRuntimeException("邮箱不存在");
-		}
 		String validCode = uuid();
-		String validUrl = AppConfig.DOMAIN_PAGE + "/getLost?ser=" + EncryptUtil.encode(validCode);
 		// 发送前，先写入数据库
 		String hql = "from SysUserEntity where eMail = ?";
 		SysUserEntity sysUser = findOneByHql(hql, user.geteMail());
 		sysUser.setF_validCode(validCode);
 		sysUser.setF_timestamp(new Timestamp(new Date().getTime()));
 		update(sysUser);
+		
+		String validUrl = AppConfig.DOMAIN_PAGE + "/getLost?un=" + EncryptUtil.encode(sysUser.getNickName()) + "&ser=" + EncryptUtil.encode(validCode);
+		
 		// 发送邮件
 		SendMailInfo sendMailInfo = new SendMailInfo();
 		sendMailInfo.setType(SendMailInfo.TYPE_HTML);
 		sendMailInfo.setToUser(user.geteMail());
-		sendMailInfo.setSubject("找回密码");
+		sendMailInfo.setSubject("取回密码");
 		sendMailInfo.setContent(findPwdHtmlTemplate(validUrl));
 		emailService.send(sendMailInfo);
 	}
@@ -119,11 +118,11 @@ public class SysUserServiceImpl extends BaseAbstractService<SysUserEntity>
 		String hql = "from SysUserEntity where f_validCode = ?";		
 		SysUserEntity sysUser = findOneByHql(hql, EncryptUtil.decode(ser));
 		if(sysUser == null){
-			throw new MyRuntimeException("链接无效");
+			throw new MyRuntimeException("链接无效，请重新找回密码");
 		}
-		// 链接有效期30分钟
-		if(new Date().getTime() > sysUser.getF_timestamp().getTime() + 30 * 60 * 1000){
-			throw new MyRuntimeException("链接无效");
+		// 链接有效期三天
+		if(new Date().getTime() > sysUser.getF_timestamp().getTime() + 3 * 24 * 60 * 60 * 1000){
+			throw new MyRuntimeException("链接无效，请重新找回密码");
 		}
 		sysUser.setPwd(EncryptUtil.MD5Digest(user.getPwd()));
 		update(sysUser);
@@ -228,10 +227,22 @@ public class SysUserServiceImpl extends BaseAbstractService<SysUserEntity>
 		sb.append("<title>找回密码</title>");  
 		sb.append("</head>");    
 		sb.append("<body>");  
-		sb.append("您好，");
-		sb.append("请点击以下链接找回密码：" + validUrl);  
-		sb.append("<p>--------</p>");  
-		sb.append("链接30分钟有效");
+		sb.append("取回密码说明</br>");
+		sb.append("您收到这封邮件，是由于这个邮箱地址在 " + AppConfig.COMPANY + " 被登记为用户邮箱， 且该用户请求使用 Email 密码重置功能所致。");
+		sb.append("<p>------------------------------------------------------------------------</p>");
+		sb.append("<p><b>重要！！</b></p>");
+		sb.append("<p>------------------------------------------------------------------------</p>");
+		sb.append("<p>如果您没有提交密码重置的请求或不是 " + AppConfig.COMPANY + " 的注册用户，请立即忽略并删除这封邮件。只有在您确认需要重置密码的情况下，才需要继续阅读下面的内容。</p>");
+		sb.append("<p>------------------------------------------------------------------------</p>");
+		sb.append("<p><b>重置密码说明！！</b></p>");
+		sb.append("<p>------------------------------------------------------------------------</p>");
+		sb.append("您只需在提交请求后的三天内，通过点击下面的链接重置您的密码：</br>");
+		sb.append(validUrl + "</br>");  
+		sb.append("(如果上面不是链接形式，请将该地址手工粘贴到浏览器地址栏再访问)");
+		sb.append("在上面的链接所打开的页面中输入新的密码后提交，您即可使用新的密码登录网站了。您可以在用户控制面板中随时修改您的密码。</br>"); 
+		sb.append("<p>此致:</br>");
+		sb.append("" + AppConfig.COMPANY + " 管理团队 ");
+		sb.append("www.hualang-it.com.cn</p>");
 		sb.append("</body>");  
 		sb.append("</html>");  	
 		return sb.toString();

@@ -24,7 +24,6 @@ import com.labassistant.service.bbs.BBSReviewService;
 import com.labassistant.service.bbs.BBSTopicService;
 import com.labassistant.utils.CommonUtil;
 import com.labassistant.utils.DateUtil;
-import com.labassistant.utils.JSONUtil;
 
 /**
  * BBS
@@ -111,7 +110,6 @@ public class BBSController extends BaseController {
 		return map;
 	}
 	
-	@SuppressWarnings("unchecked")
 	@RequestMapping(value = "/reviews")
 	@ResponseBody
 	public Map<String, Object> reviews(HttpServletRequest request, String topicID){
@@ -142,8 +140,9 @@ public class BBSController extends BaseController {
 			}
 			map1.put("reviews", objects);
 		}
+		CommonUtil.unionMap(ReturnJson.REVIEWS, map1);
 		map.putAll(retSuccess());
-		map.put("data", CommonUtil.unionMap((Map<String, Object>)JSONUtil.json2Map(ReturnJson.REVIEWS), map1));
+		map.put("data", map1);
 		return map;
 	}
 	

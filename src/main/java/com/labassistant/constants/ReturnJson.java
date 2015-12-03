@@ -1,18 +1,12 @@
 package com.labassistant.constants;
 
 import java.util.ArrayList;
-import java.util.Collection;
-import java.util.Collections;
 import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
 
-import org.apache.commons.lang3.StringUtils;
-
 import com.labassistant.beans.CityEntity;
 import com.labassistant.utils.CommonUtil;
-import com.labassistant.utils.DateUtil;
-import com.labassistant.utils.JSONUtil;
 
 /**
  * 返回给客户端的 json 格式，默认数据，保证返回的数据的一致性
@@ -22,7 +16,7 @@ import com.labassistant.utils.JSONUtil;
  */
 public final class ReturnJson {
 
-	public static final String EXPREAGENTDETAILJSON = JSONUtil.map2Json(new HashMap<String, Object>(){
+	public static final Map<String,Object> EXPREAGENTDETAILJSON = new HashMap<String, Object>(){
 		private static final long serialVersionUID = 4288076939495473053L;
 		{
 			put("reagentName", "");
@@ -37,9 +31,9 @@ public final class ReturnJson {
 			put("casNo", "");
 			put("memo", "");
 		}
-	});
+	};
 	
-	public static final String REVIEWDETAILJSON = JSONUtil.map2Json(new HashMap<String, Object>(){
+	public static final Map<String,Object> REVIEWDETAILJSON = new HashMap<String, Object>(){
 		private static final long serialVersionUID = -1757106916879489445L;
 		{
 			put("reviewInfo", "");
@@ -53,9 +47,9 @@ public final class ReturnJson {
 				}
 			});
 		}
-	});
+	};
 	
-	public static final String PROVINCEANDCITY = JSONUtil.map2Json(new HashMap<String, Object>(){
+	public static final Map<String, Object> PROVINCEANDCITY = new HashMap<String, Object>(){
 		private static final long serialVersionUID = 2163563696582262664L;
 		{
 			put("provinceName", "");
@@ -67,9 +61,9 @@ public final class ReturnJson {
 				}
 			});
 		}
-	});
+	};
 	
-	public static final String REVIEWS = JSONUtil.map2Json(new HashMap<String, Object>(){
+	public static final Map<String, Object> REVIEWS = new HashMap<String, Object>(){
 		private static final long serialVersionUID = -6642689924356664199L;
 		{
 			Map<String, String> innerMap = new HashMap<String, String>();
@@ -91,10 +85,9 @@ public final class ReturnJson {
 				}
 			});
 		}
-	});
+	};
 	
 	// test
-	@SuppressWarnings("unchecked")
 	public static void main(String[] args){
 		// test: Value is Map
 		Map<String, Object> map = new HashMap<String, Object>();
@@ -128,6 +121,7 @@ public final class ReturnJson {
 		map1.put("reviewInfo", "请输入评论");
 		map1.put("reviewOpts", objects);
 		System.out.println("Before union: " + map1);
-		System.out.println("After union: " + CommonUtil.unionMap(JSONUtil.json2Map(REVIEWDETAILJSON), map1));
+		CommonUtil.unionMap(REVIEWDETAILJSON, map1);
+		System.out.println("After union: " + map1);
 	}
 }

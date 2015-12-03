@@ -51,7 +51,6 @@ import com.labassistant.service.myexp.MyExpPlanService;
 import com.labassistant.service.myexp.MyExpProcessService;
 import com.labassistant.utils.CommonUtil;
 import com.labassistant.utils.DateUtil;
-import com.labassistant.utils.JSONUtil;
 
 import static com.labassistant.utils.CommonUtil.saveNull;
 
@@ -248,8 +247,9 @@ public class LabController extends BaseController {
 			innerMap.put("casNo", saveNull(reagent.getCasNo()));
 			innerMap.put("memo", saveNull(reagent.getMemo()));
 		}
+		CommonUtil.unionMap(ReturnJson.EXPREAGENTDETAILJSON, innerMap);
 		map.putAll(retSuccess());
-		map.put("data", CommonUtil.unionMap((Map<String, Object>)JSONUtil.json2Map(ReturnJson.EXPREAGENTDETAILJSON), innerMap));
+		map.put("data", innerMap);
 		return map;
 	}
 	
@@ -408,9 +408,9 @@ public class LabController extends BaseController {
 		
 		Map<String, Object> innerMap = expReviewService.getReviewDetail(expReviewID);	
 		
+		CommonUtil.unionMap(ReturnJson.REVIEWDETAILJSON, innerMap);
 		map.putAll(retSuccess());
-		System.out.println(ReturnJson.REVIEWDETAILJSON);
-		map.put("data", CommonUtil.unionMap((Map<String, Object>)JSONUtil.json2Map(ReturnJson.REVIEWDETAILJSON), innerMap));
+		map.put("data", innerMap);
 		return map;
 	}
 	

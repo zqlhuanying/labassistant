@@ -96,7 +96,7 @@ public class MyInfoController extends BaseController {
 		SysUserEntity sysUser = sysUserService.get(user.getUserID());
 		
 		innerMap.put("nickName", saveNull(sysUser.getNickName()));
-		innerMap.put("icon", StringUtils.isNotBlank(sysUser.getIcon()) ? AppConfig.DOMAIN_PAGE + sysUser.getIcon() : "");
+		innerMap.put("icon", StringUtils.isNotBlank(sysUser.getIcon()) ? AppConfig.DOMAIN_PAGE + "/" + sysUser.getIcon() : "");
 
 		map.putAll(retSuccess());
 		map.put("data", innerMap);

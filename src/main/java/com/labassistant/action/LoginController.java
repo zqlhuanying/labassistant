@@ -82,6 +82,11 @@ public class LoginController extends BaseController {
 	public Map<String, Object> findPwd(HttpServletRequest request, SysUserEntity user) throws Exception {
 		setErrorMsg(request, "发送邮件失败");
 		Map<String, Object> map = new HashMap<String, Object>();
+		if(!sysUserService.validEmail(user.geteMail())){
+			map.put("code", "0");
+			map.put("msg", "邮箱不存在");
+			return map;
+		}
 		sysUserService.sendFindPwdMail(user);
 		map.putAll(retSuccess());
 		map.put("data", "");
