@@ -69,6 +69,7 @@ public final class ReturnJson {
 			Map<String, String> innerMap = new HashMap<String, String>();
 			innerMap.put("topicID", "");
 			innerMap.put("topicDetail", "");
+			innerMap.put("topicName", "");
 			
 			put("topic", innerMap);
 			put("reviews", new ArrayList<Object>(){
@@ -81,6 +82,7 @@ public final class ReturnJson {
 					map.put("reviewer", "");
 					map.put("reviewDetail", "");
 					map.put("reviewDateTime", "");
+					map.put("icon", "");
 					add(map);
 				}
 			});

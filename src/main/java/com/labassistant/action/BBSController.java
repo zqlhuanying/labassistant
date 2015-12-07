@@ -18,7 +18,9 @@ import com.labassistant.beans.BBSModuleEntity;
 import com.labassistant.beans.BBSReviewEntity;
 import com.labassistant.beans.BBSTopicEntity;
 import com.labassistant.common.BaseController;
+import com.labassistant.constants.AppConfig;
 import com.labassistant.constants.ReturnJson;
+import com.labassistant.service.SysUserService;
 import com.labassistant.service.bbs.BBSModuleService;
 import com.labassistant.service.bbs.BBSReviewService;
 import com.labassistant.service.bbs.BBSTopicService;
@@ -34,6 +36,8 @@ import com.labassistant.utils.DateUtil;
 @RequestMapping(value = "/bbs")
 public class BBSController extends BaseController {
 
+	@Autowired
+	private SysUserService sysUserService;
 	@Autowired
 	private BBSModuleService bbsModuleService;
 	@Autowired
@@ -121,6 +125,7 @@ public class BBSController extends BaseController {
 		if(topic != null){
 			Map<String, String> topicMap = new HashMap<String, String>();
 			topicMap.put("topicID", topic.getTopicID());
+			topicMap.put("topicName", topic.getTopicName());
 			topicMap.put("topicDetail", topic.getTopicDetail());
 			map1.put("topic", topicMap);
 		}
@@ -128,12 +133,15 @@ public class BBSController extends BaseController {
 		if(reviews != null){
 			for(BBSReviewEntity review : reviews){
 				Map<String, Object> innerMap = new HashMap<String, Object>();
+				String iconUrl = sysUserService.get(review.getReviewerID()).getIcon();
 				innerMap.put("reviewID", review.getReviewID());
+				innerMap.put("reviewer", review.getReviewer());
 				innerMap.put("parentReviewID", review.getParentReviewID());
 				innerMap.put("parentReviewer", StringUtils.isNotBlank(review.getParentReviewID()) ?
 												bbsReviewService.get(review.getParentReviewID()).getReviewer() :
 													"");
-				innerMap.put("reviewer", review.getReviewer());
+				innerMap.put("icon", StringUtils.isNotBlank(iconUrl) ? AppConfig.DOMAIN_PAGE + "/" + iconUrl :
+										"");
 				innerMap.put("reviewDetail", review.getReviewDetail());
 				innerMap.put("reviewDateTime", DateUtil.formatDate(review.getReviewDateTime()));
 				objects.add(innerMap);

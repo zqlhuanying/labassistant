@@ -183,6 +183,6 @@
     </dependencies>
 
     <build>
-        <finalName>labassistant</finalName>
+        <finalName>LabAssistant</finalName>
     </build>
 </project>

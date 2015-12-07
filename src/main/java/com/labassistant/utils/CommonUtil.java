@@ -68,9 +68,11 @@ public final class CommonUtil {
 	 */
 	private static void delOtherKey(Map<String, Object> templateMap, Map<String, Object> map){
 		Set<String> templateKeys = templateMap.keySet();
-		for(String key : map.keySet()){
+		Iterator<String> iter = map.keySet().iterator();
+		while (iter.hasNext()) {
+			String key = (String) iter.next();
 			if(!templateKeys.contains(key)){
-				map.remove(key);
+				iter.remove();
 			}
 		}
 	}

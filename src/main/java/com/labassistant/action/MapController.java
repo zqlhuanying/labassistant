@@ -14,6 +14,7 @@ import org.springframework.web.bind.annotation.ResponseBody;
 import com.labassistant.beans.MapEntity;
 import com.labassistant.common.BaseController;
 import com.labassistant.service.MapService;
+import com.labassistant.service.SysUserService;
 
 /**
  * 地图相关
@@ -24,6 +25,8 @@ import com.labassistant.service.MapService;
 @RequestMapping(value = "/map")
 public class MapController extends BaseController {
 
+	@Autowired
+	private SysUserService sysUserService;
 	@Autowired
 	private MapService mapService;
 	
@@ -47,6 +50,7 @@ public class MapController extends BaseController {
 		}
 		innerMap.put("mapID", mapEntity.getMapID());
 		innerMap.put("userID", mapEntity.getUserID());
+		innerMap.put("eMail", sysUserService.get(mapEntity.getUserID()).geteMail());
 		innerMap.put("longitude", mapEntity.getLongitude());
 		innerMap.put("latitude", mapEntity.getLatitude());
 		innerMap.put("reagentName", mapEntity.getReagentName());
