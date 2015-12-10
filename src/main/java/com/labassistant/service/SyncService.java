@@ -15,8 +15,8 @@ public interface SyncService extends IBaseAbstractService {
 
 	public void pushMyExp(String json);
 	
-	public void pushExpInstruction(String json, int allowDownload);
-	
+    public void pushExpInstruction(String json, String expInstructionID, String userID, int allowDownload);
+
 	public Map<String, Object> pullCommon();
 	
 	public Map<String, Object> pullAllDatas(String userID);

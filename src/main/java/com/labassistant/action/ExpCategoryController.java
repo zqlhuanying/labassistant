@@ -35,7 +35,7 @@ public class ExpCategoryController  extends BaseController {
 	// For Android
 	public Map<String, Object> getExpCategory(HttpServletRequest request){
 		setErrorMsg(request, "获取实验一级分类出错");
-		
+
 		Map<String, Object> map = new HashMap<String, Object>();
 		
 		map.putAll(retSuccess());

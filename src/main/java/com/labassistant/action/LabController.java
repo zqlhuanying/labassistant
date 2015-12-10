@@ -95,7 +95,7 @@ public class LabController extends BaseController {
 	private MyExpPlanService myExpPlanService;
 	@Autowired
 	private MyExpProcessService myExpProcessService;
-		
+
 	@RequestMapping(value = "/allReagents")
 	@ResponseBody
 	public Map<String, Object> getAllReagents(HttpServletRequest request, String expInstructionID){
@@ -107,7 +107,7 @@ public class LabController extends BaseController {
 		map.put("data", lists);
 		return map;
 	}
-	
+
 	/*@RequestMapping(value = "/allConsums")
 	@ResponseBody
 	public Map<String, Object> getAllConsums(HttpServletRequest request, String myExpID){
@@ -122,7 +122,7 @@ public class LabController extends BaseController {
 		map.put("data", lists);
 		return map;
 	}*/
-	
+
 	@RequestMapping(value = "/perAmount")
 	@ResponseBody
 	public Map<String, Object> getPerAmount(HttpServletRequest request, String expInstructionID){
@@ -134,7 +134,7 @@ public class LabController extends BaseController {
 		map.put("data", object);
 		return map;
 	}
-	
+
 	@RequestMapping(value = "/reagentAndSupplier")
 	@ResponseBody
 	public Map<String, Object> getReagentAndSupplier(HttpServletRequest request, String expInstructionID){
@@ -146,7 +146,7 @@ public class LabController extends BaseController {
 		map.put("data", object);
 		return map;
 	}
-	
+
 	@RequestMapping(value = "/getComplete")
 	@ResponseBody
 	public Map<String, Object> getComplete(HttpServletRequest request, String userID){
@@ -169,7 +169,7 @@ public class LabController extends BaseController {
 		map.put("data", object);
 		return map;
 	}
-	
+
 	@RequestMapping(value = "/getDoing")
 	@ResponseBody
 	public Map<String, Object> getDoing(HttpServletRequest request, String userID){
@@ -192,7 +192,7 @@ public class LabController extends BaseController {
 		map.put("data", object);
 		return map;
 	}
-	
+
 	@RequestMapping(value = "/getAllProcessExceptComplete")
 	@ResponseBody
 	public Map<String, Object> getAllProcessExceptComplete(HttpServletRequest request, String userID, String myExpID, String expInstructionID, String expState){
@@ -200,17 +200,17 @@ public class LabController extends BaseController {
 		Map<String, Object> innerMap = new HashMap<String, Object>();
 		List<Object> steps = new ArrayList<Object>();
 		if(!LabConstant.COMPLETED.equals(expState)){
-			setErrorMsg(request, "获取实验下所有步骤出错");			
-			ExpInstructionEntity expInStruction = expInstructionsMainService.get(expInstructionID);
+			setErrorMsg(request, "获取实验下所有步骤出错");
+			ExpInstructionEntity expInstruction = expInstructionsMainService.get(expInstructionID);
 			List<ExpStepEntity> lists = expProcessService.getProcessLists(expInstructionID);
-			if(lists != null && expInStruction != null){
+			if(lists != null && expInstruction != null){
 				for(ExpStepEntity list : lists){
 					Map<String, String> stepMap = new LinkedHashMap<String, String>();
 					stepMap.put("stepNum", String.valueOf(list.getStepNum()));
 					stepMap.put("stepDesc", list.getExpStepDesc());
 					steps.add(stepMap);
 				}
-				innerMap.put("experimentName", expInStruction.getExperimentName());
+				innerMap.put("experimentName", expInstruction.getExperimentName());
 				innerMap.put("steps", steps);
 			}
 		}
@@ -218,25 +218,25 @@ public class LabController extends BaseController {
 		map.put("data", innerMap);
 		return map;
 	}
-	
+
 	@RequestMapping(value = "/expReagentDetail")
 	@ResponseBody
 	public Map<String, Object> expReagentDetail(HttpServletRequest request, String expInstructionID, String reagentID){
-		setErrorMsg(request, "获取试剂详细信息出错");	
+		setErrorMsg(request, "获取试剂详细信息出错");
 		Map<String, Object>  map = new HashMap<String, Object>();
 		Map<String, Object> innerMap = new HashMap<String, Object>();
-		
+
 		ReagentEntity reagent = reagentService.get(reagentID);
 		if(reagent != null){
 			ReagentLevelOneEntity reagentLevelOneEntity = reagentLevelOneService.get(reagent.getLevelOneSortID());
 			ReagentLevelTwoEntity reagentLevelTwoEntity = reagentLevelTwoService.get(reagent.getLevelTwoSortID());
 			SupplierEntity supplier = supplierService.get(expReagentService.getSuggestionSupplier(expInstructionID, reagentID));
-			
+
 			innerMap.put("reagentName", saveNull(reagent.getReagentName()));
 			innerMap.put("chemicalName", saveNull(reagent.getChemicalName()));
 			innerMap.put("supplier", supplier == null ?
 									"" : supplier.getSupplierName());
-			innerMap.put("levelOne", reagentLevelOneEntity == null ? 
+			innerMap.put("levelOne", reagentLevelOneEntity == null ?
 									"" :  reagentLevelOneEntity.getLevelOneSortName());
 			innerMap.put("levelTwo", reagentLevelTwoEntity == null ?
 									"" : reagentLevelTwoEntity.getLevelTwoSortName());
@@ -252,7 +252,7 @@ public class LabController extends BaseController {
 		map.put("data", innerMap);
 		return map;
 	}
-	
+
 	// todo 结构略有不同
 	@RequestMapping(value = "/getHotInstructions")
 	@ResponseBody
@@ -279,7 +279,7 @@ public class LabController extends BaseController {
 		map.put("data", object);
 		return map;
 	}
-	
+
 	@RequestMapping(value = "/getInstructionDetail")
 	@ResponseBody
 	public Map<String, Object> getInstructionDetail(HttpServletRequest request,String userID, String expInstructionID){
@@ -289,18 +289,18 @@ public class LabController extends BaseController {
 		//List<Object> object = new ArrayList<Object>();
 		ExpInstructionEntity expInstruction = expInstructionsMainService.get(expInstructionID);
 		List<ExpStepEntity> expProcesses = expProcessService.getProcessLists(expInstructionID);
-		//List<ExpReagentEntity> expReagents = expReagentService.getExpReagentLists(expInstructionID); 
-		//List<ExpEquipmentEntity> expEquipments = expEquipmentService.getExpEquipmentLists(expInstructionID); 
+		//List<ExpReagentEntity> expReagents = expReagentService.getExpReagentLists(expInstructionID);
+		//List<ExpEquipmentEntity> expEquipments = expEquipmentService.getExpEquipmentLists(expInstructionID);
 		//boolean isDownload = expInstructionsMainService.isDownload(userID, expInstructionID);
 		if(expInstruction != null){
 			innerMap.put("expInstructionID", expInstruction.getExpInstructionID());
 			innerMap.put("experimentName", expInstruction.getExperimentName());
-			if(expInstruction.getProvideUser() != null 
+			if(expInstruction.getProvideUser() != null
 					&& !"".equals(expInstruction.getProvideUser())) innerMap.put("provideUser", expInstruction.getProvideUser());
 			if(expInstruction.getSupplierName() != null
 					&& !"".equals(expInstruction.getSupplierName())) innerMap.put("supplierName", expInstruction.getSupplierName());
 			innerMap.put("productNum", expInstruction.getProductNum());
-			
+
 			// 实验简介
 			innerMap.put("experimentDesc", expInstruction.getExperimentDesc());
 			// 实验原理
@@ -312,10 +312,10 @@ public class LabController extends BaseController {
 			innerMap.put("expConsumables", expConsumableService.getExpConsumableAndSupplier(expInstructionID));
 			// 实验设备
 			innerMap.put("expEquipments", expEquipmentService.getExpEquipmentAndSupplier(expInstructionID));
-			
+
 			// 实验步骤
 			innerMap.put("steps", expProcesses);
-			
+
 			// 实验评论
 			innerMap.put("reviews", expReviewService.getReviewList(expInstructionID, null, 10));
 			//object.add(innerMap);
@@ -324,7 +324,7 @@ public class LabController extends BaseController {
 		map.put("data", innerMap);
 		return map;
 	}
-	
+
 	/**
 	 * 下载实验说明书便是将说明书相关的表以json的格式传递到终端，并保存到终端
 	 * 同时更新说明书表和我的说明书表
@@ -335,14 +335,14 @@ public class LabController extends BaseController {
 	@RequestMapping(value = "/downloadInstruction")
 	@ResponseBody
 	public Map<String, Object> downloadInstruction(HttpServletRequest request, String userID, String expInstructionID){
-		setErrorMsg(request, "下载说明书出错");	
+		setErrorMsg(request, "下载说明书出错");
 		Map<String, Object>  map = new HashMap<String, Object>();
-		if(expInstructionsMainService.isAllowDownload(userID, expInstructionID)){			
+		if(expInstructionsMainService.isAllowDownload(userID, expInstructionID)){
 			ExpInstructionEntity expInstruction = expInstructionsMainService.get(expInstructionID);
 			Map<String, Object> innerMap = expInstructionsMainService.downloadInstruction(expInstructionID);
 			map.putAll(retSuccess());
 			map.put("data", innerMap);
-			
+
 			// 更新说明书表
 			expInstruction.setDownloadCount(expInstruction.getDownloadCount() + 1);
 			expInstructionsMainService.update(expInstruction);
@@ -358,7 +358,7 @@ public class LabController extends BaseController {
 		}
 		return map;
 	}
-	
+
 	@RequestMapping(value = "/perProcessMemo")
 	@ResponseBody
 	// 虽然设置了是整个实体类，但主要的是myExpID，expStepID，processMemo三个字段
@@ -370,7 +370,7 @@ public class LabController extends BaseController {
 		map.put("data", "");
 		return map;
 	}
-	
+
 	@RequestMapping(value = "/getPerProcessMemo")
 	@ResponseBody
 	public Map<String, Object> getPerProcessMemo(HttpServletRequest request, String myExpID, String expStepID){
@@ -386,54 +386,53 @@ public class LabController extends BaseController {
 		map.put("data", innerMap);
 		return map;
 	}
-	
+
 	@RequestMapping(value = "/reviewList")
 	@ResponseBody
 	public Map<String, Object> getReviewList(HttpServletRequest request, String expInstructionID, String lastExpReviewID, int pageSize){
 		setErrorMsg(request, "获取评论列表失败");
 		Map<String, Object>  map = new HashMap<String, Object>();
-		
-		List<Object> object = expReviewService.getReviewList(expInstructionID, lastExpReviewID, pageSize);	
-		
+
+		List<Object> object = expReviewService.getReviewList(expInstructionID, lastExpReviewID, pageSize);
+
 		map.putAll(retSuccess());
 		map.put("data", object);
 		return map;
 	}
-	
+
 	@RequestMapping(value = "/reviewDetail")
 	@ResponseBody
 	public Map<String, Object> getReviewDetail(HttpServletRequest request, String expReviewID){
 		setErrorMsg(request, "获取评论详细信息失败");
 		Map<String, Object>  map = new HashMap<String, Object>();
-		
-		Map<String, Object> innerMap = expReviewService.getReviewDetail(expReviewID);	
-		
+
+		Map<String, Object> innerMap = expReviewService.getReviewDetail(expReviewID);
+
 		CommonUtil.unionMap(ReturnJson.REVIEWDETAILJSON, innerMap);
 		map.putAll(retSuccess());
 		map.put("data", innerMap);
 		return map;
 	}
-	
+
 	@RequestMapping(value = "/reviewOptional")
 	@ResponseBody
-	public Map<String, Object> reviewOptional(HttpServletRequest request){
+	public Map<String, Object> reviewOptional(HttpServletRequest request, String expInstructionJson, String expInstructionID, String userID, int allowDownload){
 		setErrorMsg(request, "获取评论项失败");
-		Map<String, Object>  map = new HashMap<String, Object>();	
-		
-		List<ExpReviewOptEntity> expReviewOpts = expReviewOptService.findList();
-		
+		Map<String, Object>  map = new HashMap<String, Object>();
+
+		List<Object> expReviewOpts = expReviewOptService.getExpReviewOpt(expInstructionJson, expInstructionID, userID, allowDownload);
+
 		map.putAll(retSuccess());
 		map.put("data", expReviewOpts);
 		return map;
 	}
-	
+
 	@RequestMapping(value = "/responseReview", method = RequestMethod.POST)
 	@ResponseBody
-	// 虽然设置了是整个实体类，但主要的是expInstructionID，reviewerID，reviewInfo, expScore等字段
-	public Map<String, Object> responseReview(HttpServletRequest request, String json){
+	public Map<String, Object> responseReview(HttpServletRequest request, String reviewJson){
 		setErrorMsg(request, "对实验进行评论失败");
 		Map<String, Object>  map = new HashMap<String, Object>();
-		expReviewService.responseReview(json);
+		expReviewService.responseReview(reviewJson);
 		map.putAll(retSuccess());
 		map.put("data", "");
 		return map;

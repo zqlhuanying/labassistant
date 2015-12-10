@@ -46,18 +46,18 @@ public class SyncController extends BaseController {
 	// 上传实验说明书部分
 	@RequestMapping(value = "pushExpInstruction", method = RequestMethod.POST)
 	@ResponseBody
-	public Map<String, Object> pushExpInstruction(HttpServletRequest request, String json, String userID, String expInstructionID, int allowDownload){
+	public Map<String, Object> pushExpInstruction(HttpServletRequest request, String json, String expInstructionID, String userID, int allowDownload){
 		setErrorMsg(request, "同步实验说明书失败");
 		Map<String, Object>  map = new HashMap<String, Object>();
 
-		if(expInstructionsMainService.isPublic(expInstructionID) ||
-				!expInstructionsMainService.isOwn(expInstructionID, userID)){
-			map.put("code", "2");
-			map.put("msg", "没有权限提交说明书，有可能这份说明书已成为标准或不属于你");
-			return map;
-		}
+//		if(expInstructionsMainService.isPublic(expInstructionID) ||
+//				!expInstructionsMainService.isOwn(expInstructionID, userID)){
+//			map.put("code", "2");
+//			map.put("msg", "没有权限提交说明书，有可能这份说明书已成为标准或不属于你");
+//			return map;
+//		}
 		
-		syncService.pushExpInstruction(json, allowDownload);
+		syncService.pushExpInstruction(json, expInstructionID, userID, allowDownload);
 		
 		map.putAll(retSuccess());
 		map.put("data", "");

@@ -12,9 +12,7 @@ import com.labassistant.dao.service.IBaseAbstractService;
  */
 public interface MapService extends IBaseAbstractService<MapEntity>{
 
-	public List<MapEntity> getAround(MapEntity theUser, double limit);
-	
-	public List<MapEntity> getAround(MapEntity theUser);
+	public List<Object> getAround(MapEntity theUser);
 	
 	public void setReagent(String userID, String reagent);
 }

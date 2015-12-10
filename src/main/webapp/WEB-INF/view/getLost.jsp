@@ -1,4 +1,4 @@
-<%@ page language="java" import="java.util.*" pageEncoding="UTF-8"%>
+<%@ page language="java" pageEncoding="UTF-8"%>
 <%@ page import="com.labassistant.constants.AppConfig, com.labassistant.utils.EncryptUtil" %>
 <%
 String path = request.getContextPath();
@@ -29,12 +29,28 @@ String nickName = EncryptUtil.decode(request.getParameter("un"));
     <script type="text/javascript" src="static/js/findPassword.js" charset="UTF-8"></script>
 	<style type="text/css">
 		body {margin:0 auto}
+        #all {
+            margin: 0 auto;
+            width: 100%;
+            height: 100%;
+        }
         #findPassword {
-            margin: 10px 0px;
-            padding-left: 700px;
+            position: relative;
+            left: 37%;
+            top: 40%;
+        }
+        #findPassword div {
+            width: 300px;
+            height: 32px;
+            line-height: 32px;
         }
         input {
-            margin: 5px 0px;
+            margin-top: -10px;
+            vertical-align: middle;
+            background-color: transparent;
+            border: 0;
+            border-bottom: 1px solid #000000;
+            outline: none;
         }
         #pwd {
             margin-left: 32px;
@@ -42,17 +58,24 @@ String nickName = EncryptUtil.decode(request.getParameter("un"));
         #nickName {
         	margin-left: 16px;
         }
+        #submit_button {
+            margin-top: 10px;
+            border: none;
+        }
 	</style>
   </head>
   
   <body>
-    <form method="post" id="findPassword">
-    	<label>用户名：</label><label id="nickName"><%= nickName%></label></br>
-    	<label>密码：</label><input type="password" name="pwd" id="pwd"/></br>
-        <label>确认密码：</label><input type="password" name="confirm" id="confirm"/></br>
-    	<input type="hidden" name="ser" value="<%= ser%>">
-    	<input type="hidden" name="domain" value="<%= domain%>" id="domain">
-    	<input type="submit" value="提交" id="submit_button"/>
-    </form>
+    <div id="all">
+        <img src="static/img/bg.jpg" alt="" height="100%" width="100%" style="position: absolute; z-index: -1000">
+        <form method="post" id="findPassword">
+            <div><label>用户名：</label><label id="nickName"><%= nickName%></label></div>
+            <div><label>密码：</label><input type="password" name="pwd" id="pwd"/></div>
+            <div><label>确认密码：</label><input type="password" name="confirm" id="confirm"/></div>
+            <input type="hidden" name="ser" value="<%= ser%>">
+            <input type="hidden" name="domain" value="<%= domain%>" id="domain">
+            <input type="image" src="static/img/submit.jpg" value="提交" id="submit_button"/>
+        </form>
+    </div>
   </body>
 </html>

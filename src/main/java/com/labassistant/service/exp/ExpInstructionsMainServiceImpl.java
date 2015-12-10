@@ -73,7 +73,18 @@ public class ExpInstructionsMainServiceImpl extends BaseAbstractService<ExpInstr
 		map.put("expEquipment", expEquipmentService.getExpEquipmentLists(expInstructionID));
 		return map;
 	}
-	
+
+    /**
+     * 判断说明书是否已存在
+     * @param expInstructionID
+     * @return
+     */
+    @Override
+    public boolean isExist(String expInstructionID){
+        String hql = "from ExpInstructionEntity where expInstructionID = ?";
+        return getCount(hql, true, expInstructionID) > 0;
+    }
+
 	/**
 	 * 判断说明书是否已发布
 	 */

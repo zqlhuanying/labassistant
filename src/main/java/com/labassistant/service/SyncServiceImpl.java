@@ -111,10 +111,14 @@ public class SyncServiceImpl extends BaseAbstractService implements SyncService 
 	}
 	
 	@Override
-	public void pushExpInstruction(String json, int allowDownload){		
+	public void pushExpInstruction(String json, String expInstructionID, String userID, int allowDownload){
+        if(expInstructionsMainService.isPublic(expInstructionID) ||
+                !expInstructionsMainService.isOwn(expInstructionID, userID)){
+            throw new MyRuntimeException("没有权限提交说明书，有可能这份说明书已成为标准或不属于你");
+        }
 		Map<String, Object> requestMap = JSONUtil.json2Map(json);
 		//requestMap = (Map)requestMap.get("data");
-		
+
 		// requestMap 中的Value有可能是数组，即Object有可能是数组
 		Iterator<Map.Entry<String, Object>> iterator = requestMap.entrySet().iterator();
 		while(iterator.hasNext()){
@@ -129,7 +133,7 @@ public class SyncServiceImpl extends BaseAbstractService implements SyncService 
 			}
 		}
 	}
-	
+
 	/**
 	 * 同步数据
 	 * @param map

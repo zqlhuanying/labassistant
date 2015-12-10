@@ -21,7 +21,7 @@ public interface ExpReviewService extends IBaseAbstractService<ExpReviewEntity> 
 	
 	public Map<String, Object> getReviewDetail(String expReviewID);
 	
-	public void responseReview(String json);
+	public void responseReview(String reviewJson);
 	
 	public boolean isReviewed(String userID, String expInstructionID);
 	

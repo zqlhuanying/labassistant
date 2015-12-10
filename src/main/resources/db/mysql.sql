@@ -710,7 +710,25 @@ CREATE TABLE `t_expreviewdetail` (
 -- Records of t_expreviewdetail
 -- ----------------------------
 INSERT INTO `t_expreviewdetail` (`expreviewdetailid`,`expreviewid`,`expreviewoptid`,`expreviewoptscore`) VALUES ('37df9ad0810e11e5b78d002564e8751d','4045c791564b994701494b99aba50000','37df9ad0810e11e5b78d002564e7234d',4);
-t_city
+
+
+-- -----------------------------------------------
+-- Table structure for `t_expreviewdetailofopt` 实验评论低分项明细表
+-- -----------------------------------------------
+DROP TABLE IF EXISTS `t_expreviewdetailofopt`;
+CREATE TABLE `t_expreviewdetailofopt` (
+  `expreviewdetailofoptid` varchar(40) NOT NULL,
+  `expreviewid` varchar(40) NOT NULL,
+  `expreviewoptid` varchar(40) NOT NULL,
+  `itemid` varchar(40) NOT NULL,
+  `itemname` varchar(250),
+  `supplierid` varchar(40),
+  `itemscore` int,
+  `expreviewdetailofoptdesc` nvarchar(500),
+  PRIMARY KEY (`expreviewdetailofoptid`)
+) ENGINE=InnoDB DEFAULT CHARSET=utf8;
+
+
 -- -----------------------------------------------
 -- Table structure for `t_expreviewopt` 实验评论项表
 -- -----------------------------------------------

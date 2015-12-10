@@ -1,7 +1,9 @@
 package com.labassistant.service.common;
 
+import java.util.ArrayList;
 import java.util.List;
 
+import org.apache.commons.lang3.StringUtils;
 import org.springframework.stereotype.Service;
 
 import com.labassistant.beans.ReagentMapEntity;
@@ -23,10 +25,13 @@ public class ReagentMapServiceImpl extends
 	 */
 	@Override
 	public List<ReagentMapEntity> getListByReagentID(String reagentID){
-		String hql = "from ReagentMapEntity where reagentID = ?";
-		List<ReagentMapEntity> lists = findListByHql(hql, reagentID);
-		return lists;
+        List<Object> params = new ArrayList<Object>();
+        StringBuffer sb = new StringBuffer();
+        sb.append(" from ReagentMapEntity ");
+        if(StringUtils.isNotBlank(reagentID)){
+            sb.append(" where reagentID = ?");
+            params.add(reagentID);
+        }
+        return findListByHql(sb.toString(), params);
 	}
-
-	
 }

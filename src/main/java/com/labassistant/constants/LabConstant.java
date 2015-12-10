@@ -23,4 +23,10 @@ public final class LabConstant {
 	public static final String MYEXP_CREATETIME = "createTime";
 	public static final String MYEXP_FINISHTIME = "finishTime";
 	public static final String MYEXPPLAN_PLANDATE = "planDate";
+
+    // 实验评论项
+    public static final String EXPREAGENTS = "实验试剂";
+    public static final String EXPCONSUMABLES = "实验耗材";
+    public static final String EXPEQUIPMENTS = "实验仪器";
+    public static final String EXPSTEPS = "实验步骤";
 }

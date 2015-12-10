@@ -55,7 +55,7 @@ public final class CommonUtil {
 			}
 			
 			// else
-			if(map.get(k) == null){
+			if(map.get(k) == null || "null".equals(map.get(k))){
 				map.put(k, templateMap.get(k));
 			}
 		}

@@ -3,6 +3,8 @@ package com.labassistant.service.common;
 import com.labassistant.beans.ConsumableEntity;
 import com.labassistant.dao.service.IBaseAbstractService;
 
+import java.util.List;
+
 /**
  * 
  * @author zql
@@ -10,6 +12,8 @@ import com.labassistant.dao.service.IBaseAbstractService;
  */
 public interface ConsumableService extends
 		IBaseAbstractService<ConsumableEntity> {
+
+    public List<ConsumableEntity> search(String name);
 
 	
 }

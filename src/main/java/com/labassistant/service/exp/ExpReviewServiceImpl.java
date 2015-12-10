@@ -1,12 +1,10 @@
 package com.labassistant.service.exp;
 
 import java.io.Serializable;
-import java.util.ArrayList;
-import java.util.Date;
-import java.util.HashMap;
-import java.util.List;
-import java.util.Map;
+import java.util.*;
 
+import com.labassistant.beans.ExpReviewDetailOfOptEntity;
+import com.labassistant.service.SyncService;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
@@ -35,6 +33,12 @@ public class ExpReviewServiceImpl extends BaseAbstractService<ExpReviewEntity>
 	private ExpReviewDetailService expReviewDetailService;
 	@Autowired
 	private ExpReviewOptService expReviewOptService;
+    @Autowired
+    private ExpReviewDetailOfOptService expReviewDetailOfOptService;
+    @Autowired
+    private ExpInstructionsMainService expInstructionsMainService;
+    @Autowired
+    private SyncService syncService;
 	
 	/**
 	 * 获取实验评论
@@ -90,8 +94,9 @@ public class ExpReviewServiceImpl extends BaseAbstractService<ExpReviewEntity>
 		List<ExpReviewDetailEntity> expReviewDetails = expReviewDetailService.getExpReviewDetails(expReviewID);
 		if(expReviewDetails != null && expReviewDetails.size() > 0){
 			for(ExpReviewDetailEntity expReviewDetail : expReviewDetails){
-				Map<String, String> innerMap = new HashMap<String, String>();
-				innerMap.put("expReviewOptName", expReviewOptService.get(expReviewDetail.getExpReviewOptID()).getExpReviewOptName());
+				Map<String, Object> innerMap = new HashMap<String, Object>();
+                String expReviewOptName = expReviewOptService.get(expReviewDetail.getExpReviewOptID()).getExpReviewOptName();
+				innerMap.put("expReviewOptName", expReviewOptName);
 				innerMap.put("reviewOptScore", String.valueOf(expReviewDetail.getExpReviewOptScore()));
 				object.add(innerMap);
 			}
@@ -105,9 +110,10 @@ public class ExpReviewServiceImpl extends BaseAbstractService<ExpReviewEntity>
 	 */
 	@SuppressWarnings("unchecked")
 	@Override
-	public void responseReview(String json){
-		Map<String, Object> requestMap = (Map<String, Object>)JSONUtil.json2Map(json);
-		
+	public void responseReview(String reviewJson){
+		Map<String, Object> requestMap = (Map<String, Object>)JSONUtil.json2Map(reviewJson);
+
+        // 更新实验评论表
 		String expInstructionID = (String)requestMap.get("expInstructionID");
 		String reviewerID = (String)requestMap.get("reviewerID");
 		boolean isReviewed = isReviewed(reviewerID, expInstructionID); 
@@ -123,32 +129,57 @@ public class ExpReviewServiceImpl extends BaseAbstractService<ExpReviewEntity>
 		expReview.setReviewerID(reviewerID);
 		expReview.setReviewInfo((String)requestMap.get("reviewInfo"));
 		expReview.setExpScore((Integer)requestMap.get("expScore"));
-		Serializable pk = null;
+		Serializable expReviewPk = null;
 		if(isReviewed){
 			update(expReview);
-			pk = expReview.getExpReviewID();
+			expReviewPk = expReview.getExpReviewID();
 		} else {
-			pk = save(expReview);
+			expReviewPk = save(expReview);
 		}
-		
+
+        // 更新实验评论详细表
 		List<Map<String, Object>> expReviewDetails = (List<Map<String, Object>>)requestMap.get("expReviewDetails");
 		
 		for(Map<String, Object> expReviewDetail : expReviewDetails){
 			ExpReviewDetailEntity expReviewDetailEntity = new ExpReviewDetailEntity();
 			String expReviewOptID = (String)expReviewDetail.get("expReviewOptID");
-			boolean isReviewedForDetail = expReviewDetailService.isReviewed((String)pk, expReviewOptID);
+			boolean isReviewedForDetail = expReviewDetailService.isReviewed((String)expReviewPk, expReviewOptID);
 			if(isReviewedForDetail){
-				expReviewDetailEntity = expReviewDetailService.getExpReviewDetail((String)pk, expReviewOptID);
+				expReviewDetailEntity = expReviewDetailService.getExpReviewDetail((String)expReviewPk, expReviewOptID);
 			}
-			expReviewDetailEntity.setExpReviewID((String)pk);
+			expReviewDetailEntity.setExpReviewID((String)expReviewPk);
 			expReviewDetailEntity.setExpReviewOptID(expReviewOptID);
 			expReviewDetailEntity.setExpReviewOptScore((Integer)expReviewDetail.get("expReviewOptScore"));
 			if(isReviewedForDetail){
 				expReviewDetailService.update(expReviewDetailEntity);
+                expReviewDetailEntity.getExpReviewDetailID();
 			} else{
 				expReviewDetailService.save(expReviewDetailEntity);
 			}
-		}
+
+            // 更新实验评论低分项明细表
+            List<Map<String, Object>> expReviewDetailOfOpts = (List<Map<String, Object>>)expReviewDetail.get("expReviewDetailOfOpts");
+            for(Map<String, Object> expReviewDetailOfOpt : expReviewDetailOfOpts){
+                ExpReviewDetailOfOptEntity expReviewDetailOfOptEntity = new ExpReviewDetailOfOptEntity();
+                String itemID = (String)expReviewDetailOfOpt.get("itemID");
+                boolean isReviewedForDetailOpt = expReviewDetailOfOptService.isReviewed((String)expReviewPk, expReviewOptID, itemID);
+                if(isReviewedForDetailOpt){
+                    expReviewDetailOfOptEntity = expReviewDetailOfOptService.getExpReviewDetailOfOpt((String)expReviewPk, expReviewOptID, itemID);
+                }
+                expReviewDetailOfOptEntity.setExpReviewID((String)expReviewPk);
+                expReviewDetailOfOptEntity.setExpReviewOptID(expReviewOptID);
+                expReviewDetailOfOptEntity.setItemID(itemID);
+                expReviewDetailOfOptEntity.setItemName((String)expReviewDetailOfOpt.get("itemName"));
+                expReviewDetailOfOptEntity.setSupplierID((String)expReviewDetailOfOpt.get("supplierID"));
+                expReviewDetailOfOptEntity.setItemScore((Integer)expReviewDetailOfOpt.get("itemScore"));
+                expReviewDetailOfOptEntity.setExpReviewDetailOfOptDesc((String)expReviewDetailOfOpt.get("desc"));
+                if(isReviewedForDetailOpt){
+                    expReviewDetailOfOptService.update(expReviewDetailOfOptEntity);
+                } else {
+                    expReviewDetailOfOptService.save(expReviewDetailOfOptEntity);
+                }
+            }
+        }
 	}
 	
 	@Override

@@ -1,9 +1,12 @@
 package com.labassistant.service;
 
 import java.util.ArrayList;
+import java.util.HashMap;
 import java.util.List;
+import java.util.Map;
 
 import org.apache.commons.lang3.StringUtils;
+import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
 import com.labassistant.beans.MapEntity;
@@ -19,9 +22,28 @@ import com.labassistant.dao.service.BaseAbstractService;
 public class MapServiceImpl extends BaseAbstractService<MapEntity> implements
 		MapService {
 
+    @Autowired
+    private SysUserService sysUserService;
 	private static final double EARTH_RADIUS = 6378137;		// 地球半径
 	private static final double LIMIT = 2000;		// 周围附近多少公里,默认获取附近2公里的用户
-	
+
+    @Override
+    public List<Object> getAround(MapEntity theUser){
+        List<Object> objects = new ArrayList<Object>();
+        List<MapEntity> arounds = _getAround(theUser);
+        for(MapEntity around : arounds){
+            Map<String, String> map = new HashMap<String, String>();
+            map.put("userID", around.getUserID());
+            map.put("longitude", around.getLongitude());
+            map.put("latitude", around.getLatitude());
+            map.put("distance", String.valueOf(around.getDistance()));
+            map.put("reagentName", around.getReagentName());
+            map.put("eMail", sysUserService.get(around.getUserID()).geteMail());
+            objects.add(map);
+        }
+        return objects;
+    }
+
 	/**
 	 * 获取某位置处的周围数据
 	 * 
@@ -29,8 +51,7 @@ public class MapServiceImpl extends BaseAbstractService<MapEntity> implements
 	 * @param latitude  纬度
 	 * @return 附近用户
 	 */
-	@Override
-	public List<MapEntity> getAround(MapEntity theUser, double limit) {
+	private List<MapEntity> _getAround(MapEntity theUser, double limit) {
 		List<MapEntity> lists = findList();
 		List<MapEntity> result = new ArrayList<MapEntity>();
 		for (MapEntity list : lists) {
@@ -44,9 +65,8 @@ public class MapServiceImpl extends BaseAbstractService<MapEntity> implements
 		return result;
 	}
 
-	@Override
-	public List<MapEntity> getAround(MapEntity theUser) {
-		return getAround(theUser, LIMIT);
+	private List<MapEntity> _getAround(MapEntity theUser) {
+		return _getAround(theUser, LIMIT);
 	}
 	
 	@Override

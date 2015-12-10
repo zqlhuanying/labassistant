@@ -48,7 +48,25 @@ public final class ReturnJson {
 			});
 		}
 	};
-	
+
+    public static final Map<String,Object> REVIEWOPTIONAL = new HashMap<String, Object>(){
+        {
+            put("expReviewOptID", "");
+            put("expReviewOptName", "");
+            put("expReviewDetailOfOpts", new ArrayList<Object>(){
+                {
+                    Map<String, String> map = new HashMap<String, String>();
+                    map.put("itemID", "");
+                    map.put("itemName", "");
+                    map.put("supplierID", "");
+                    add(map);
+                }
+                private static final long serialVersionUID = 3692245925651488180L;
+            });
+        }
+        private static final long serialVersionUID = -6642689924356664199L;
+    };
+
 	public static final Map<String, Object> PROVINCEANDCITY = new HashMap<String, Object>(){
 		private static final long serialVersionUID = 2163563696582262664L;
 		{
