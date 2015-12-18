@@ -22,6 +22,9 @@ import org.hibernate.annotations.GenericGenerator;
  * ReagentSpec				规格
  * UseAmount				用量
  * SupplierID				供应商ID
+ * LevelOneSortID           试剂一级分类
+ * LevelTwoSortID           试剂二级分类
+ * SupplierName             供应商名称
  */
 @Table(name = "t_expreagent")
 @Entity
@@ -38,6 +41,9 @@ public class ExpReagentEntity extends ToStringBase {
 	private String reagentSpec;
 	private int useAmount;
 	private String supplierID;
+    private String supplierName;
+    private String levelOneSortID;
+    private String levelTwoSortID;
 	
 	@Id
 	@GeneratedValue(generator="system-uuid")
@@ -114,4 +120,28 @@ public class ExpReagentEntity extends ToStringBase {
 	public void setSupplierID(String supplierID) {
 		this.supplierID = supplierID;
 	}
+
+    public String getLevelOneSortID() {
+        return levelOneSortID;
+    }
+
+    public void setLevelOneSortID(String levelOneSortID) {
+        this.levelOneSortID = levelOneSortID;
+    }
+
+    public String getLevelTwoSortID() {
+        return levelTwoSortID;
+    }
+
+    public void setLevelTwoSortID(String levelTwoSortID) {
+        this.levelTwoSortID = levelTwoSortID;
+    }
+
+    public String getSupplierName() {
+        return supplierName;
+    }
+
+    public void setSupplierName(String supplierName) {
+        this.supplierName = supplierName;
+    }
 }

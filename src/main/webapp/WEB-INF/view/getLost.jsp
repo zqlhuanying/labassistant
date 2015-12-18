@@ -35,7 +35,7 @@ String nickName = EncryptUtil.decode(request.getParameter("un"));
             height: 100%;
         }
         #findPassword {
-            position: relative;
+            position: absolute;
             left: 37%;
             top: 40%;
         }
@@ -74,7 +74,7 @@ String nickName = EncryptUtil.decode(request.getParameter("un"));
             <div><label>确认密码：</label><input type="password" name="confirm" id="confirm"/></div>
             <input type="hidden" name="ser" value="<%= ser%>">
             <input type="hidden" name="domain" value="<%= domain%>" id="domain">
-            <input type="image" src="static/img/submit.jpg" value="提交" id="submit_button"/>
+            <input type="image" src="static/img/submit.png" value="提交" id="submit_button"/>
         </form>
     </div>
   </body>

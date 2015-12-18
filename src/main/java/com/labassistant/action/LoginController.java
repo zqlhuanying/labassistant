@@ -101,7 +101,7 @@ public class LoginController extends BaseController {
 	@RequestMapping(value = "/getLost", method = RequestMethod.POST)
 	@ResponseBody
 	public Map<String, Object> getLost(HttpServletRequest request, SysUserEntity user, String ser) {
-		//setErrorMsg(request, "找回密码失败");
+		setErrorMsg(request, "找回密码失败");
 		Map<String, Object> map = new HashMap<String, Object>();
 		sysUserService.resetPwd(user, ser);
 		map.putAll(retSuccess());

@@ -31,7 +31,7 @@ public class MapEntity extends ToStringBase {
 	private String longitude;
 	private String latitude;
 	private String reagentName;
-	
+
 	private double distance;
 	
 	@Id

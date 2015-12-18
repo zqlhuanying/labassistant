@@ -8,6 +8,7 @@ import javax.persistence.GeneratedValue;
 import javax.persistence.Id;
 import javax.persistence.Lob;
 import javax.persistence.Table;
+import javax.persistence.Transient;
 
 import org.hibernate.annotations.GenericGenerator;
 import org.springframework.format.annotation.DateTimeFormat;
@@ -83,22 +84,26 @@ public class ExpInstructionEntity extends ToStringBase {
 	@JsonFormat(pattern="yyyy-MM-dd HH:mm:ss",timezone = "GMT+8")  
 	private Date createDate;
 	
-	@Column(columnDefinition="int")
-	private int expVersion;
+	@Column(columnDefinition="Integer")
+	private Integer expVersion;
 	
-	@Column(columnDefinition="int")
-	private int allowDownload;
+	@Column(columnDefinition="Integer")
+	private Integer allowDownload;
 	
 	@Column(length=400)
 	private String filterStr;
 	
-	@Column(columnDefinition="int")
-	private int reviewCount;
+	@Column(columnDefinition="Integer")
+	private Integer reviewCount;
 	
-	@Column(columnDefinition="int")
+	@Column(columnDefinition="Integer")
 	@MyAnnotation
-	private int downloadCount;
-	
+	private Integer downloadCount;
+
+    @Transient
+    private String expCategoryName;
+    @Transient
+    private String expSubCategoryName;
 	
 	public String getExpInstructionID() {
 		return expInstructionID;
@@ -188,19 +193,19 @@ public class ExpInstructionEntity extends ToStringBase {
 		this.createDate = createDate;
 	}
 	
-	public int getExpVersion() {
+	public Integer getExpVersion() {
 		return expVersion;
 	}
 	
-	public void setExpVersion(int expVersion) {
+	public void setExpVersion(Integer expVersion) {
 		this.expVersion = expVersion;
 	}
 	
-	public int getAllowDownload() {
+	public Integer getAllowDownload() {
 		return allowDownload;
 	}
 	
-	public void setAllowDownload(int allowDownload) {
+	public void setAllowDownload(Integer allowDownload) {
 		this.allowDownload = allowDownload;
 	}
 	
@@ -212,20 +217,35 @@ public class ExpInstructionEntity extends ToStringBase {
 		this.filterStr = filterStr;
 	}
 	
-	public int getReviewCount() {
+	public Integer getReviewCount() {
 		return reviewCount;
 	}
 	
-	public void setReviewCount(int reviewCount) {
+	public void setReviewCount(Integer reviewCount) {
 		this.reviewCount = reviewCount;
 	}
 	
-	public int getDownloadCount() {
+	public Integer getDownloadCount() {
 		return downloadCount;
 	}
 	
-	public void setDownloadCount(int downloadCount) {
+	public void setDownloadCount(Integer downloadCount) {
 		this.downloadCount = downloadCount;
 	}
 
+    public String getExpCategoryName() {
+        return expCategoryName;
+    }
+
+    public void setExpCategoryName(String expCategoryName) {
+        this.expCategoryName = expCategoryName;
+    }
+
+    public String getExpSubCategoryName() {
+        return expSubCategoryName;
+    }
+
+    public void setExpSubCategoryName(String expSubCategoryName) {
+        this.expSubCategoryName = expSubCategoryName;
+    }
 }

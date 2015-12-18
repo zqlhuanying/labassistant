@@ -36,6 +36,7 @@ public class ToPDF {
 	public static int ALIGN_RIGHT = Element.ALIGN_RIGHT;
 	
 	private Document document;
+    private PdfWriter writer;
 
 	// 设置段落
 	public Paragraph paragraph() throws DocumentException, IOException{
@@ -68,9 +69,14 @@ public class ToPDF {
 	
 	public Paragraph paragraph(List<String> strings) throws DocumentException, IOException{
 		Paragraph p = paragraph();
+        int size = strings.size();
+        int i = 0;
 		for(String str : strings){
 			p.add(str);
-			p.add(",");
+            if(i < size - 1){
+                p.add(",");
+            }
+            i++;
 		}
 		return p;
 	}
@@ -173,7 +179,7 @@ public class ToPDF {
 	// 获取PDF Document
 	public void getDocument(String pdfName) throws FileNotFoundException, DocumentException{
 		this.document = new Document();
-		PdfWriter.getInstance(this.document, new FileOutputStream(pdfName));
+		this.writer = PdfWriter.getInstance(this.document, new FileOutputStream(pdfName));
 		this.document.open();
 	}
 	
@@ -190,7 +196,12 @@ public class ToPDF {
 	public float getPageWidth(){
 		return this.document.getPageSize().getWidth();
 	}
-	
+
+    // 获取当前鼠标的位置
+//    public float getPosition(){
+//        return this.writer.getVerticalPosition(true);
+//    }
+
 	// 设置默认字体
 	public Font setDefaultFont() throws DocumentException, IOException{
 		return setFont(null, 10, Font.NORMAL);
@@ -213,7 +224,9 @@ public class ToPDF {
 	
 	public Font setFont(BaseFont baseFont, float size, int style) throws DocumentException, IOException{
 		if(baseFont == null){
-			baseFont = BaseFont.createFont("STSong-Light", "UniGB-UCS2-H", BaseFont.NOT_EMBEDDED);
+//			baseFont = BaseFont.createFont("STSong-Light", "UniGB-UCS2-H", BaseFont.NOT_EMBEDDED);
+            String path = getClass().getResource("/resource").getPath() + "msyhl.ttf";
+            baseFont = BaseFont.createFont(path, BaseFont.IDENTITY_H, BaseFont.NOT_EMBEDDED);
 		}
 		return new Font(baseFont, size, style);
 	}

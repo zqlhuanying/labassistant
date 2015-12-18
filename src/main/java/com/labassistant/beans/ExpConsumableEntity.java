@@ -21,6 +21,7 @@ import org.hibernate.annotations.GenericGenerator;
  * ConsumableCount			数量
  * ConsumableFactory		厂商
  * SupplierID				供应商ID
+ * SupplierName             供应商名称
  */
 @Table(name = "t_expconsumable")
 @Entity
@@ -36,6 +37,7 @@ public class ExpConsumableEntity extends ToStringBase {
 	private int consumableCount;
 	private String consumableFactory;
 	private String supplierID;
+    private String supplierName;
 	
 	@Id
 	@GeneratedValue(generator="system-uuid")
@@ -105,4 +107,11 @@ public class ExpConsumableEntity extends ToStringBase {
 		this.supplierID = supplierID;
 	}
 
+    public String getSupplierName() {
+        return supplierName;
+    }
+
+    public void setSupplierName(String supplierName) {
+        this.supplierName = supplierName;
+    }
 }

@@ -541,7 +541,7 @@ CREATE TABLE `t_expinstruction` (
   `allowdownload` int,
   `filterstr` varchar(400),
   `reviewcount` int,
-  `downloadcount` int,
+  `downloadcount` int default 0,
   PRIMARY KEY (`expinstructionid`)
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8;
 -- ----------------------------
@@ -586,27 +586,30 @@ CREATE TABLE `t_expreagent` (
   `reagentid` varchar(40),
   `reagentname` varchar(100),
   `reagentcommonname` varchar(500),
+  `levelonesortid` varchar(40),
+  `leveltwosortid` varchar(40),
   `createMethod` varchar(1000),
   `reagentspec` varchar(50),
   `useamount` int,
   `supplierid` varchar(40),
+  `suppliername` varchar(100),
   PRIMARY KEY (`expreagentid`)
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8;
 -- ----------------------------
 -- Records of t_expreagent
 -- ----------------------------
-INSERT INTO `t_expreagent` (`expreagentid`,`expinstructionid`,`reagentid`,`reagentname`,`reagentcommonname`,`createMethod`,`reagentspec`,`useamount`,`supplierid`) VALUES ('4028c681494b994701494b99aba50000','4028c681494b994701494b99bab60000','0eb9cf476e4c11e5bc1f002564e7234d','Anti-Ras','Anti-Ras','洗涤液','洗涤液',50,'4037d681494b994701494b99aba50002');
-INSERT INTO `t_expreagent` (`expreagentid`,`expinstructionid`,`reagentid`,`reagentname`,`reagentcommonname`,`createMethod`,`reagentspec`,`useamount`,`supplierid`) VALUES ('4028c681494b994701494b99aba50001','4028c681494b994701494b99bab60000','0d647dee6e4b11e5bc1f002564e7234d','植物激素','植物激素','洗涤液1','洗涤液1',500,'4037d681494b994701494b99aba50003');
-INSERT INTO `t_expreagent` (`expreagentid`,`expinstructionid`,`reagentid`,`reagentname`,`reagentcommonname`,`createMethod`,`reagentspec`,`useamount`,`supplierid`) VALUES ('4028c681494b994701494b99aba50002','4028c681494b994701494b99bab60000','2213288c6e4e11e5bc1f002564e7234d','单克隆抗体','单克隆抗体','单克隆抗体','洗涤液2',60,'4037d681494b994701494b99aba50002');
-INSERT INTO `t_expreagent` (`expreagentid`,`expinstructionid`,`reagentid`,`reagentname`,`reagentcommonname`,`createMethod`,`reagentspec`,`useamount`,`supplierid`) VALUES ('96269999219408977','4028c681494b994701494b99bab60000','2234ae706e4e11e5bc1f002564e7234d','羊抗人胱抑素C','羊抗人胱抑素C','1','1',10,'4037d681494b994701494b99aba50004');
-INSERT INTO `t_expreagent` (`expreagentid`,`expinstructionid`,`reagentid`,`reagentname`,`reagentcommonname`,`createMethod`,`reagentspec`,`useamount`,`supplierid`) VALUES ('96269999219408978','4028c681494b994701494b99bab61111','224636826e4e11e5bc1f002564e7234d','FITC ** anti-Interleukin 7','FITC ** anti-Interleukin 7','1','1',10,'4037d681494b994701494b99aba50001');
-INSERT INTO `t_expreagent` (`expreagentid`,`expinstructionid`,`reagentid`,`reagentname`,`reagentcommonname`,`createMethod`,`reagentspec`,`useamount`,`supplierid`) VALUES ('96269999219408979','4028c681494b994701494b99bab61111','225e70bf6e4e11e5bc1f002564e7234d','Sybr Green I','Sybr Green I','1','1',10,'4037d681494b994701494b99aba50002');
-INSERT INTO `t_expreagent` (`expreagentid`,`expinstructionid`,`reagentid`,`reagentname`,`reagentcommonname`,`createMethod`,`reagentspec`,`useamount`,`supplierid`) VALUES ('96269999219408980','4028c681494b994701494b99bab61111','227052776e4e11e5bc1f002564e7234d','三羟甲基氨基甲烷','三羟甲基氨基甲烷','2','2',20,'4037d681494b994701494b99aba50003');
-INSERT INTO `t_expreagent` (`expreagentid`,`expinstructionid`,`reagentid`,`reagentname`,`reagentcommonname`,`createMethod`,`reagentspec`,`useamount`,`supplierid`) VALUES ('96269999219408981','4028c681494b994701494b99bab61111','0eb9cf476e4c11e5bc1f002564e7234d','Anti-Ras','Anti-Ras','2','2',20,'4037d681494b994701494b99aba50002');
-INSERT INTO `t_expreagent` (`expreagentid`,`expinstructionid`,`reagentid`,`reagentname`,`reagentcommonname`,`createMethod`,`reagentspec`,`useamount`,`supplierid`) VALUES ('96269999219408982','4028c681494b994701494b99bab61111','2219d51f6e4e11e5bc1f002564e7234d','GAPDH抗体','GAPDH抗体','2','2',20,'4037d681494b994701494b99aba50001');
-INSERT INTO `t_expreagent` (`expreagentid`,`expinstructionid`,`reagentid`,`reagentname`,`reagentcommonname`,`createMethod`,`reagentspec`,`useamount`,`supplierid`) VALUES ('96269999219408983','4028c681494b994701494b99bab62222','2230b8706e4e11e5bc1f002564e7234d','抗鼠RANKL','抗鼠RANKL','3','3',30,'4037d681494b994701494b99aba50002');
-INSERT INTO `t_expreagent` (`expreagentid`,`expinstructionid`,`reagentid`,`reagentname`,`reagentcommonname`,`createMethod`,`reagentspec`,`useamount`,`supplierid`) VALUES ('96269999219408984','4028c681494b994701494b99bab62222','224f30656e4e11e5bc1f002564e7234d','GPR85 Over-expression Lysate','GPR85 Over-expression Lysate','3','3',31,'4037d681494b994701494b99aba50005');
-INSERT INTO `t_expreagent` (`expreagentid`,`expinstructionid`,`reagentid`,`reagentname`,`reagentcommonname`,`createMethod`,`reagentspec`,`useamount`,`supplierid`) VALUES ('96269999219408985','4028c681494b994701494b99bab62222','22776fd96e4e11e5bc1f002564e7234d','农药速测卡','农药速测卡','3','3',25,'4037d681494b994701494b99aba50002');
+INSERT INTO `t_expreagent` (`expreagentid`,`expinstructionid`,`reagentid`,`reagentname`,`reagentcommonname`,`createMethod`,`reagentspec`,`useamount`,`supplierid`,`levelonesortid`,`leveltwosortid`,`suppliername`) VALUES ('4028c681494b994701494b99aba50000','4028c681494b994701494b99bab60000','0eb9cf476e4c11e5bc1f002564e7234d','Anti-Ras','Anti-Ras','洗涤液','洗涤液',50,'4037d681494b994701494b99aba50002','b828bf3f6e4811e5bc1f002564e7234d','49a48f986e4911e5bc1f002564e7234d','试剂供应商二');
+INSERT INTO `t_expreagent` (`expreagentid`,`expinstructionid`,`reagentid`,`reagentname`,`reagentcommonname`,`createMethod`,`reagentspec`,`useamount`,`supplierid`,`levelonesortid`,`leveltwosortid`,`suppliername`) VALUES ('4028c681494b994701494b99aba50001','4028c681494b994701494b99bab60000','0d647dee6e4b11e5bc1f002564e7234d','植物激素','植物激素','洗涤液1','洗涤液1',500,'4037d681494b994701494b99aba50003','b828bf3f6e4811e5bc1f002564e7234d','49a48f986e4911e5bc1f002564e7234d','试剂供应商三');
+INSERT INTO `t_expreagent` (`expreagentid`,`expinstructionid`,`reagentid`,`reagentname`,`reagentcommonname`,`createMethod`,`reagentspec`,`useamount`,`supplierid`,`levelonesortid`,`leveltwosortid`,`suppliername`) VALUES ('4028c681494b994701494b99aba50002','4028c681494b994701494b99bab60000','2213288c6e4e11e5bc1f002564e7234d','单克隆抗体','单克隆抗体','单克隆抗体','洗涤液2',60,'4037d681494b994701494b99aba50002','b828bf3f6e4811e5bc1f002564e7234d','7dcfcdf16e4911e5bc1f002564e7234d','试剂供应商二');
+INSERT INTO `t_expreagent` (`expreagentid`,`expinstructionid`,`reagentid`,`reagentname`,`reagentcommonname`,`createMethod`,`reagentspec`,`useamount`,`supplierid`,`levelonesortid`,`leveltwosortid`,`suppliername`) VALUES ('96269999219408977','4028c681494b994701494b99bab60000','2234ae706e4e11e5bc1f002564e7234d','羊抗人胱抑素C','羊抗人胱抑素C','1','1',10,'4037d681494b994701494b99aba50004','b828bf3f6e4811e5bc1f002564e7234d','8800c20e6e4911e5bc1f002564e7234d','试剂供应商四');
+INSERT INTO `t_expreagent` (`expreagentid`,`expinstructionid`,`reagentid`,`reagentname`,`reagentcommonname`,`createMethod`,`reagentspec`,`useamount`,`supplierid`,`levelonesortid`,`leveltwosortid`,`suppliername`) VALUES ('96269999219408978','4028c681494b994701494b99bab61111','224636826e4e11e5bc1f002564e7234d','FITC ** anti-Interleukin 7','FITC ** anti-Interleukin 7','1','1',10,'4037d681494b994701494b99aba50001','b828bf3f6e4811e5bc1f002564e7234d','8ca5057e6e4911e5bc1f002564e7234d','试剂供应商一');
+INSERT INTO `t_expreagent` (`expreagentid`,`expinstructionid`,`reagentid`,`reagentname`,`reagentcommonname`,`createMethod`,`reagentspec`,`useamount`,`supplierid`,`levelonesortid`,`leveltwosortid`,`suppliername`) VALUES ('96269999219408979','4028c681494b994701494b99bab61111','225e70bf6e4e11e5bc1f002564e7234d','Sybr Green I','Sybr Green I','1','1',10,'4037d681494b994701494b99aba50002','e1336fd96e4811e5bc1f002564e7234d','bcdbc5da6e4911e5bc1f002564e7234d','试剂供应商二');
+INSERT INTO `t_expreagent` (`expreagentid`,`expinstructionid`,`reagentid`,`reagentname`,`reagentcommonname`,`createMethod`,`reagentspec`,`useamount`,`supplierid`,`levelonesortid`,`leveltwosortid`,`suppliername`) VALUES ('96269999219408980','4028c681494b994701494b99bab61111','227052776e4e11e5bc1f002564e7234d','三羟甲基氨基甲烷','三羟甲基氨基甲烷','2','2',20,'4037d681494b994701494b99aba50003','e1336fd96e4811e5bc1f002564e7234d','c679d5dc6e4911e5bc1f002564e7234d','试剂供应商三');
+INSERT INTO `t_expreagent` (`expreagentid`,`expinstructionid`,`reagentid`,`reagentname`,`reagentcommonname`,`createMethod`,`reagentspec`,`useamount`,`supplierid`,`levelonesortid`,`leveltwosortid`,`suppliername`) VALUES ('96269999219408981','4028c681494b994701494b99bab61111','0eb9cf476e4c11e5bc1f002564e7234d','Anti-Ras','Anti-Ras','2','2',20,'4037d681494b994701494b99aba50002','b828bf3f6e4811e5bc1f002564e7234d','49a48f986e4911e5bc1f002564e7234d','试剂供应商二');
+INSERT INTO `t_expreagent` (`expreagentid`,`expinstructionid`,`reagentid`,`reagentname`,`reagentcommonname`,`createMethod`,`reagentspec`,`useamount`,`supplierid`,`levelonesortid`,`leveltwosortid`,`suppliername`) VALUES ('96269999219408982','4028c681494b994701494b99bab61111','2219d51f6e4e11e5bc1f002564e7234d','GAPDH抗体','GAPDH抗体','2','2',20,'4037d681494b994701494b99aba50001','b828bf3f6e4811e5bc1f002564e7234d','7dcfcdf16e4911e5bc1f002564e7234d','试剂供应商一');
+INSERT INTO `t_expreagent` (`expreagentid`,`expinstructionid`,`reagentid`,`reagentname`,`reagentcommonname`,`createMethod`,`reagentspec`,`useamount`,`supplierid`,`levelonesortid`,`leveltwosortid`,`suppliername`) VALUES ('96269999219408983','4028c681494b994701494b99bab62222','2230b8706e4e11e5bc1f002564e7234d','抗鼠RANKL','抗鼠RANKL','3','3',30,'4037d681494b994701494b99aba50002','b828bf3f6e4811e5bc1f002564e7234d','8356815d6e4911e5bc1f002564e7234d','试剂供应商二');
+INSERT INTO `t_expreagent` (`expreagentid`,`expinstructionid`,`reagentid`,`reagentname`,`reagentcommonname`,`createMethod`,`reagentspec`,`useamount`,`supplierid`,`levelonesortid`,`leveltwosortid`,`suppliername`) VALUES ('96269999219408984','4028c681494b994701494b99bab62222','224f30656e4e11e5bc1f002564e7234d','GPR85 Over-expression Lysate','GPR85 Over-expression Lysate','3','3',31,'4037d681494b994701494b99aba50005','b828bf3f6e4811e5bc1f002564e7234d','8ca5057e6e4911e5bc1f002564e7234d','试剂供应商五');
+INSERT INTO `t_expreagent` (`expreagentid`,`expinstructionid`,`reagentid`,`reagentname`,`reagentcommonname`,`createMethod`,`reagentspec`,`useamount`,`supplierid`,`levelonesortid`,`leveltwosortid`,`suppliername`) VALUES ('96269999219408985','4028c681494b994701494b99bab62222','22776fd96e4e11e5bc1f002564e7234d','农药速测卡','农药速测卡','3','3',25,'4037d681494b994701494b99aba50002','e1336fd96e4811e5bc1f002564e7234d','c679d5dc6e4911e5bc1f002564e7234d','试剂供应商二');
 
 
 -- -----------------------------------------------
@@ -622,18 +625,19 @@ CREATE TABLE `t_expconsumable` (
   `consumablecount` int,
   `consumablefactory` varchar(100),
   `supplierid` varchar(40),
+  `suppliername` varchar(100),
   PRIMARY KEY (`expconsumableid`)
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8;
 -- ----------------------------
 -- Records of t_expconsumable
 -- ----------------------------
-INSERT INTO `t_expconsumable` (`expconsumableid`,`expinstructionid`,`consumableid`,`consumablename`,`consumabletype`,`consumablecount`,`consumablefactory`,`supplierid`) VALUES ('0b211cbf6e5711e5bc1f002564e7234d','4028c681494b994701494b99bab60000','578aea5e6e5211e5bc1f002564e7234d','50ul枪头','50ul',10,'no','4037d681494b994701494b99aba10003');
-INSERT INTO `t_expconsumable` (`expconsumableid`,`expinstructionid`,`consumableid`,`consumablename`,`consumabletype`,`consumablecount`,`consumablefactory`,`supplierid`) VALUES ('1249c2f56e5711e5bc1f002564e7234d','4028c681494b994701494b99bab60000','57a2d41a6e5211e5bc1f002564e7234d','BD细胞培养瓶','25ml',5,'no','4037d681494b994701494b99aba10005');
-INSERT INTO `t_expconsumable` (`expconsumableid`,`expinstructionid`,`consumableid`,`consumablename`,`consumabletype`,`consumablecount`,`consumablefactory`,`supplierid`) VALUES ('4028c791494b994701494b99aba50000','4028c681494b994701494b99bab60000','92bf98916e5111e5bc1f002564e7234d','1000µl微量吸头','96T',2,'不知道','4037d681494b994701494b99aba10002');
-INSERT INTO `t_expconsumable` (`expconsumableid`,`expinstructionid`,`consumableid`,`consumablename`,`consumabletype`,`consumablecount`,`consumablefactory`,`supplierid`) VALUES ('5e86183f6e5711e5bc1f002564e7234d','4028c681494b994701494b99bab61111','579205006e5211e5bc1f002564e7234d','watson顶级吸头','100ml',20,'no','4037d681494b994701494b99aba10003');
-INSERT INTO `t_expconsumable` (`expconsumableid`,`expinstructionid`,`consumableid`,`consumablename`,`consumabletype`,`consumablecount`,`consumablefactory`,`supplierid`) VALUES ('6294070b6e5711e5bc1f002564e7234d','4028c681494b994701494b99bab61111','579ee2d26e5211e5bc1f002564e7234d','DropArray 96','96T',2,'no','4037d681494b994701494b99aba10005');
-INSERT INTO `t_expconsumable` (`expconsumableid`,`expinstructionid`,`consumableid`,`consumablename`,`consumabletype`,`consumablecount`,`consumablefactory`,`supplierid`) VALUES ('66d48e706e5711e5bc1f002564e7234d','4028c681494b994701494b99bab62222','92bf98916e5111e5bc1f002564e7234d','1000µl微量吸头','1000ul',2,'no','4037d681494b994701494b99aba10002');
-INSERT INTO `t_expconsumable` (`expconsumableid`,`expinstructionid`,`consumableid`,`consumablename`,`consumabletype`,`consumablecount`,`consumablefactory`,`supplierid`) VALUES ('6a70172a6e5711e5bc1f002564e7234d','4028c681494b994701494b99bab62222','57a7833a6e5211e5bc1f002564e7234d','细胞培养转瓶','2000ml',2,'no','4037d681494b994701494b99aba10003');
+INSERT INTO `t_expconsumable` (`expconsumableid`,`expinstructionid`,`consumableid`,`consumablename`,`consumabletype`,`consumablecount`,`consumablefactory`,`supplierid`,`suppliername`) VALUES ('0b211cbf6e5711e5bc1f002564e7234d','4028c681494b994701494b99bab60000','578aea5e6e5211e5bc1f002564e7234d','50ul枪头','50ul',10,'no','4037d681494b994701494b99aba10003','耗材供应商三');
+INSERT INTO `t_expconsumable` (`expconsumableid`,`expinstructionid`,`consumableid`,`consumablename`,`consumabletype`,`consumablecount`,`consumablefactory`,`supplierid`,`suppliername`) VALUES ('1249c2f56e5711e5bc1f002564e7234d','4028c681494b994701494b99bab60000','57a2d41a6e5211e5bc1f002564e7234d','BD细胞培养瓶','25ml',5,'no','4037d681494b994701494b99aba10005','耗材供应商五');
+INSERT INTO `t_expconsumable` (`expconsumableid`,`expinstructionid`,`consumableid`,`consumablename`,`consumabletype`,`consumablecount`,`consumablefactory`,`supplierid`,`suppliername`) VALUES ('4028c791494b994701494b99aba50000','4028c681494b994701494b99bab60000','92bf98916e5111e5bc1f002564e7234d','1000µl微量吸头','96T',2,'不知道','4037d681494b994701494b99aba10002','耗材供应商二');
+INSERT INTO `t_expconsumable` (`expconsumableid`,`expinstructionid`,`consumableid`,`consumablename`,`consumabletype`,`consumablecount`,`consumablefactory`,`supplierid`,`suppliername`) VALUES ('5e86183f6e5711e5bc1f002564e7234d','4028c681494b994701494b99bab61111','579205006e5211e5bc1f002564e7234d','watson顶级吸头','100ml',20,'no','4037d681494b994701494b99aba10003','耗材供应商三');
+INSERT INTO `t_expconsumable` (`expconsumableid`,`expinstructionid`,`consumableid`,`consumablename`,`consumabletype`,`consumablecount`,`consumablefactory`,`supplierid`,`suppliername`) VALUES ('6294070b6e5711e5bc1f002564e7234d','4028c681494b994701494b99bab61111','579ee2d26e5211e5bc1f002564e7234d','DropArray 96','96T',2,'no','4037d681494b994701494b99aba10005','耗材供应商五');
+INSERT INTO `t_expconsumable` (`expconsumableid`,`expinstructionid`,`consumableid`,`consumablename`,`consumabletype`,`consumablecount`,`consumablefactory`,`supplierid`,`suppliername`) VALUES ('66d48e706e5711e5bc1f002564e7234d','4028c681494b994701494b99bab62222','92bf98916e5111e5bc1f002564e7234d','1000µl微量吸头','1000ul',2,'no','4037d681494b994701494b99aba10002','耗材供应商二');
+INSERT INTO `t_expconsumable` (`expconsumableid`,`expinstructionid`,`consumableid`,`consumablename`,`consumabletype`,`consumablecount`,`consumablefactory`,`supplierid`,`suppliername`) VALUES ('6a70172a6e5711e5bc1f002564e7234d','4028c681494b994701494b99bab62222','57a7833a6e5211e5bc1f002564e7234d','细胞培养转瓶','2000ml',2,'no','4037d681494b994701494b99aba10003','耗材供应商三');
 
 
 -- -----------------------------------------------
@@ -647,18 +651,19 @@ CREATE TABLE `t_expequipment` (
   `equipmentname` varchar(100),
   `equipmentfactory` varchar(100),
   `supplierid` varchar(40),
+  `suppliername` varchar(100),
   PRIMARY KEY (`expequipmentid`)
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8;
 -- ----------------------------
 -- Records of t_expequipment
 -- ----------------------------
-INSERT INTO `t_expequipment` (`expequipmentid`,`expinstructionid`,`equipmentid`,`equipmentname`,`equipmentfactory`,`supplierid`) VALUES ('1d56f8ce6e5811e5bc1f002564e7234d','4028c681494b994701494b99bab62222','ef33683d6e5311e5bc1f002564e7234d','三目体式显微镜','no',NULL);
-INSERT INTO `t_expequipment` (`expequipmentid`,`expinstructionid`,`equipmentid`,`equipmentname`,`equipmentfactory`,`supplierid`) VALUES ('208d40ea6e5811e5bc1f002564e7234d','4028c681494b994701494b99bab62222','ef3735566e5311e5bc1f002564e7234d','小型玻片离心机','no',NULL);
-INSERT INTO `t_expequipment` (`expequipmentid`,`expinstructionid`,`equipmentid`,`equipmentname`,`equipmentfactory`,`supplierid`) VALUES ('4028c791564b994701494b99aba50000','4028c681494b994701494b99bab60000','ef1ec2556e5311e5bc1f002564e7234d','漩涡混合器','海尔',NULL);
-INSERT INTO `t_expequipment` (`expequipmentid`,`expinstructionid`,`equipmentid`,`equipmentname`,`equipmentfactory`,`supplierid`) VALUES ('4028c791564b994701494b99aba50001','4028c681494b994701494b99bab60000','ef257ac26e5311e5bc1f002564e7234d','推拉模式注射泵','上海一恒',NULL);
-INSERT INTO `t_expequipment` (`expequipmentid`,`expinstructionid`,`equipmentid`,`equipmentname`,`equipmentfactory`,`supplierid`) VALUES ('4028c791564b994701494b99aba50002','4028c681494b994701494b99bab60000','ef2f778f6e5311e5bc1f002564e7234d','进口冻干机用真空泵','Tecan 200',NULL);
-INSERT INTO `t_expequipment` (`expequipmentid`,`expinstructionid`,`equipmentid`,`equipmentname`,`equipmentfactory`,`supplierid`) VALUES ('f9d436f66e5711e5bc1f002564e7234d','4028c681494b994701494b99bab61111','ef2903d66e5311e5bc1f002564e7234d','AH2010新型药剂型高压均质机','no',NULL);
-INSERT INTO `t_expequipment` (`expequipmentid`,`expinstructionid`,`equipmentid`,`equipmentname`,`equipmentfactory`,`supplierid`) VALUES ('fd6ce4226e5711e5bc1f002564e7234d','4028c681494b994701494b99bab61111','ef3735566e5311e5bc1f002564e7234d','小型玻片离心机','no',NULL);
+INSERT INTO `t_expequipment` (`expequipmentid`,`expinstructionid`,`equipmentid`,`equipmentname`,`equipmentfactory`,`supplierid`,`suppliername`) VALUES ('1d56f8ce6e5811e5bc1f002564e7234d','4028c681494b994701494b99bab62222','ef33683d6e5311e5bc1f002564e7234d','三目体式显微镜','no',NULL,NULL);
+INSERT INTO `t_expequipment` (`expequipmentid`,`expinstructionid`,`equipmentid`,`equipmentname`,`equipmentfactory`,`supplierid`,`suppliername`) VALUES ('208d40ea6e5811e5bc1f002564e7234d','4028c681494b994701494b99bab62222','ef3735566e5311e5bc1f002564e7234d','小型玻片离心机','no',NULL,NULL);
+INSERT INTO `t_expequipment` (`expequipmentid`,`expinstructionid`,`equipmentid`,`equipmentname`,`equipmentfactory`,`supplierid`,`suppliername`) VALUES ('4028c791564b994701494b99aba50000','4028c681494b994701494b99bab60000','ef1ec2556e5311e5bc1f002564e7234d','漩涡混合器','海尔','null',NULL);
+INSERT INTO `t_expequipment` (`expequipmentid`,`expinstructionid`,`equipmentid`,`equipmentname`,`equipmentfactory`,`supplierid`,`suppliername`) VALUES ('4028c791564b994701494b99aba50001','4028c681494b994701494b99bab60000','ef257ac26e5311e5bc1f002564e7234d','推拉模式注射泵','上海一恒','null',NULL);
+INSERT INTO `t_expequipment` (`expequipmentid`,`expinstructionid`,`equipmentid`,`equipmentname`,`equipmentfactory`,`supplierid`,`suppliername`) VALUES ('4028c791564b994701494b99aba50002','4028c681494b994701494b99bab60000','ef2f778f6e5311e5bc1f002564e7234d','进口冻干机用真空泵','Tecan 200','null',NULL);
+INSERT INTO `t_expequipment` (`expequipmentid`,`expinstructionid`,`equipmentid`,`equipmentname`,`equipmentfactory`,`supplierid`,`suppliername`) VALUES ('f9d436f66e5711e5bc1f002564e7234d','4028c681494b994701494b99bab61111','ef2903d66e5311e5bc1f002564e7234d','AH2010新型药剂型高压均质机','no',NULL,NULL);
+INSERT INTO `t_expequipment` (`expequipmentid`,`expinstructionid`,`equipmentid`,`equipmentname`,`equipmentfactory`,`supplierid`,`suppliername`) VALUES ('fd6ce4226e5711e5bc1f002564e7234d','4028c681494b994701494b99bab61111','ef3735566e5311e5bc1f002564e7234d','小型玻片离心机','no',NULL,NULL);
 
 
 -- -----------------------------------------------

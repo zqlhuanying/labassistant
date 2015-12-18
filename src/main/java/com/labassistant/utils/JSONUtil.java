@@ -236,6 +236,8 @@ public final class JSONUtil {
         expInstruction.setExpInstructionID("11111");
     	System.out.println(bean2Json(expInstruction));
     	System.out.println(bean2Map(new ExpInstructionEntity()));
+
+        System.out.println(json2Map("{\"steps\":[]}"));
     	//String json = "{\"imgStream\":\"1\"}";
     	//System.out.println(json);
     	//System.out.println(json2Map(json));

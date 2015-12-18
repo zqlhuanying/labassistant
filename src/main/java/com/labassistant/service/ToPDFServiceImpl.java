@@ -1,12 +1,11 @@
 package com.labassistant.service;
 
-import java.io.IOException;
-import java.util.ArrayList;
-import java.util.Date;
-import java.util.HashMap;
-import java.util.List;
-import java.util.Map;
+import java.io.*;
+import java.util.*;
 
+import com.itextpdf.text.BaseColor;
+import com.labassistant.beans.*;
+import com.labassistant.service.exp.*;
 import org.apache.commons.lang3.StringUtils;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
@@ -15,17 +14,7 @@ import com.itextpdf.text.DocumentException;
 import com.itextpdf.text.Paragraph;
 import com.itextpdf.text.pdf.PdfPCell;
 import com.itextpdf.text.pdf.PdfPTable;
-import com.labassistant.beans.ExpInstructionEntity;
-import com.labassistant.beans.ExpReviewDetailEntity;
-import com.labassistant.beans.ExpReviewEntity;
-import com.labassistant.beans.MyExpEntity;
-import com.labassistant.beans.MyExpProcessAttchEntity;
-import com.labassistant.beans.MyExpProcessEntity;
 import com.labassistant.constants.AppConfig;
-import com.labassistant.service.exp.ExpInstructionsMainService;
-import com.labassistant.service.exp.ExpReviewDetailService;
-import com.labassistant.service.exp.ExpReviewOptService;
-import com.labassistant.service.exp.ExpReviewService;
 import com.labassistant.service.myexp.MyExpConsumableService;
 import com.labassistant.service.myexp.MyExpEquipmentService;
 import com.labassistant.service.myexp.MyExpMainService;
@@ -52,6 +41,10 @@ public class ToPDFServiceImpl implements ToPDFService {
 	private ExpReviewDetailService expReviewDetailService;
 	@Autowired
 	private ExpReviewOptService expReviewOptService;
+    @Autowired
+    private ExpReviewDetailOfOptService expReviewDetailOfOptService;
+    @Autowired
+    private ExpProcessService expProcessService;
 	@Autowired
 	private MyExpMainService myExpMainService;
 	@Autowired
@@ -223,22 +216,65 @@ public class ToPDFServiceImpl implements ToPDFService {
 			PdfPTable pdfTable = new PdfPTable(2);
 			pdfTable.setWidthPercentage(100);
 			pdfTable.setSpacingBefore(10.0f);
-			pdfTable.setTotalWidth(new float[]{100.0f, 75.0f});
+			pdfTable.setTotalWidth(new float[]{300.0f, 75.0f});
 			pdfTable.setLockedWidth(true);
 			pdfTable.setHorizontalAlignment(ToPDF.ALIGN_LEFT);
-			
+            pdfTable.setKeepTogether(true);
+//            pdfTable.setHeaderRows(1);
+
 			Paragraph header1 = pdf.paragraph("评论项");
 			header1.setAlignment(ToPDF.ALIGN_CENTER);
+            PdfPCell header1Cell = pdf.pCell(header1);
+            header1Cell.setBorderWidthRight(0);
+            header1Cell.setBorderWidthBottom(0);
+            pdf.pCell(pdfTable, header1Cell);
+
 			Paragraph header2 = pdf.paragraph("评论项得分");
 			header2.setAlignment(ToPDF.ALIGN_CENTER);
-			pdf.pCell(pdfTable, header1);
-			pdf.pCell(pdfTable, header2);
+            PdfPCell header2Cell = pdf.pCell(header2);
+            header2Cell.setBorderWidthBottom(0);
+			pdf.pCell(pdfTable, header2Cell);
 			pdfTable.completeRow();
-			
-			List<ExpReviewDetailEntity> expReviewDetails = expReviewDetailService.getExpReviewDetails(expReview.getExpReviewID());
+
+            String expReviewID = expReview.getExpReviewID();
+			List<ExpReviewDetailEntity> expReviewDetails = expReviewDetailService.getExpReviewDetails(expReviewID);
 			for(ExpReviewDetailEntity expReviewDetail : expReviewDetails){
-				pdf.pCell(pdfTable, pdf.paragraph(expReviewOptService.get(expReviewDetail.getExpReviewOptID()).getExpReviewOptName()));
-				pdf.pCell(pdfTable, pdf.paragraph(String.valueOf((expReviewDetail.getExpReviewOptScore()))));
+                String expReviewOptID = expReviewDetail.getExpReviewOptID();
+                String expReviewOptName = expReviewOptService.get(expReviewOptID).getExpReviewOptName();
+                PdfPCell cellName = pdf.pCell(pdf.paragraph(expReviewOptName));
+                cellName.setBorderWidthRight(0);
+                cellName.setBorderWidthBottom(0);
+                pdf.pCell(pdfTable, cellName);
+
+                PdfPCell cellScore = pdf.pCell(pdf.paragraph("  " + String.valueOf((expReviewDetail.getExpReviewOptScore()))));
+                cellScore.setBorderWidthBottom(0);
+                pdf.pCell(pdfTable, cellScore);
+
+                List<ExpReviewDetailOfOptEntity> expReviewDetailOfOpts = expReviewDetailOfOptService.getExpReviewDetailOfOpts(expReviewID, expReviewOptID);
+                if(expReviewDetailOfOpts != null){
+                    if("实验步骤".equals(expReviewOptName)){
+                        sortStep(expReviewDetailOfOpts);
+                    }
+
+                    for(ExpReviewDetailOfOptEntity expReviewDetailOfOpt : expReviewDetailOfOpts){
+                        PdfPCell cellName1 = new PdfPCell();
+                        Paragraph pName = pdf.paragraph("-  " + expReviewDetailOfOpt.getItemName());
+                        pName.setIndentationLeft(12);
+                        cellName1.addElement(pName);
+                        cellName1.setBorderWidthTop(0);
+                        cellName1.setBorderWidthBottom(0);
+                        cellName1.setBorderWidthRight(0);
+                        pdf.pCell(pdfTable, cellName1);
+
+                        System.out.println("");
+                        PdfPCell cellScore1 = pdf.pCell(pdf.paragraph("  " + String.valueOf(expReviewDetailOfOpt.getItemScore())));
+                        cellScore1.setBorderWidthTop(0);
+                        cellScore1.setBorderWidthBottom(0);
+                        pdf.pCell(pdfTable, cellScore1);
+                        System.out.println();
+                        pdfTable.completeRow();
+                    }
+                }
 				pdfTable.completeRow();
 			}
 			
@@ -250,4 +286,17 @@ public class ToPDFServiceImpl implements ToPDFService {
 			pdf.add(pdfTable);
 		}
 	}
+
+    private void sortStep(final List<ExpReviewDetailOfOptEntity> expReviewDetailOfOpts){
+        final List<Integer> order = new LinkedList<Integer>();
+        for(ExpReviewDetailOfOptEntity expReviewDetailOfOpt : expReviewDetailOfOpts){
+            order.add(expProcessService.get(expReviewDetailOfOpt.getItemID()).getStepNum());
+        }
+        Collections.sort(expReviewDetailOfOpts, new Comparator<ExpReviewDetailOfOptEntity>() {
+            @Override
+            public int compare(ExpReviewDetailOfOptEntity o1, ExpReviewDetailOfOptEntity o2) {
+                return order.get(expReviewDetailOfOpts.indexOf(o1)).compareTo(order.get(expReviewDetailOfOpts.indexOf(o2)));
+            }
+        });
+    }
 }

@@ -6,12 +6,7 @@ import java.io.ByteArrayInputStream;
 import java.io.IOException;
 import java.io.InputStream;
 import java.io.Serializable;
-import java.util.ArrayList;
-import java.util.Date;
-import java.util.HashMap;
-import java.util.Iterator;
-import java.util.List;
-import java.util.Map;
+import java.util.*;
 import java.util.Map.Entry;
 
 import javax.servlet.http.HttpServletRequest;
@@ -112,8 +107,9 @@ public class SyncServiceImpl extends BaseAbstractService implements SyncService 
 	
 	@Override
 	public void pushExpInstruction(String json, String expInstructionID, String userID, int allowDownload){
-        if(expInstructionsMainService.isPublic(expInstructionID) ||
-                !expInstructionsMainService.isOwn(expInstructionID, userID)){
+        if(expInstructionsMainService.isExist(expInstructionID) &&
+                (expInstructionsMainService.isPublic(expInstructionID) ||
+                !expInstructionsMainService.isOwn(expInstructionID, userID))){
             throw new MyRuntimeException("没有权限提交说明书，有可能这份说明书已成为标准或不属于你");
         }
 		Map<String, Object> requestMap = JSONUtil.json2Map(json);
@@ -141,7 +137,10 @@ public class SyncServiceImpl extends BaseAbstractService implements SyncService 
 	 */
 	private void sync(Map<String, Object> map, String tableName){		
 		String sql = createSql(map, tableName);
-		saveOrUpdateBySql(sql);
+        String[] sqls = sql.split(";");
+        for(String s : sqls){
+            saveOrUpdateBySql(s);
+        }
 	}
 	
 	private void pushMyExp(Map<String, Object> map, String tableName){	
@@ -383,13 +382,22 @@ public class SyncServiceImpl extends BaseAbstractService implements SyncService 
 	 * @return 
 	 */
 	private String createSql(Map<String, Object> map, String tableName){
+        StringBuffer sb = new StringBuffer();
 		String id = getTableID(tableName);
-		boolean isExist = isExists(tableName, (Serializable)map.get(id));
+		boolean isExist = isExists(tableName, id, (Serializable)map.get(id));
 		if(isExist){
-			return createUpdateSql(map, tableName);
+			sb.append(createUpdateSql(map, tableName));
 		} else {
-			return createInsertSql(map, tableName);
+            sb.append(createInsertSql(map, tableName));
+            // 如果是新增 试剂/耗材/设备 的话，还需要修改 试剂表/试剂厂商对应表（供应商表也有可能修改），耗材/设备 类同
+            if("t_expReagent".equals(tableName) ||
+                    "t_expConsumable".equals(tableName) ||
+                    "t_expEquipment".equals(tableName)){
+                sb.append(";");
+                sb.append(emergenceInsert(map, tableName));
+            }
 		}
+        return sb.toString();
 	}
 	
 	private String createInsertSql(Map<String, Object> map, String tableName){
@@ -423,7 +431,6 @@ public class SyncServiceImpl extends BaseAbstractService implements SyncService 
 		}
 		sb.deleteCharAt(sb.length() - 1);
 		sb.append(")");
-		
 		return sb.toString();
 	}
 	
@@ -477,8 +484,119 @@ public class SyncServiceImpl extends BaseAbstractService implements SyncService 
 		return false;
 	}
 	
-	private Boolean isExists(String tableName, Serializable id){
-		String sql = "select 1 from " + tableName + " where " + getTableID(tableName) + " = ?";
-		return getCount(sql, false, id) > 0;
+	private Boolean isExists(String tableName, Serializable field, Serializable value){
+		String sql = "select 1 from " + tableName + " where " + field + " = ?";
+		return getCount(sql, false, value) > 0;
 	}
+
+    private String emergenceInsert(Map<String, Object> map, String tableName){
+        StringBuffer sb = new StringBuffer();
+        Map<String, Object> m = new HashMap<String, Object>();
+        String supplierID = (String)map.get("supplierID");
+        String supplierName = (String)map.get("supplierName");
+        if("t_expReagent".equals(tableName)){
+            sb.append(emergenceExpReagent(map));
+            sb.append(";");
+            m.put("supplierType", 0);
+        }
+        if("t_expConsumable".equals(tableName)){
+            sb.append(emergenceExpConsumable(map));
+            sb.append(";");
+            m.put("supplierType", 1);
+        }
+        if("t_expEquipment".equals(tableName)){
+            sb.append(emergenceExpEquipment(map));
+            sb.append(";");
+            m.put("supplierType", 2);
+        }
+        if(sb.length() <= 1){
+            sb.delete(0, 1);
+        }
+        if(!isExists("t_supplier", "supplierid", supplierID)){
+            m.put("supplierID", supplierID);
+            m.put("supplierName", supplierName);
+            sb.append(createInsertSql(m, "t_supplier"));
+        }
+        return sb.toString();
+    }
+
+    private String emergenceExpReagent(Map<String, Object> map){
+        StringBuffer sb = new StringBuffer();
+        String reagentID = (String)map.get("reagentID");
+        String reagentName = (String)map.get("reagentName");
+        String levelOneID = (String)map.get("levelOneSortID");
+        String levelTwoID = (String)map.get("levelTwoSortID");
+        String supplierID = (String)map.get("supplierID");
+        if(!isExists("t_reagent", "reagentid", reagentID)){
+            Map<String, Object> m = new HashMap<String, Object>();
+            m.put("reagentID", reagentID);
+            m.put("reagentName", reagentName);
+            m.put("levelOneSortID", levelOneID);
+            m.put("levelTwoSortID", levelTwoID);
+            // 创建插入 t_reagent 表的 sql 语句
+            sb.append(createInsertSql(m, "t_reagent"));
+            sb.append(";");
+
+            m.clear();
+            m.put("reagentMapID", uuid());
+            m.put("reagentID", reagentID);
+            m.put("supplierID", supplierID);
+            // 创建插入 t_reagentmap 表的 sql 语句
+            sb.append(createInsertSql(m, "t_reagentmap"));
+        }
+        return sb.toString();
+    }
+
+    private String emergenceExpConsumable(Map<String, Object> map){
+        StringBuffer sb = new StringBuffer();
+        String consumableID = (String)map.get("consumableID");
+        String consumableName = (String)map.get("consumableName");
+        String supplierID = (String)map.get("supplierID");
+        if(!isExists("t_consumable", "consumableid", consumableID)){
+            Map<String, Object> m = new HashMap<String, Object>();
+            m.put("consumableID", consumableID);
+            m.put("consumableName", consumableName);
+            // 创建插入 t_consumable 表的 sql 语句
+            sb.append(createInsertSql(m, "t_consumable"));
+            sb.append(";");
+
+            m.clear();
+            m.put("consumableMapID", uuid());
+            m.put("consumableID", consumableID);
+            m.put("supplierID", supplierID);
+            // 创建插入 t_consumablemap 表的 sql 语句
+            sb.append(createInsertSql(m, "t_consumablemap"));
+        }
+        return sb.toString();
+    }
+
+    private String emergenceExpEquipment(Map<String, Object> map){
+        StringBuffer sb = new StringBuffer();
+        String equipmentID = (String)map.get("equipmentID");
+        String equipmentName = (String)map.get("equipmentName");
+        String supplierID = (String)map.get("supplierID");
+        if(!isExists("t_equipment", "equipmentid", equipmentID)){
+            Map<String, Object> m = new HashMap<String, Object>();
+            m.put("equipmentID", equipmentID);
+            m.put("equipmentName", equipmentName);
+            // 创建插入 t_equipment 表的 sql 语句
+            sb.append(createInsertSql(m, "t_equipment"));
+            sb.append(";");
+
+            m.clear();
+            m.put("equipmentMapID", uuid());
+            m.put("equipmentID", equipmentID);
+            m.put("supplierID", supplierID);
+            // 创建插入 t_equipmentmap 表的 sql 语句
+            sb.append(createInsertSql(m, "t_equipmentmap"));
+        }
+        return sb.toString();
+    }
+    /**
+     * 生成uuid
+     * @return
+     */
+    private String uuid(){
+        return UUID.randomUUID().toString().replace("-", "");
+    }
 }

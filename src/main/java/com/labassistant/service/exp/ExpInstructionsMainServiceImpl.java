@@ -28,6 +28,10 @@ public class ExpInstructionsMainServiceImpl extends BaseAbstractService<ExpInstr
 	private ExpEquipmentService expEquipmentService;
 	@Autowired
 	private ExpReagentService expReagentService;
+    @Autowired
+    private ExpCategoryService expCategoryService;
+    @Autowired
+    private ExpSubCategoryService expSubCategoryService;
 	
 	private int returnLimit;	// 设置返回的数据记录
 	
@@ -62,6 +66,8 @@ public class ExpInstructionsMainServiceImpl extends BaseAbstractService<ExpInstr
 		Map<String, Object> map = new LinkedHashMap<String, Object>();
 		// 封装实验主表的数据
 		ExpInstructionEntity expInstruction = get(expInstructionID);
+        expInstruction.setExpCategoryName(expCategoryService.get(expInstruction.getExpCategoryID()).getExpCategoryName());
+        expInstruction.setExpSubCategoryName(expSubCategoryService.get(expInstruction.getExpSubCategoryID()).getExpSubCategoryName());
 		map.put("expInstructionMain", expInstruction);
 		// 封装实验步骤表的数据
 		map.put("expProcess", expProcessService.getProcessLists(expInstructionID));

@@ -172,6 +172,7 @@ public class CreateInstructionController extends BaseController {
         if(reagents != null){
             for(ReagentEntity reagent : reagents){
                 Map<String, Object> map = new HashMap<String, Object>();
+                map.put("reagentID", reagent.getReagentID());
                 map.put("levelOneSortID", reagent.getLevelOneSortID());
                 map.put("levelOneSortName", reagentLevelOneService.get(reagent.getLevelOneSortID()).getLevelOneSortName());
                 map.put("levelTwoSortID", reagent.getLevelTwoSortID());
