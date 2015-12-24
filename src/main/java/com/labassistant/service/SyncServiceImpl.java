@@ -9,6 +9,7 @@ import java.io.Serializable;
 import java.util.*;
 import java.util.Map.Entry;
 
+import javax.persistence.Transient;
 import javax.servlet.http.HttpServletRequest;
 
 import org.apache.commons.lang3.StringUtils;
@@ -86,8 +87,9 @@ public class SyncServiceImpl extends BaseAbstractService implements SyncService 
 	private MyExpPlanService myExpPlanService;
 	
 	@Override
-	public void pushMyExp(String json){		
-		Map<String, Object> requestMap = JSONUtil.json2Map(json);
+	public void pushMyExp(String json){
+        String fitJson = fitJson(json);
+		Map<String, Object> requestMap = JSONUtil.json2Map(fitJson);
 		//requestMap = (Map)requestMap.get("data");
 		
 		// requestMap 中的Value有可能是数组，即Object有可能是数组
@@ -112,7 +114,8 @@ public class SyncServiceImpl extends BaseAbstractService implements SyncService 
                 !expInstructionsMainService.isOwn(expInstructionID, userID))){
             throw new MyRuntimeException("没有权限提交说明书，有可能这份说明书已成为标准或不属于你");
         }
-		Map<String, Object> requestMap = JSONUtil.json2Map(json);
+        String fitJson = fitJson(json);
+		Map<String, Object> requestMap = JSONUtil.json2Map(fitJson);
 		//requestMap = (Map)requestMap.get("data");
 
 		// requestMap 中的Value有可能是数组，即Object有可能是数组
@@ -135,9 +138,10 @@ public class SyncServiceImpl extends BaseAbstractService implements SyncService 
 	 * @param map
 	 * @param tableName
 	 */
-	private void sync(Map<String, Object> map, String tableName){		
-		String sql = createSql(map, tableName);
-        String[] sqls = sql.split(";");
+	private void sync(Map<String, Object> map, String tableName){
+        List<String> sqls = new ArrayList<String>();
+		createSql(sqls, map, tableName);
+        //String[] sqls = sql.split(";");
         for(String s : sqls){
             saveOrUpdateBySql(s);
         }
@@ -321,7 +325,8 @@ public class SyncServiceImpl extends BaseAbstractService implements SyncService 
 		Iterator<Entry<String, Object>> iterator = map.entrySet().iterator();
 		while(iterator.hasNext()){
 			Entry<String, Object> entry = iterator.next();
-			if(BeanUtil.hasTheAnnotation(beanName, entry.getKey(), MyAnnotation.class)){
+			if(BeanUtil.hasTheAnnotation(beanName, entry.getKey(), MyAnnotation.class) ||
+                    BeanUtil.hasTheAnnotation(beanName, entry.getKey(), Transient.class)){
 				iterator.remove();
 			}
 		}
@@ -381,23 +386,20 @@ public class SyncServiceImpl extends BaseAbstractService implements SyncService 
 	 * @param map
 	 * @return 
 	 */
-	private String createSql(Map<String, Object> map, String tableName){
-        StringBuffer sb = new StringBuffer();
+	private void createSql(List<String> sqls, Map<String, Object> map, String tableName){
 		String id = getTableID(tableName);
 		boolean isExist = isExists(tableName, id, (Serializable)map.get(id));
 		if(isExist){
-			sb.append(createUpdateSql(map, tableName));
+			sqls.add(createUpdateSql(map, tableName));
 		} else {
-            sb.append(createInsertSql(map, tableName));
+            sqls.add(createInsertSql(map, tableName));
             // 如果是新增 试剂/耗材/设备 的话，还需要修改 试剂表/试剂厂商对应表（供应商表也有可能修改），耗材/设备 类同
             if("t_expReagent".equals(tableName) ||
                     "t_expConsumable".equals(tableName) ||
                     "t_expEquipment".equals(tableName)){
-                sb.append(";");
-                sb.append(emergenceInsert(map, tableName));
+                emergenceInsert(sqls, map, tableName);
             }
 		}
-        return sb.toString();
 	}
 	
 	private String createInsertSql(Map<String, Object> map, String tableName){
@@ -489,24 +491,21 @@ public class SyncServiceImpl extends BaseAbstractService implements SyncService 
 		return getCount(sql, false, value) > 0;
 	}
 
-    private String emergenceInsert(Map<String, Object> map, String tableName){
+    private void emergenceInsert(List<String> sqls, Map<String, Object> map, String tableName){
         StringBuffer sb = new StringBuffer();
         Map<String, Object> m = new HashMap<String, Object>();
         String supplierID = (String)map.get("supplierID");
         String supplierName = (String)map.get("supplierName");
         if("t_expReagent".equals(tableName)){
-            sb.append(emergenceExpReagent(map));
-            sb.append(";");
+            emergenceExpReagent(sqls, map);
             m.put("supplierType", 0);
         }
         if("t_expConsumable".equals(tableName)){
-            sb.append(emergenceExpConsumable(map));
-            sb.append(";");
+            emergenceExpConsumable(sqls, map);
             m.put("supplierType", 1);
         }
         if("t_expEquipment".equals(tableName)){
-            sb.append(emergenceExpEquipment(map));
-            sb.append(";");
+            emergenceExpEquipment(sqls, map);
             m.put("supplierType", 2);
         }
         if(sb.length() <= 1){
@@ -515,13 +514,11 @@ public class SyncServiceImpl extends BaseAbstractService implements SyncService 
         if(!isExists("t_supplier", "supplierid", supplierID)){
             m.put("supplierID", supplierID);
             m.put("supplierName", supplierName);
-            sb.append(createInsertSql(m, "t_supplier"));
+            sqls.add(createInsertSql(m, "t_supplier"));
         }
-        return sb.toString();
     }
 
-    private String emergenceExpReagent(Map<String, Object> map){
-        StringBuffer sb = new StringBuffer();
+    private void emergenceExpReagent(List<String> sqls, Map<String, Object> map){
         String reagentID = (String)map.get("reagentID");
         String reagentName = (String)map.get("reagentName");
         String levelOneID = (String)map.get("levelOneSortID");
@@ -534,21 +531,18 @@ public class SyncServiceImpl extends BaseAbstractService implements SyncService 
             m.put("levelOneSortID", levelOneID);
             m.put("levelTwoSortID", levelTwoID);
             // 创建插入 t_reagent 表的 sql 语句
-            sb.append(createInsertSql(m, "t_reagent"));
-            sb.append(";");
+            sqls.add(createInsertSql(m, "t_reagent"));
 
             m.clear();
             m.put("reagentMapID", uuid());
             m.put("reagentID", reagentID);
             m.put("supplierID", supplierID);
             // 创建插入 t_reagentmap 表的 sql 语句
-            sb.append(createInsertSql(m, "t_reagentmap"));
+            sqls.add(createInsertSql(m, "t_reagentmap"));
         }
-        return sb.toString();
     }
 
-    private String emergenceExpConsumable(Map<String, Object> map){
-        StringBuffer sb = new StringBuffer();
+    private void emergenceExpConsumable(List<String> sqls, Map<String, Object> map){
         String consumableID = (String)map.get("consumableID");
         String consumableName = (String)map.get("consumableName");
         String supplierID = (String)map.get("supplierID");
@@ -557,21 +551,18 @@ public class SyncServiceImpl extends BaseAbstractService implements SyncService 
             m.put("consumableID", consumableID);
             m.put("consumableName", consumableName);
             // 创建插入 t_consumable 表的 sql 语句
-            sb.append(createInsertSql(m, "t_consumable"));
-            sb.append(";");
+            sqls.add(createInsertSql(m, "t_consumable"));
 
             m.clear();
             m.put("consumableMapID", uuid());
             m.put("consumableID", consumableID);
             m.put("supplierID", supplierID);
             // 创建插入 t_consumablemap 表的 sql 语句
-            sb.append(createInsertSql(m, "t_consumablemap"));
+            sqls.add(createInsertSql(m, "t_consumablemap"));
         }
-        return sb.toString();
     }
 
-    private String emergenceExpEquipment(Map<String, Object> map){
-        StringBuffer sb = new StringBuffer();
+    private void emergenceExpEquipment(List<String> sqls, Map<String, Object> map){
         String equipmentID = (String)map.get("equipmentID");
         String equipmentName = (String)map.get("equipmentName");
         String supplierID = (String)map.get("supplierID");
@@ -580,17 +571,15 @@ public class SyncServiceImpl extends BaseAbstractService implements SyncService 
             m.put("equipmentID", equipmentID);
             m.put("equipmentName", equipmentName);
             // 创建插入 t_equipment 表的 sql 语句
-            sb.append(createInsertSql(m, "t_equipment"));
-            sb.append(";");
+            sqls.add(createInsertSql(m, "t_equipment"));
 
             m.clear();
             m.put("equipmentMapID", uuid());
             m.put("equipmentID", equipmentID);
             m.put("supplierID", supplierID);
             // 创建插入 t_equipmentmap 表的 sql 语句
-            sb.append(createInsertSql(m, "t_equipmentmap"));
+            sqls.add(createInsertSql(m, "t_equipmentmap"));
         }
-        return sb.toString();
     }
     /**
      * 生成uuid
@@ -598,5 +587,18 @@ public class SyncServiceImpl extends BaseAbstractService implements SyncService 
      */
     private String uuid(){
         return UUID.randomUUID().toString().replace("-", "");
+    }
+
+    /**
+     * Jacson 不能处理 \n 等特殊字符，所以先删除这些特殊字符
+     * @param json
+     * @return
+     */
+    private String fitJson(String json){
+        String[] del = new String[]{"\n"};
+        for (String d : del){
+            json = json.replace(d, "");
+        }
+        return json;
     }
 }

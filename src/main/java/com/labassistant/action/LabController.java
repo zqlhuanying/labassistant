@@ -414,13 +414,13 @@ public class LabController extends BaseController {
 		return map;
 	}
 
-	@RequestMapping(value = "/reviewOptional")
+	@RequestMapping(value = "/reviewOptional", method = RequestMethod.POST)
 	@ResponseBody
 	public Map<String, Object> reviewOptional(HttpServletRequest request, String expInstructionJson, String expInstructionID, String userID, int allowDownload){
 		setErrorMsg(request, "获取评论项失败");
 		Map<String, Object>  map = new HashMap<String, Object>();
 
-		List<Object> expReviewOpts = expReviewOptService.getExpReviewOpt(expInstructionJson, expInstructionID, userID, allowDownload);
+		List<Object> expReviewOpts = expReviewOptService.expReviewOpt(expInstructionJson, expInstructionID, userID, allowDownload);
 
 		map.putAll(retSuccess());
 		map.put("data", expReviewOpts);

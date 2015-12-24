@@ -278,7 +278,7 @@ CREATE TABLE `t_reagent` (
   `productno` varchar(50),
   `agents` varchar(50),
   `specification` varchar(50),
-  `price` int,
+  `price` int default 0,
   `chemicalname` varchar(100),
   `casno` varchar(50),
   `arrivaldate` date,
@@ -537,10 +537,10 @@ CREATE TABLE `t_expinstruction` (
   `expcategoryid` varchar(40),
   `expsubcategoryid` varchar(40),
   `createdate` date,
-  `expversion` int,
+  `expversion` int default 1,
   `allowdownload` int,
   `filterstr` varchar(400),
-  `reviewcount` int,
+  `reviewcount` int default 0,
   `downloadcount` int default 0,
   PRIMARY KEY (`expinstructionid`)
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8;
@@ -657,13 +657,13 @@ CREATE TABLE `t_expequipment` (
 -- ----------------------------
 -- Records of t_expequipment
 -- ----------------------------
-INSERT INTO `t_expequipment` (`expequipmentid`,`expinstructionid`,`equipmentid`,`equipmentname`,`equipmentfactory`,`supplierid`,`suppliername`) VALUES ('1d56f8ce6e5811e5bc1f002564e7234d','4028c681494b994701494b99bab62222','ef33683d6e5311e5bc1f002564e7234d','三目体式显微镜','no',NULL,NULL);
-INSERT INTO `t_expequipment` (`expequipmentid`,`expinstructionid`,`equipmentid`,`equipmentname`,`equipmentfactory`,`supplierid`,`suppliername`) VALUES ('208d40ea6e5811e5bc1f002564e7234d','4028c681494b994701494b99bab62222','ef3735566e5311e5bc1f002564e7234d','小型玻片离心机','no',NULL,NULL);
-INSERT INTO `t_expequipment` (`expequipmentid`,`expinstructionid`,`equipmentid`,`equipmentname`,`equipmentfactory`,`supplierid`,`suppliername`) VALUES ('4028c791564b994701494b99aba50000','4028c681494b994701494b99bab60000','ef1ec2556e5311e5bc1f002564e7234d','漩涡混合器','海尔','null',NULL);
-INSERT INTO `t_expequipment` (`expequipmentid`,`expinstructionid`,`equipmentid`,`equipmentname`,`equipmentfactory`,`supplierid`,`suppliername`) VALUES ('4028c791564b994701494b99aba50001','4028c681494b994701494b99bab60000','ef257ac26e5311e5bc1f002564e7234d','推拉模式注射泵','上海一恒','null',NULL);
-INSERT INTO `t_expequipment` (`expequipmentid`,`expinstructionid`,`equipmentid`,`equipmentname`,`equipmentfactory`,`supplierid`,`suppliername`) VALUES ('4028c791564b994701494b99aba50002','4028c681494b994701494b99bab60000','ef2f778f6e5311e5bc1f002564e7234d','进口冻干机用真空泵','Tecan 200','null',NULL);
-INSERT INTO `t_expequipment` (`expequipmentid`,`expinstructionid`,`equipmentid`,`equipmentname`,`equipmentfactory`,`supplierid`,`suppliername`) VALUES ('f9d436f66e5711e5bc1f002564e7234d','4028c681494b994701494b99bab61111','ef2903d66e5311e5bc1f002564e7234d','AH2010新型药剂型高压均质机','no',NULL,NULL);
-INSERT INTO `t_expequipment` (`expequipmentid`,`expinstructionid`,`equipmentid`,`equipmentname`,`equipmentfactory`,`supplierid`,`suppliername`) VALUES ('fd6ce4226e5711e5bc1f002564e7234d','4028c681494b994701494b99bab61111','ef3735566e5311e5bc1f002564e7234d','小型玻片离心机','no',NULL,NULL);
+INSERT INTO `t_expequipment` (`expequipmentid`,`expinstructionid`,`equipmentid`,`equipmentname`,`equipmentfactory`,`supplierid`,`suppliername`) VALUES ('1d56f8ce6e5811e5bc1f002564e7234d','4028c681494b994701494b99bab62222','ef33683d6e5311e5bc1f002564e7234d','三目体式显微镜','no','4037d681494b994701494b99aba20002','设备供应商二');
+INSERT INTO `t_expequipment` (`expequipmentid`,`expinstructionid`,`equipmentid`,`equipmentname`,`equipmentfactory`,`supplierid`,`suppliername`) VALUES ('208d40ea6e5811e5bc1f002564e7234d','4028c681494b994701494b99bab62222','ef3735566e5311e5bc1f002564e7234d','小型玻片离心机','no','4037d681494b994701494b99aba20001','设备供应商一');
+INSERT INTO `t_expequipment` (`expequipmentid`,`expinstructionid`,`equipmentid`,`equipmentname`,`equipmentfactory`,`supplierid`,`suppliername`) VALUES ('4028c791564b994701494b99aba50000','4028c681494b994701494b99bab60000','ef1ec2556e5311e5bc1f002564e7234d','漩涡混合器','海尔','4037d681494b994701494b99aba20001','设备供应商一');
+INSERT INTO `t_expequipment` (`expequipmentid`,`expinstructionid`,`equipmentid`,`equipmentname`,`equipmentfactory`,`supplierid`,`suppliername`) VALUES ('4028c791564b994701494b99aba50001','4028c681494b994701494b99bab60000','ef257ac26e5311e5bc1f002564e7234d','推拉模式注射泵','上海一恒','4037d681494b994701494b99aba20002','设备供应商二');
+INSERT INTO `t_expequipment` (`expequipmentid`,`expinstructionid`,`equipmentid`,`equipmentname`,`equipmentfactory`,`supplierid`,`suppliername`) VALUES ('4028c791564b994701494b99aba50002','4028c681494b994701494b99bab60000','ef2f778f6e5311e5bc1f002564e7234d','进口冻干机用真空泵','Tecan 200','4037d681494b994701494b99aba20003','设备供应商三');
+INSERT INTO `t_expequipment` (`expequipmentid`,`expinstructionid`,`equipmentid`,`equipmentname`,`equipmentfactory`,`supplierid`,`suppliername`) VALUES ('f9d436f66e5711e5bc1f002564e7234d','4028c681494b994701494b99bab61111','ef2903d66e5311e5bc1f002564e7234d','AH2010新型药剂型高压均质机','no','4037d681494b994701494b99aba20003','设备供应商三');
+INSERT INTO `t_expequipment` (`expequipmentid`,`expinstructionid`,`equipmentid`,`equipmentname`,`equipmentfactory`,`supplierid`,`suppliername`) VALUES ('fd6ce4226e5711e5bc1f002564e7234d','4028c681494b994701494b99bab61111','ef3735566e5311e5bc1f002564e7234d','小型玻片离心机','no','4037d681494b994701494b99aba20001','设备供应商一');
 
 
 -- -----------------------------------------------
@@ -790,9 +790,9 @@ CREATE TABLE `t_myexp` (
   `createmonth` int,
   `finishtime` datetime,
   `expversion` int,
-  `isreviewed` int,
-  `iscreatereport` int,
-  `isupload` int,
+  `isreviewed` int default 0,
+  `iscreatereport` int default 0,
+  `isupload` int default 0,
   `reportname` varchar(100),
   `reportlocation` varchar(1000),
   `reportserverpath` varchar(1000),
@@ -920,7 +920,7 @@ CREATE TABLE `t_myexpprocessattch` (
   `attchmentname` varchar(200),
   `attchmentlocation` varchar(500),
   `attchmentserverpath` varchar(500),
-  `isupload` int,
+  `isupload` int default 0,
   `title` varchar(50),
   `description` nvarchar(500),
   PRIMARY KEY (`myexpprocessattchid`)
@@ -980,7 +980,7 @@ CREATE TABLE `t_bbstopic` (
   `topiccreatorid` varchar(40),
   `topiccreator` varchar(40),
   `createdatetime` datetime,
-  `reviewcount` int,
+  `reviewcount` int default 0,
   PRIMARY KEY (`topicid`)
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8;
 -- ----------------------------

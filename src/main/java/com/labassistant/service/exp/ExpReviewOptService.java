@@ -12,5 +12,5 @@ import java.util.List;
  */
 public interface ExpReviewOptService extends IBaseAbstractService<ExpReviewOptEntity> {
 
-    public List<Object> getExpReviewOpt(String expInstructionJson, String expInstructionID, String userID, int allowDownload);
+    public List<Object> expReviewOpt(String expInstructionJson, String expInstructionID, String userID, int allowDownload);
 }

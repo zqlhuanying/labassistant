@@ -123,10 +123,15 @@ public class BBSController extends BaseController {
 		List<Object> objects = new ArrayList<Object>();
 		BBSTopicEntity topic = bbsTopicService.get(topicID);
 		if(topic != null){
-			Map<String, String> topicMap = new HashMap<String, String>();
+			Map<String, Object> topicMap = new HashMap<String, Object>();
+            String iconUrl = sysUserService.get(topic.getTopicCreatorID()).getIcon();
 			topicMap.put("topicID", topic.getTopicID());
 			topicMap.put("topicName", topic.getTopicName());
 			topicMap.put("topicDetail", topic.getTopicDetail());
+            topicMap.put("icon", StringUtils.isNotBlank(iconUrl) ? AppConfig.DOMAIN_PAGE + "/" + iconUrl :
+                                    "");
+            topicMap.put("creator", topic.getTopicCreator());
+            topicMap.put("createTime", topic.getCreateDateTime());
 			map1.put("topic", topicMap);
 		}
 		List<BBSReviewEntity> reviews = bbsReviewService.getReviews(topicID);

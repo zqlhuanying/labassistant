@@ -45,7 +45,7 @@ public class ExpReviewOptServiceImpl extends
      * @return
      */
     @Override
-    public List<Object> getExpReviewOpt(String expInstructionJson, String expInstructionID, String userID, int allowDownload){
+    public List<Object> expReviewOpt(String expInstructionJson, String expInstructionID, String userID, int allowDownload){
         // process expInstruction
         // 若说明书不存在，先上传
         if(!expInstructionsMainService.isExist(expInstructionID)){

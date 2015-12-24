@@ -88,7 +88,10 @@ public final class ReturnJson {
 			innerMap.put("topicID", "");
 			innerMap.put("topicDetail", "");
 			innerMap.put("topicName", "");
-			
+            innerMap.put("icon", "");
+            innerMap.put("creator", "");
+            innerMap.put("createTime", "");
+
 			put("topic", innerMap);
 			put("reviews", new ArrayList<Object>(){
 				private static final long serialVersionUID = -1272936552374723545L;
