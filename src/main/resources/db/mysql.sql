@@ -798,6 +798,9 @@ CREATE TABLE `t_myexp` (
   `reportserverpath` varchar(1000),
   `expstate` int,
   `expmeno` varchar(500),
+  `projectname` varchar(100),
+  `researchname` varchar(100),
+  `taskname` varchar(100),
   PRIMARY KEY (`myexpid`)
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8;
 -- ----------------------------

@@ -36,7 +36,9 @@ import com.labassistant.annotation.MyAnnotation;
  * ReportServerPath		实验报告服务器端路径
  * ExpState				实验状态	0-进行中，1-暂停中，2-已完成，3-已生成报告
  * ExpMemo				实验备注
- * 
+ * ProjectName          项目名称
+ * ResearchName         研究课题名称
+ * TaskName             研究任务名称
  */
 @Table(name = "t_myexp")
 @Entity
@@ -64,6 +66,9 @@ public class MyExpEntity extends ToStringBase {
 	private String reportServerPath;
 	private int expState;
 	private String expMeno;
+    private String projectName;
+    private String researchName;
+    private String taskName;
 
 	@Id
 	@GeneratedValue(generator="system-uuid")
@@ -203,4 +208,27 @@ public class MyExpEntity extends ToStringBase {
 		this.expMeno = expMeno;
 	}
 
+    public String getProjectName() {
+        return projectName;
+    }
+
+    public void setProjectName(String projectName) {
+        this.projectName = projectName;
+    }
+
+    public String getResearchName() {
+        return researchName;
+    }
+
+    public void setResearchName(String researchName) {
+        this.researchName = researchName;
+    }
+
+    public String getTaskName() {
+        return taskName;
+    }
+
+    public void setTaskName(String taskName) {
+        this.taskName = taskName;
+    }
 }
