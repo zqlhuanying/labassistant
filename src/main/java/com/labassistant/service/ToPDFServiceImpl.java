@@ -77,7 +77,16 @@ public class ToPDFServiceImpl implements ToPDFService {
 			setTopic(experimentName + "实验报告");
 			setExperimentDesc(experimentDesc);
 			setExperimentTheory(experimentTheory);
-			
+
+            // 设置研究课题等
+            String projectName = myExp.getProjectName();
+            String researchName = myExp.getResearchName();
+            String taskName = myExp.getTaskName();
+            setProjectName(projectName);
+            setResearchName(researchName);
+            setTaskName(taskName);
+
+
 			// 实验准备
 			List<String> reagents = myExpReagentService.getAllReagentsName(myExpID);
 			List<String> consumables = myExpConsumableService.getAllConsumablesName(myExpID);
@@ -138,7 +147,38 @@ public class ToPDFServiceImpl implements ToPDFService {
 			pdf.add(p);
 		}
 	}
-	
+
+    private void setProjectName(String name) throws DocumentException, IOException{
+        if(StringUtils.isBlank(name)){
+            name = "无";
+        }
+        pdf.add(pdf.paragraph("项目名称", pdf.setH1Font()));
+        Paragraph p = pdf.paragraph(name);
+        p.setFirstLineIndent(12);
+        pdf.add(p);
+    }
+
+
+    private void setResearchName(String name) throws DocumentException, IOException{
+        if(StringUtils.isBlank(name)){
+            name = "无";
+        }
+        pdf.add(pdf.paragraph("研究课题名称", pdf.setH1Font()));
+        Paragraph p = pdf.paragraph(name);
+        p.setFirstLineIndent(12);
+        pdf.add(p);
+    }
+
+    private void setTaskName(String name) throws DocumentException, IOException{
+        if(StringUtils.isBlank(name)){
+            name = "无";
+        }
+        pdf.add(pdf.paragraph("研究任务名称", pdf.setH1Font()));
+        Paragraph p = pdf.paragraph(name);
+        p.setFirstLineIndent(12);
+        pdf.add(p);
+    }
+
 	private void setExperimentReady(List<String> reagents, List<String> consumables, List<String> equipments) throws DocumentException, IOException{
 		if(reagents != null ||
 				consumables != null ||
