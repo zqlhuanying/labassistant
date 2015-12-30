@@ -18,7 +18,9 @@ import org.hibernate.annotations.GenericGenerator;
  * StepNum				实验步骤编号
  * ExpStepDesc			步骤描述
  * ExpStepTime			步骤耗时表
- * 
+ * ExpStepTips	        实验步骤提示信息
+ * ExpStepText	        实验步骤简述
+ *
  */
 @Table(name = "t_expstep")
 @Entity
@@ -31,6 +33,8 @@ public class ExpStepEntity extends ToStringBase {
 	private int stepNum;
 	private String expStepDesc;
 	private float expStepTime;
+    private String expStepTips;
+    private String expStepText;
 	
 	@Id
 	@GeneratedValue(generator="system-uuid")
@@ -75,5 +79,20 @@ public class ExpStepEntity extends ToStringBase {
 	public void setExpStepTime(float expStepTime) {
 		this.expStepTime = expStepTime;
 	}
-	
+
+    public String getExpStepTips() {
+        return expStepTips;
+    }
+
+    public void setExpStepTips(String expStepTips) {
+        this.expStepTips = expStepTips;
+    }
+
+    public String getExpStepText() {
+        return expStepText;
+    }
+
+    public void setExpStepText(String expStepText) {
+        this.expStepText = expStepText;
+    }
 }
