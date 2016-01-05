@@ -1,5 +1,6 @@
 package com.labassistant.service;
 
+import java.util.Date;
 import java.util.Map;
 
 import javax.servlet.http.HttpServletRequest;
@@ -17,7 +18,7 @@ public interface SyncService extends IBaseAbstractService {
 	
     public void pushExpInstruction(String json, String expInstructionID, String userID, int allowDownload);
 
-	public Map<String, Object> pullCommon();
+	public Map<String, Object> pullCommon(Date date);
 	
 	public Map<String, Object> pullAllDatas(String userID);
 	

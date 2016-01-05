@@ -7,6 +7,7 @@ import com.labassistant.beans.ReagentEntity;
 import com.labassistant.dao.service.BaseAbstractService;
 
 import java.util.ArrayList;
+import java.util.Date;
 import java.util.List;
 import java.util.Map;
 
@@ -46,5 +47,17 @@ public class ReagentServiceImpl extends BaseAbstractService<ReagentEntity> imple
     public List<ReagentEntity> search(String name){
         String hql = "from ReagentEntity where reagentName like ?";
         return findListByHql(hql, "%" + name + "%");
+    }
+
+    @Override
+    public List<ReagentEntity> getReagentList(Date date){
+        List<Object> params = new ArrayList<Object>();
+        StringBuffer sb = new StringBuffer();
+        sb.append("from ReagentEntity ");
+        if(date != null){
+            sb.append("where updateTime > ?");
+            params.add(date);
+        }
+        return findListByHql(sb.toString(), params);
     }
 }

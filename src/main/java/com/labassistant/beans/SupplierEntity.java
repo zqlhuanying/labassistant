@@ -8,6 +8,8 @@ import javax.persistence.Table;
 
 import org.hibernate.annotations.GenericGenerator;
 
+import java.util.Date;
+
 /**
  * 供应商表
  * @author zql
@@ -21,7 +23,8 @@ import org.hibernate.annotations.GenericGenerator;
  * MobilePhone		移动电话
  * eMail			eMail地址
  * Address			厂址或办公地址
- * 
+ * UpdateTime	    数据最后更新时间
+ *
  */
 @Table(name = "t_supplier")
 @Entity
@@ -37,6 +40,7 @@ public class SupplierEntity extends ToStringBase {
 	private String mobilePhone;
 	private String eMail;
 	private String address;
+    private Date updateTime;
 	
 	@Id
 	@GeneratedValue(generator="system-uuid")
@@ -105,5 +109,12 @@ public class SupplierEntity extends ToStringBase {
 	public void setAddress(String address) {
 		this.address = address;
 	}
-	
+
+    public Date getUpdateTime() {
+        return updateTime;
+    }
+
+    public void setUpdateTime(Date updateTime) {
+        this.updateTime = updateTime;
+    }
 }

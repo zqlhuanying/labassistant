@@ -110,13 +110,13 @@ public class MyInfoController extends BaseController {
 		//setErrorMsg(request, "修改个人基本信息失败");
 		Map<String, Object> map = new HashMap<String, Object>();
 		
-		if(sysUserService.validUsername(user.getNickName())){
+		if(sysUserService.validUsername(user.getNickName(), user.getUserID())){
 			throw new MyRuntimeException("用户名已存在");
 		}
-		if(sysUserService.validEmail(user.geteMail())){
+		if(sysUserService.validEmail(user.geteMail(), user.getUserID())){
 			throw new MyRuntimeException("邮箱已被占用");
 		}
-		if(sysUserService.validTelephone(user.getTelNo())){
+		if(sysUserService.validTelephone(user.getTelNo(), user.getUserID())){
 			throw new MyRuntimeException("手机号已被使用");
 		}
 		sysUserService.update(user);

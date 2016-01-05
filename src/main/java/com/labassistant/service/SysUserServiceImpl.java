@@ -5,7 +5,9 @@ import java.io.IOException;
 import java.io.InputStream;
 import java.io.Serializable;
 import java.sql.Timestamp;
+import java.util.ArrayList;
 import java.util.Date;
+import java.util.List;
 import java.util.UUID;
 
 import javax.mail.MessagingException;
@@ -73,13 +75,13 @@ public class SysUserServiceImpl extends BaseAbstractService<SysUserEntity>
 	
 	@Override
 	public void register(SysUserEntity sysUser) {
-		if (validUsername(sysUser.getNickName())) {
+		if (validUsername(sysUser.getNickName(), null)) {
 			throw new MyRuntimeException("用户名已存在");
 		}
-		if (validEmail(sysUser.geteMail())) {
+		if (validEmail(sysUser.geteMail(), null)) {
 			throw new MyRuntimeException("邮箱已被占用");
 		}
-		if (validTelephone(sysUser.getTelNo())) {
+		if (validTelephone(sysUser.getTelNo(), null)) {
 			throw new MyRuntimeException("手机号已被使用");
 		}
 		sysUser.setPwd(EncryptUtil.MD5Digest(sysUser.getPwd()));
@@ -162,26 +164,47 @@ public class SysUserServiceImpl extends BaseAbstractService<SysUserEntity>
 	}
 	
 	@Override
-	public boolean validUsername(String username) {
-		String hql = "from SysUserEntity where nickName = ?";
-		int total = getCount(hql, true, username);
+	public boolean validUsername(String username, String userid) {
+        List<Object> params = new ArrayList<Object>();
+        StringBuffer sb = new StringBuffer();
+        sb.append("from SysUserEntity where nickName = ? ");
+        params.add(username);
+        if(StringUtils.isNotBlank(userid)){
+            sb.append("and userID != ?");
+            params.add(userid);
+        }
+		int total = getCount(sb.toString(), true, params);
 		return total > 0;
 	}
 
 	@Override
-	public boolean validEmail(String email) {
-		String hql = "from SysUserEntity where eMail = ?";
-		int total = getCount(hql, true, email);
+	public boolean validEmail(String email, String userid) {
+        List<Object> params = new ArrayList<Object>();
+        StringBuffer sb = new StringBuffer();
+        sb.append("from SysUserEntity where eMail = ? ");
+        params.add(email);
+        if(StringUtils.isNotBlank(userid)){
+            sb.append("and userID != ?");
+            params.add(userid);
+        }
+        int total = getCount(sb.toString(), true, params);
 		return total > 0;
 	}
 
 	@Override
-	public boolean validTelephone(String telephone) {
+	public boolean validTelephone(String telephone, String userid) {
+        List<Object> params = new ArrayList<Object>();
+        StringBuffer sb = new StringBuffer();
+        sb.append("from SysUserEntity where telNo = ? ");
+        params.add(telephone);
+        if(StringUtils.isNotBlank(userid)){
+            sb.append("and userID != ?");
+            params.add(userid);
+        }
+        int total = getCount(sb.toString(), true, params);
 		if(StringUtils.isBlank(telephone)){
 			return false;
 		}
-		String hql = "from SysUserEntity where telNo = ?";
-		int total = getCount(hql, true, telephone);
 		return total > 0;
 	}
 	

@@ -1,5 +1,7 @@
 package com.labassistant.service.common;
 
+import java.util.ArrayList;
+import java.util.Date;
 import java.util.List;
 
 import org.springframework.stereotype.Service;
@@ -27,4 +29,16 @@ public class EquipmentMapServiceImpl extends
 		List<EquipmentMapEntity> lists = findListByHql(hql, equipmentID);
 		return lists;
 	}
+
+    @Override
+    public List<EquipmentMapEntity> getEquipmentMapList(Date date){
+        List<Object> params = new ArrayList<Object>();
+        StringBuffer sb = new StringBuffer();
+        sb.append("from EquipmentMapEntity ");
+        if(date != null){
+            sb.append("where updateTime > ?");
+            params.add(date);
+        }
+        return findListByHql(sb.toString(), params);
+    }
 }

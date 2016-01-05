@@ -184,26 +184,27 @@ CREATE TABLE `t_supplier` (
   `mobilephone` varchar(20),
   `email` varchar(50),
   `address` varchar(200),
+  `updatetime` datetime,
   PRIMARY KEY (`supplierid`)
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8;
 -- ----------------------------
 -- Records of t_supplier
 -- ----------------------------
-INSERT INTO t_supplier (`supplierid`, `suppliername`, `suppliertype`, `contacts`, `telno`, `mobilephone`, `email`, `address`) VALUES ('4037d681494b994701494b99aba50001', '试剂供应商一', '0', '1', '1', '1', '1', '1');
-INSERT INTO t_supplier (`supplierid`, `suppliername`, `suppliertype`, `contacts`, `telno`, `mobilephone`, `email`, `address`) VALUES ('4037d681494b994701494b99aba50002', '试剂供应商二', '0', '1', '1', '1', '1', '1');
-INSERT INTO t_supplier (`supplierid`, `suppliername`, `suppliertype`, `contacts`, `telno`, `mobilephone`, `email`, `address`) VALUES ('4037d681494b994701494b99aba50003', '试剂供应商三', '0', '1', '1', '1', '1', '1');
-INSERT INTO t_supplier (`supplierid`, `suppliername`, `suppliertype`, `contacts`, `telno`, `mobilephone`, `email`, `address`) VALUES ('4037d681494b994701494b99aba50004', '试剂供应商四', '0', '1', '1', '1', '1', '1');
-INSERT INTO t_supplier (`supplierid`, `suppliername`, `suppliertype`, `contacts`, `telno`, `mobilephone`, `email`, `address`) VALUES ('4037d681494b994701494b99aba50005', '试剂供应商五', '0', '1', '1', '1', '1', '1');
+INSERT INTO t_supplier (`supplierid`, `suppliername`, `suppliertype`, `contacts`, `telno`, `mobilephone`, `email`, `address`, `updatetime`) VALUES ('4037d681494b994701494b99aba50001', '试剂供应商一', '0', '1', '1', '1', '1', '1', '2016-01-05 14:13:56');
+INSERT INTO t_supplier (`supplierid`, `suppliername`, `suppliertype`, `contacts`, `telno`, `mobilephone`, `email`, `address`, `updatetime`) VALUES ('4037d681494b994701494b99aba50002', '试剂供应商二', '0', '1', '1', '1', '1', '1', '2016-01-05 14:13:56');
+INSERT INTO t_supplier (`supplierid`, `suppliername`, `suppliertype`, `contacts`, `telno`, `mobilephone`, `email`, `address`, `updatetime`) VALUES ('4037d681494b994701494b99aba50003', '试剂供应商三', '0', '1', '1', '1', '1', '1', '2016-01-05 14:13:56');
+INSERT INTO t_supplier (`supplierid`, `suppliername`, `suppliertype`, `contacts`, `telno`, `mobilephone`, `email`, `address`, `updatetime`) VALUES ('4037d681494b994701494b99aba50004', '试剂供应商四', '0', '1', '1', '1', '1', '1', '2016-01-05 14:13:56');
+INSERT INTO t_supplier (`supplierid`, `suppliername`, `suppliertype`, `contacts`, `telno`, `mobilephone`, `email`, `address`, `updatetime`) VALUES ('4037d681494b994701494b99aba50005', '试剂供应商五', '0', '1', '1', '1', '1', '1', '2016-01-05 14:13:56');
 
-INSERT INTO t_supplier (`supplierid`, `suppliername`, `suppliertype`, `contacts`, `telno`, `mobilephone`, `email`, `address`) VALUES ('4037d681494b994701494b99aba10001', '耗材供应商一', '1', '1', '1', '1', '1', '1');
-INSERT INTO t_supplier (`supplierid`, `suppliername`, `suppliertype`, `contacts`, `telno`, `mobilephone`, `email`, `address`) VALUES ('4037d681494b994701494b99aba10002', '耗材供应商二', '1', '1', '1', '1', '1', '1');
-INSERT INTO t_supplier (`supplierid`, `suppliername`, `suppliertype`, `contacts`, `telno`, `mobilephone`, `email`, `address`) VALUES ('4037d681494b994701494b99aba10003', '耗材供应商三', '1', '1', '1', '1', '1', '1');
-INSERT INTO t_supplier (`supplierid`, `suppliername`, `suppliertype`, `contacts`, `telno`, `mobilephone`, `email`, `address`) VALUES ('4037d681494b994701494b99aba10004', '耗材供应商四', '1', '1', '1', '1', '11', '1');
-INSERT INTO t_supplier (`supplierid`, `suppliername`, `suppliertype`, `contacts`, `telno`, `mobilephone`, `email`, `address`) VALUES ('4037d681494b994701494b99aba10005', '耗材供应商五', '1', '1', '1', '1', '1', '1');
+INSERT INTO t_supplier (`supplierid`, `suppliername`, `suppliertype`, `contacts`, `telno`, `mobilephone`, `email`, `address`, `updatetime`) VALUES ('4037d681494b994701494b99aba10001', '耗材供应商一', '1', '1', '1', '1', '1', '1', '2016-01-05 14:13:56');
+INSERT INTO t_supplier (`supplierid`, `suppliername`, `suppliertype`, `contacts`, `telno`, `mobilephone`, `email`, `address`, `updatetime`) VALUES ('4037d681494b994701494b99aba10002', '耗材供应商二', '1', '1', '1', '1', '1', '1', '2016-01-05 14:13:56');
+INSERT INTO t_supplier (`supplierid`, `suppliername`, `suppliertype`, `contacts`, `telno`, `mobilephone`, `email`, `address`, `updatetime`) VALUES ('4037d681494b994701494b99aba10003', '耗材供应商三', '1', '1', '1', '1', '1', '1', '2016-01-05 14:13:56');
+INSERT INTO t_supplier (`supplierid`, `suppliername`, `suppliertype`, `contacts`, `telno`, `mobilephone`, `email`, `address`, `updatetime`) VALUES ('4037d681494b994701494b99aba10004', '耗材供应商四', '1', '1', '1', '1', '11', '1', '2016-01-05 14:13:56');
+INSERT INTO t_supplier (`supplierid`, `suppliername`, `suppliertype`, `contacts`, `telno`, `mobilephone`, `email`, `address`, `updatetime`) VALUES ('4037d681494b994701494b99aba10005', '耗材供应商五', '1', '1', '1', '1', '1', '1', '2016-01-05 14:13:56');
 
-INSERT INTO t_supplier (`supplierid`, `suppliername`, `suppliertype`, `contacts`, `telno`, `mobilephone`, `email`, `address`) VALUES ('4037d681494b994701494b99aba20001', '设备供应商一', '2', '1', '1', '1', '1', '1');
-INSERT INTO t_supplier (`supplierid`, `suppliername`, `suppliertype`, `contacts`, `telno`, `mobilephone`, `email`, `address`) VALUES ('4037d681494b994701494b99aba20002', '设备供应商二', '2', '1', '1', '1', '1', '1');
-INSERT INTO t_supplier (`supplierid`, `suppliername`, `suppliertype`, `contacts`, `telno`, `mobilephone`, `email`, `address`) VALUES ('4037d681494b994701494b99aba20003', '设备供应商三', '2', '1', '1', '1', '1', '1');
+INSERT INTO t_supplier (`supplierid`, `suppliername`, `suppliertype`, `contacts`, `telno`, `mobilephone`, `email`, `address`, `updatetime`) VALUES ('4037d681494b994701494b99aba20001', '设备供应商一', '2', '1', '1', '1', '1', '1', '2016-01-05 14:13:56');
+INSERT INTO t_supplier (`supplierid`, `suppliername`, `suppliertype`, `contacts`, `telno`, `mobilephone`, `email`, `address`, `updatetime`) VALUES ('4037d681494b994701494b99aba20002', '设备供应商二', '2', '1', '1', '1', '1', '1', '2016-01-05 14:13:56');
+INSERT INTO t_supplier (`supplierid`, `suppliername`, `suppliertype`, `contacts`, `telno`, `mobilephone`, `email`, `address`, `updatetime`) VALUES ('4037d681494b994701494b99aba20003', '设备供应商三', '2', '1', '1', '1', '1', '1', '2016-01-05 14:13:56');
 
 
 -- -----------------------------------------------
@@ -283,6 +284,7 @@ CREATE TABLE `t_reagent` (
   `casno` varchar(50),
   `arrivaldate` date,
   `memo` varchar(500),
+  `updatetime` datetime,
   PRIMARY KEY (`reagentid`)
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8;
 -- ----------------------------
@@ -322,6 +324,7 @@ CREATE TABLE `t_reagentmap` (
   `reagentmapid` varchar(32) NOT NULL,
   `reagentid` varchar(40) NOT NULL,
   `supplierid` varchar(40) NOT NULL,
+  `updatetime` datetime,
   PRIMARY KEY (`reagentmapid`)
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8;
 -- ----------------------------
@@ -388,6 +391,7 @@ CREATE TABLE `t_consumable` (
   `consumableid` varchar(40) NOT NULL,
   `consumablename` varchar(100) NOT NULL,
   `consumabletype` varchar(20),
+  `updatetime` datetime,
   PRIMARY KEY (`consumableid`)
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8;
 -- ----------------------------
@@ -410,6 +414,7 @@ CREATE TABLE `t_consumablemap` (
   `consumablemapid` varchar(32) NOT NULL,
   `consumableid` varchar(40) NOT NULL,
   `supplierid` varchar(40) NOT NULL,
+  `updatetime` datetime,
   PRIMARY KEY (`consumablemapid`)
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8;
 -- ----------------------------
@@ -440,6 +445,8 @@ DROP TABLE IF EXISTS `t_equipment`;
 CREATE TABLE `t_equipment` (
   `equipmentid` varchar(40) NOT NULL,
   `equipmentname` varchar(100) NOT NULL,
+  `equipmenttype` varchar(45),
+  `updatetime` datetime,
   PRIMARY KEY (`equipmentid`)
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8;
 -- ----------------------------
@@ -461,6 +468,7 @@ CREATE TABLE `t_equipmentmap` (
   `equipmentmapid` varchar(32) NOT NULL,
   `equipmentid` varchar(40) NOT NULL,
   `supplierid` varchar(40) NOT NULL,
+  `updatetime` datetime,
   PRIMARY KEY (`equipmentmapid`)
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8;
 -- ----------------------------

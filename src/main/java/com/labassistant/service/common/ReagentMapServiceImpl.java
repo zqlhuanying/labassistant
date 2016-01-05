@@ -1,6 +1,7 @@
 package com.labassistant.service.common;
 
 import java.util.ArrayList;
+import java.util.Date;
 import java.util.List;
 
 import org.apache.commons.lang3.StringUtils;
@@ -34,4 +35,16 @@ public class ReagentMapServiceImpl extends
         }
         return findListByHql(sb.toString(), params);
 	}
+
+    @Override
+    public List<ReagentMapEntity> getReagentMapList(Date date){
+        List<Object> params = new ArrayList<Object>();
+        StringBuffer sb = new StringBuffer();
+        sb.append("from ReagentMapEntity ");
+        if(date != null){
+            sb.append("where updateTime > ?");
+            params.add(date);
+        }
+        return findListByHql(sb.toString(), params);
+    }
 }

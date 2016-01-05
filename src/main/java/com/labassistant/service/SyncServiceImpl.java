@@ -12,6 +12,7 @@ import java.util.Map.Entry;
 import javax.persistence.Transient;
 import javax.servlet.http.HttpServletRequest;
 
+import com.labassistant.utils.*;
 import org.apache.commons.lang3.StringUtils;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
@@ -38,10 +39,6 @@ import com.labassistant.service.myexp.MyExpPlanService;
 import com.labassistant.service.myexp.MyExpProcessAttchService;
 import com.labassistant.service.myexp.MyExpProcessService;
 import com.labassistant.service.myexp.MyExpReagentService;
-import com.labassistant.utils.BeanUtil;
-import com.labassistant.utils.EncryptUtil;
-import com.labassistant.utils.JSONUtil;
-import com.labassistant.utils.Uploader;
 
 /**
  * 同步数据服务
@@ -172,22 +169,24 @@ public class SyncServiceImpl extends BaseAbstractService implements SyncService 
 	 * 推送公共部分的数据，如试剂/试剂对应厂商，耗材/耗材对应厂商等
 	 */
 	@Override
-	public Map<String, Object> pullCommon(){
+	public Map<String, Object> pullCommon(Date date){
 		Map<String, Object> map = new HashMap<String, Object>();
 		// 试剂
-		map.put("reagent", reagentService.findList());
+		map.put("reagent", reagentService.getReagentList(date));
 		// 试剂厂商
-		map.put("reagentMap", reagentMapService.findList());
+		map.put("reagentMap", reagentMapService.getReagentMapList(date));
 		// 耗材
-		map.put("consumable", consumableService.findList());
+		map.put("consumable", consumableService.getConsumableList(date));
 		// 耗材厂商
-		map.put("consumableMap", consumableMapService.findList());
+		map.put("consumableMap", consumableMapService.getConsumableMapList(date));
 		// 设备
-		map.put("equipment", equipmentService.findList());
+		map.put("equipment", equipmentService.getEquipmentList(date));
 		// 设备厂商
-		map.put("equipmentMap", equipmentMapService.findList());
+		map.put("equipmentMap", equipmentMapService.getEquipmentMapList(date));
 		// 厂商
-		map.put("supplier", supplierService.findList());
+		map.put("supplier", supplierService.getSupplierList(date));
+
+        map.put("current", DateUtil.formatDate(new Date()));
 		return map;
 	}
 	
@@ -511,9 +510,10 @@ public class SyncServiceImpl extends BaseAbstractService implements SyncService 
         if(sb.length() <= 1){
             sb.delete(0, 1);
         }
-        if(!isExists("t_supplier", "supplierid", supplierID)){
+        if(StringUtils.isNotBlank(supplierID) && !isExists("t_supplier", "supplierid", supplierID)){
             m.put("supplierID", supplierID);
             m.put("supplierName", supplierName);
+            m.put("updateTime", DateUtil.formatDate(new Date()));
             sqls.add(createInsertSql(m, "t_supplier"));
         }
     }
@@ -530,6 +530,7 @@ public class SyncServiceImpl extends BaseAbstractService implements SyncService 
             m.put("reagentName", reagentName);
             m.put("levelOneSortID", levelOneID);
             m.put("levelTwoSortID", levelTwoID);
+            m.put("updateTime", DateUtil.formatDate(new Date()));
             // 创建插入 t_reagent 表的 sql 语句
             sqls.add(createInsertSql(m, "t_reagent"));
 
@@ -537,8 +538,9 @@ public class SyncServiceImpl extends BaseAbstractService implements SyncService 
             m.put("reagentMapID", uuid());
             m.put("reagentID", reagentID);
             m.put("supplierID", supplierID);
+            m.put("updateTime", DateUtil.formatDate(new Date()));
             // 创建插入 t_reagentmap 表的 sql 语句
-            sqls.add(createInsertSql(m, "t_reagentmap"));
+            sqls.add(createInsertSql(m, "t_reagentMap"));
         }
     }
 
@@ -550,6 +552,7 @@ public class SyncServiceImpl extends BaseAbstractService implements SyncService 
             Map<String, Object> m = new HashMap<String, Object>();
             m.put("consumableID", consumableID);
             m.put("consumableName", consumableName);
+            m.put("updateTime", DateUtil.formatDate(new Date()));
             // 创建插入 t_consumable 表的 sql 语句
             sqls.add(createInsertSql(m, "t_consumable"));
 
@@ -557,8 +560,9 @@ public class SyncServiceImpl extends BaseAbstractService implements SyncService 
             m.put("consumableMapID", uuid());
             m.put("consumableID", consumableID);
             m.put("supplierID", supplierID);
+            m.put("updateTime", DateUtil.formatDate(new Date()));
             // 创建插入 t_consumablemap 表的 sql 语句
-            sqls.add(createInsertSql(m, "t_consumablemap"));
+            sqls.add(createInsertSql(m, "t_consumableMap"));
         }
     }
 
@@ -570,6 +574,7 @@ public class SyncServiceImpl extends BaseAbstractService implements SyncService 
             Map<String, Object> m = new HashMap<String, Object>();
             m.put("equipmentID", equipmentID);
             m.put("equipmentName", equipmentName);
+            m.put("updateTime", DateUtil.formatDate(new Date()));
             // 创建插入 t_equipment 表的 sql 语句
             sqls.add(createInsertSql(m, "t_equipment"));
 
@@ -577,8 +582,9 @@ public class SyncServiceImpl extends BaseAbstractService implements SyncService 
             m.put("equipmentMapID", uuid());
             m.put("equipmentID", equipmentID);
             m.put("supplierID", supplierID);
+            m.put("updateTime", DateUtil.formatDate(new Date()));
             // 创建插入 t_equipmentmap 表的 sql 语句
-            sqls.add(createInsertSql(m, "t_equipmentmap"));
+            sqls.add(createInsertSql(m, "t_equipmentMap"));
         }
     }
     /**

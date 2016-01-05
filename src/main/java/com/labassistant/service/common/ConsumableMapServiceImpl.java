@@ -1,5 +1,7 @@
 package com.labassistant.service.common;
 
+import java.util.ArrayList;
+import java.util.Date;
 import java.util.List;
 
 import org.springframework.stereotype.Service;
@@ -28,4 +30,16 @@ public class ConsumableMapServiceImpl extends
 		List<ConsumableMapEntity> lists = findListByHql(hql, consumableID);
 		return lists;
 	}
+
+    @Override
+    public List<ConsumableMapEntity> getConsumableMapList(Date date){
+        List<Object> params = new ArrayList<Object>();
+        StringBuffer sb = new StringBuffer();
+        sb.append("from ConsumableMapEntity ");
+        if(date != null){
+            sb.append("where updateTime > ?");
+            params.add(date);
+        }
+        return findListByHql(sb.toString(), params);
+    }
 }

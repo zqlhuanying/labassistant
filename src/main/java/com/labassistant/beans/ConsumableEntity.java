@@ -8,6 +8,8 @@ import javax.persistence.Table;
 
 import org.hibernate.annotations.GenericGenerator;
 
+import java.util.Date;
+
 /**
  * 耗材表
  * @author zql
@@ -26,6 +28,7 @@ public class ConsumableEntity extends ToStringBase {
 	private String consumableID;
 	private String consumableName;
 	private String consumableType;
+    private Date updateTime;
 	
 	@Id
 	@GeneratedValue(generator="system-uuid")
@@ -49,4 +52,12 @@ public class ConsumableEntity extends ToStringBase {
 	public void setConsumableType(String consumableType) {
 		this.consumableType = consumableType;
 	}
+
+    public Date getUpdateTime() {
+        return updateTime;
+    }
+
+    public void setUpdateTime(Date updateTime) {
+        this.updateTime = updateTime;
+    }
 }

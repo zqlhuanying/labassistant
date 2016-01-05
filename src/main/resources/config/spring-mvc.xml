@@ -20,7 +20,11 @@
 	<mvc:resources location="static/css/" mapping="static/css/**" />
     <!-- 匹配上传图片路径 -->
     <mvc:resources location="upload/" mapping="upload/**" />
-    
+    <!-- 匹配 apk 路径-->
+    <mvc:resources location="WEB-INF/apk/" mapping="apk/**" />
+    <!-- 匹配 tools 路径-->
+    <mvc:resources location="WEB-INF/tools/" mapping="tools/**" />
+
 	<!-- 支持上传文件 -->  
     <bean id="multipartResolver" class="org.springframework.web.multipart.commons.CommonsMultipartResolver"></bean>
     

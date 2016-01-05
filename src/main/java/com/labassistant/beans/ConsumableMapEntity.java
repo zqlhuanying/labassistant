@@ -8,6 +8,8 @@ import javax.persistence.Table;
 
 import org.hibernate.annotations.GenericGenerator;
 
+import java.util.Date;
+
 /**
  * 耗材厂商对应表
  * @author zql
@@ -27,6 +29,7 @@ public class ConsumableMapEntity extends ToStringBase {
 	private String consumableMapID;
 	private String consumableID;
 	private String supplierID;
+    private Date updateTime;
 	
 	@Id
 	@GeneratedValue(generator="system-uuid")
@@ -50,4 +53,12 @@ public class ConsumableMapEntity extends ToStringBase {
 	public void setSupplierID(String supplierID) {
 		this.supplierID = supplierID;
 	}
+
+    public Date getUpdateTime() {
+        return updateTime;
+    }
+
+    public void setUpdateTime(Date updateTime) {
+        this.updateTime = updateTime;
+    }
 }

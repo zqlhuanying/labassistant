@@ -3,6 +3,7 @@ package com.labassistant.service.common;
 import com.labassistant.beans.ConsumableEntity;
 import com.labassistant.dao.service.IBaseAbstractService;
 
+import java.util.Date;
 import java.util.List;
 
 /**
@@ -15,5 +16,5 @@ public interface ConsumableService extends
 
     public List<ConsumableEntity> search(String name);
 
-	
+    public List<ConsumableEntity> getConsumableList(Date date);
 }

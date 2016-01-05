@@ -3,6 +3,7 @@ package com.labassistant.service.common;
 import com.labassistant.beans.EquipmentEntity;
 import com.labassistant.dao.service.IBaseAbstractService;
 
+import java.util.Date;
 import java.util.List;
 
 /**
@@ -14,4 +15,5 @@ public interface EquipmentService extends IBaseAbstractService<EquipmentEntity> 
 
     public List<EquipmentEntity> search(String name);
 
+    public List<EquipmentEntity> getEquipmentList(Date date);
 }

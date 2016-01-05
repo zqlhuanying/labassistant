@@ -5,6 +5,8 @@ import org.springframework.stereotype.Service;
 import com.labassistant.beans.ConsumableEntity;
 import com.labassistant.dao.service.BaseAbstractService;
 
+import java.util.ArrayList;
+import java.util.Date;
 import java.util.List;
 
 /**
@@ -22,4 +24,15 @@ public class ConsumableServiceImpl extends
         return findListByHql(hql, "%" + name + "%");
     }
 
+    @Override
+    public List<ConsumableEntity> getConsumableList(Date date){
+        List<Object> params = new ArrayList<Object>();
+        StringBuffer sb = new StringBuffer();
+        sb.append("from ConsumableEntity ");
+        if(date != null){
+            sb.append("where updateTime > ?");
+            params.add(date);
+        }
+        return findListByHql(sb.toString(), params);
+    }
 }

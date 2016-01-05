@@ -109,7 +109,16 @@ public final class ReturnJson {
 			});
 		}
 	};
-	
+
+    public static final Map<String, Object> CHECKVERSION = new HashMap<String, Object>(){
+        private static final long serialVersionUID = 8984001426084824988L;
+        {
+            put("version", "0");
+            put("url", "");
+            put("content", "");
+        }
+    };
+
 	// test
 	public static void main(String[] args){
 		// test: Value is Map

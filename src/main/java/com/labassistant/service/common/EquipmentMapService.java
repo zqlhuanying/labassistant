@@ -1,5 +1,6 @@
 package com.labassistant.service.common;
 
+import java.util.Date;
 import java.util.List;
 
 import com.labassistant.beans.EquipmentMapEntity;
@@ -14,4 +15,6 @@ public interface EquipmentMapService extends
 		IBaseAbstractService<EquipmentMapEntity> {
 
 	public List<EquipmentMapEntity> getListByEquipmentID(String equipmentID);
+
+    public List<EquipmentMapEntity> getEquipmentMapList(Date date);
 }

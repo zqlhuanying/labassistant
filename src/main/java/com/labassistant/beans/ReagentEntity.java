@@ -54,7 +54,8 @@ public class ReagentEntity extends ToStringBase {
 	private String casNo;
 	private Date arrivalDate;
 	private String memo;
-	
+    private Date updateTime;
+
 	@Id
 	@GeneratedValue(generator="system-uuid")
 	@GenericGenerator(name="system-uuid",strategy="uuid")
@@ -173,5 +174,12 @@ public class ReagentEntity extends ToStringBase {
 	public void setMemo(String memo) {
 		this.memo = memo;
 	}
-	
+
+    public Date getUpdateTime() {
+        return updateTime;
+    }
+
+    public void setUpdateTime(Date updateTime) {
+        this.updateTime = updateTime;
+    }
 }

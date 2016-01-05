@@ -1,10 +1,13 @@
 package com.labassistant.action;
 
+import java.util.Date;
 import java.util.HashMap;
 import java.util.Map;
 
 import javax.servlet.http.HttpServletRequest;
 
+import com.labassistant.utils.DateUtil;
+import org.apache.commons.lang3.StringUtils;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Controller;
 import org.springframework.web.bind.annotation.RequestMapping;
@@ -65,12 +68,13 @@ public class SyncController extends BaseController {
 	}
 	
 	// 下推试剂/试剂厂商对应表等公共部分
-	@RequestMapping(value = "pullCommon", method = RequestMethod.GET)
+	@RequestMapping(value = "pullCommon", method = RequestMethod.POST)
 	@ResponseBody
-	public Map<String, Object> pullCommon(HttpServletRequest request){
+	public Map<String, Object> pullCommon(HttpServletRequest request, String date){
 		setErrorMsg(request, "推送失败");
 		Map<String, Object>  map = new HashMap<String, Object>();
-		Map<String, Object>  innerMap = syncService.pullCommon();
+        Date d = StringUtils.isNotBlank(date) ? DateUtil.str2Date(date) : null;
+		Map<String, Object>  innerMap = syncService.pullCommon(d);
 		map.putAll(retSuccess());
 		map.put("data", innerMap);
 		return map;

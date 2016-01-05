@@ -3,6 +3,9 @@ package com.labassistant.service.common;
 import com.labassistant.beans.SupplierEntity;
 import com.labassistant.dao.service.IBaseAbstractService;
 
+import java.util.Date;
+import java.util.List;
+
 /**
  * 
  * @author zql
@@ -10,5 +13,5 @@ import com.labassistant.dao.service.IBaseAbstractService;
  */
 public interface SupplierService extends IBaseAbstractService<SupplierEntity> {
 
-	
+    public List<SupplierEntity> getSupplierList(Date date);
 }

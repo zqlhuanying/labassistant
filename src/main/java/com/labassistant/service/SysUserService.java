@@ -25,10 +25,10 @@ public interface SysUserService extends IBaseAbstractService<SysUserEntity>{
 	
 	public void update(SysUserEntity sysUser);
 	
-	public boolean validUsername(String username);
+	public boolean validUsername(String username, String userid);
 	
-	public boolean validEmail(String email);
+	public boolean validEmail(String email, String userid);
 	
-	public boolean validTelephone(String telephone);
+	public boolean validTelephone(String telephone, String userid);
 	
 }

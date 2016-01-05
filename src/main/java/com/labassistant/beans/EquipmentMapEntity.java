@@ -8,6 +8,8 @@ import javax.persistence.Table;
 
 import org.hibernate.annotations.GenericGenerator;
 
+import java.util.Date;
+
 /**
  * 设备厂商对应表
  * @author zql
@@ -26,7 +28,8 @@ public class EquipmentMapEntity extends ToStringBase {
 	private String equipmentMapID;
 	private String equipmentID;
 	private String supplierID;
-	
+    private Date updateTime;
+
 	@Id
 	@GeneratedValue(generator="system-uuid")
 	@GenericGenerator(name="system-uuid",strategy="uuid")
@@ -49,4 +52,12 @@ public class EquipmentMapEntity extends ToStringBase {
 	public void setSupplierID(String supplierID) {
 		this.supplierID = supplierID;
 	}
+
+    public Date getUpdateTime() {
+        return updateTime;
+    }
+
+    public void setUpdateTime(Date updateTime) {
+        this.updateTime = updateTime;
+    }
 }

@@ -1,5 +1,6 @@
 package com.labassistant.service.common;
 
+import java.util.Date;
 import java.util.List;
 
 import com.labassistant.beans.ReagentMapEntity;
@@ -13,6 +14,6 @@ import com.labassistant.dao.service.IBaseAbstractService;
 public interface ReagentMapService extends IBaseAbstractService<ReagentMapEntity> {
 
 	public List<ReagentMapEntity> getListByReagentID(String reagentID);
-	
 
+    public List<ReagentMapEntity> getReagentMapList(Date date);
 }

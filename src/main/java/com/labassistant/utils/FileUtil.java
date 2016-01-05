@@ -1,6 +1,6 @@
 package com.labassistant.utils;
 
-import java.io.File;
+import java.io.*;
 
 /**
  * 此类中封装一些常用的文件操作。
@@ -90,5 +90,24 @@ public final class FileUtil {
     
     public static String toURLPath(String path){
     	return path.replace("\\", "/");
+    }
+
+    public static String read(String path){
+        StringBuffer sb = new StringBuffer();
+        try {
+            BufferedReader reader = new BufferedReader(new InputStreamReader(new FileInputStream(new File(path)), "UTF-8"));
+            String line = null;
+            while ((line = reader.readLine()) != null){
+                sb.append(line);
+                sb.append("\n");
+            }
+        } catch (FileNotFoundException e) {
+            System.out.println("文件不存在");
+            e.printStackTrace();
+        } catch (IOException e) {
+            System.out.println("读取文件失败");
+            e.printStackTrace();
+        }
+        return sb.toString();
     }
 }

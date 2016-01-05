@@ -6,6 +6,7 @@ import java.beans.Introspector;
 import java.beans.PropertyDescriptor;
 import java.lang.annotation.Annotation;
 import java.lang.reflect.Field;
+import java.lang.reflect.Method;
 import java.util.ArrayList;
 import java.util.HashMap;
 import java.util.List;
@@ -50,7 +51,24 @@ public final class BeanUtil {
 		}
 		return result;
 	}
-	
+
+    /**
+     * 获取字段的 set 方法
+     * @param beanInfo
+     * @param fieldName
+     * @return
+     */
+    public static Method getFieldSetMethod(BeanInfo beanInfo, String fieldName){
+        Assert.notNull(beanInfo);
+        PropertyDescriptor[] properties = beanInfo.getPropertyDescriptors();
+        for(PropertyDescriptor property : properties){
+            if(fieldName.equals(property.getName())){
+                return property.getWriteMethod();
+            }
+        }
+        return null;
+    }
+
 	/**
 	 * 获取字段的类型
 	 * @param beanInfo
