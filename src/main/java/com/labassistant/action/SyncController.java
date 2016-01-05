@@ -68,7 +68,7 @@ public class SyncController extends BaseController {
 	}
 	
 	// 下推试剂/试剂厂商对应表等公共部分
-	@RequestMapping(value = "pullCommon", method = RequestMethod.POST)
+	@RequestMapping(value = "pullCommon", method = RequestMethod.GET)
 	@ResponseBody
 	public Map<String, Object> pullCommon(HttpServletRequest request, String date){
 		setErrorMsg(request, "推送失败");
