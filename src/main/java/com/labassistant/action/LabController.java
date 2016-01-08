@@ -9,6 +9,7 @@ import java.util.Map;
 
 import javax.servlet.http.HttpServletRequest;
 
+import com.labassistant.service.SysUserService;
 import org.apache.commons.lang3.StringUtils;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Controller;
@@ -63,6 +64,8 @@ import static com.labassistant.utils.CommonUtil.saveNull;
 @RequestMapping(value = "/lab")
 public class LabController extends BaseController {
 
+    @Autowired
+    private SysUserService sysUserService;
 	@Autowired
 	private SupplierService supplierService;
 	@Autowired
@@ -561,11 +564,33 @@ public class LabController extends BaseController {
 	public Map<String, Object> getInstructionsBySubCategoryID(HttpServletRequest request, String userID, String expSubCategoryID){		
 		setErrorMsg(request, "获取实验列表出错");
 		Map<String, Object>  map = new HashMap<String, Object>();
-		
+        List<Object> l = new ArrayList<Object>();
+
 		List<ExpInstructionEntity> lists = expInstructionsMainService.getInstructionsBySubCategoryID(userID, expSubCategoryID);
-		
+
+        for(ExpInstructionEntity expInstruction : lists){
+            Map<String, Object>  innerMap = new HashMap<String, Object>();
+            String providerID = expInstruction.getProvideUser();
+            String supplierName = expInstruction.getSupplierName();
+            StringBuffer sb = new StringBuffer();
+            if(StringUtils.isNotBlank(providerID)){
+                sb.append(sysUserService.get(providerID).getNickName());
+                if(StringUtils.isNotBlank(supplierName)) sb.append("/");
+            }
+            if(StringUtils.isNotBlank(supplierName)){
+                sb.append(supplierName);
+            }
+
+
+            innerMap.put("expInstructionID", expInstruction.getExpInstructionID());
+            innerMap.put("downloadCount", expInstruction.getDownloadCount());
+            innerMap.put("reviewCount", expInstruction.getReviewCount());
+            innerMap.put("experimentName", expInstruction.getExperimentName());
+            innerMap.put("provideUser", sb.toString());
+            l.add(innerMap);
+        }
 		map.putAll(retSuccess());
-		map.put("data", lists);
+		map.put("data", l);
 		
 		return map; 
 	}

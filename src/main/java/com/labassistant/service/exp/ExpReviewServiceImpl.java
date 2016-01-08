@@ -3,14 +3,11 @@ package com.labassistant.service.exp;
 import java.io.Serializable;
 import java.util.*;
 
-import com.labassistant.beans.ExpReviewDetailOfOptEntity;
+import com.labassistant.beans.*;
 import com.labassistant.service.SyncService;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
-import com.labassistant.beans.ExpReviewDetailEntity;
-import com.labassistant.beans.ExpReviewEntity;
-import com.labassistant.beans.Pagination;
 import com.labassistant.constants.LabConstant;
 import com.labassistant.context.PaginationContext;
 import com.labassistant.dao.service.BaseAbstractService;
@@ -68,6 +65,8 @@ public class ExpReviewServiceImpl extends BaseAbstractService<ExpReviewEntity>
 		Pagination<ExpReviewEntity> reviews = getPage(expInstructionID, lastExpReviewID, pageSize);
 		if(reviews != null){
 			for(ExpReviewEntity review : reviews.getRows()){
+                SysUserEntity user = sysUserService.get(review.getReviewerID());
+                if(user == null) continue;
 				Map<String, Object> innerMap = new HashMap<String, Object>();
 				innerMap.put("expReviewID", review.getExpReviewID());
 				innerMap.put("reviewDate", DateUtil.formatDate(LabConstant.DATEFORMAT, review.getReviewDate()));
