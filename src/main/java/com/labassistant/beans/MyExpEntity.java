@@ -39,6 +39,8 @@ import com.labassistant.annotation.MyAnnotation;
  * ProjectName          项目名称
  * ResearchName         研究课题名称
  * TaskName             研究任务名称
+ * MyExpResult	        实验结论
+ *
  */
 @Table(name = "t_myexp")
 @Entity
@@ -69,6 +71,7 @@ public class MyExpEntity extends ToStringBase {
     private String projectName;
     private String researchName;
     private String taskName;
+    private String myExpResult;
 
 	@Id
 	@GeneratedValue(generator="system-uuid")
@@ -230,5 +233,13 @@ public class MyExpEntity extends ToStringBase {
 
     public void setTaskName(String taskName) {
         this.taskName = taskName;
+    }
+
+    public String getMyExpResult() {
+        return myExpResult;
+    }
+
+    public void setMyExpResult(String myExpResult) {
+        this.myExpResult = myExpResult;
     }
 }

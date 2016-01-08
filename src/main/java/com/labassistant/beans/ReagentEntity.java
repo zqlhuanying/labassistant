@@ -49,7 +49,7 @@ public class ReagentEntity extends ToStringBase {
 	private String productNo;
 	private String agents;
 	private String specification;
-	private int price;
+	private float price;
 	private String chemicalName;
 	private String casNo;
 	private Date arrivalDate;
@@ -131,16 +131,16 @@ public class ReagentEntity extends ToStringBase {
 	public void setSpecification(String specification) {
 		this.specification = specification;
 	}
-	
-	public int getPrice() {
-		return price;
-	}
-	
-	public void setPrice(int price) {
-		this.price = price;
-	}
-	
-	public String getChemicalName() {
+
+    public float getPrice() {
+        return price;
+    }
+
+    public void setPrice(float price) {
+        this.price = price;
+    }
+
+    public String getChemicalName() {
 		return chemicalName;
 	}
 	

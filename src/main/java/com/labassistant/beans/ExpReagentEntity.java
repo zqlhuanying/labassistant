@@ -39,7 +39,7 @@ public class ExpReagentEntity extends ToStringBase {
 	private String reagentCommonName;
 	private String CreateMethod;
 	private String reagentSpec;
-	private int useAmount;
+	private float useAmount;
 	private String supplierID;
     private String supplierName;
     private String levelOneSortID;
@@ -104,16 +104,16 @@ public class ExpReagentEntity extends ToStringBase {
 	public void setReagentSpec(String reagentSpec) {
 		this.reagentSpec = reagentSpec;
 	}
-	
-	public int getUseAmount() {
-		return useAmount;
-	}
-	
-	public void setUseAmount(int useAmount) {
-		this.useAmount = useAmount;
-	}
-	
-	public String getSupplierID() {
+
+    public float getUseAmount() {
+        return useAmount;
+    }
+
+    public void setUseAmount(float useAmount) {
+        this.useAmount = useAmount;
+    }
+
+    public String getSupplierID() {
 		return supplierID;
 	}
 

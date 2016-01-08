@@ -1,0 +1,33 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<beans xmlns="http://www.springframework.org/schema/beans"
+       xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
+       xmlns:mvc="http://www.springframework.org/schema/mvc"
+       xsi:schemaLocation="http://www.springframework.org/schema/beans
+	http://www.springframework.org/schema/beans/spring-beans.xsd
+	http://www.springframework.org/schema/mvc
+	http://www.springframework.org/schema/mvc/spring-mvc-3.2.xsd">
+
+    <!-- 拦截匹配URL -->
+    <mvc:interceptors>
+        <mvc:interceptor>
+            <!-- 拦截所有的请求-->
+            <mvc:mapping path="/**"/>
+            <!-- 排除某些请求-->
+            <mvc:exclude-mapping path="/static/img/**"></mvc:exclude-mapping>
+            <mvc:exclude-mapping path="/static/js/**"></mvc:exclude-mapping>
+            <mvc:exclude-mapping path="/static/css/**"></mvc:exclude-mapping>
+            <mvc:exclude-mapping path="/upload/**"></mvc:exclude-mapping>
+            <mvc:exclude-mapping path="/apk/**"></mvc:exclude-mapping>
+            <mvc:exclude-mapping path="/tools/**"></mvc:exclude-mapping>
+            <mvc:exclude-mapping path="/login/**"></mvc:exclude-mapping>
+            <mvc:exclude-mapping path="/thirdLogin/**"></mvc:exclude-mapping>
+            <mvc:exclude-mapping path="/register/**"></mvc:exclude-mapping>
+            <mvc:exclude-mapping path="/findPwd/**"></mvc:exclude-mapping>
+            <mvc:exclude-mapping path="/getLost/**"></mvc:exclude-mapping>
+            <mvc:exclude-mapping path="/script/**"></mvc:exclude-mapping>
+            <mvc:exclude-mapping path="/common/**"></mvc:exclude-mapping>
+            <bean class="com.labassistant.interceptor.AdminInterceptor"></bean>
+        </mvc:interceptor>
+    </mvc:interceptors>
+
+</beans>

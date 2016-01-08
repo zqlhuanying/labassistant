@@ -82,7 +82,7 @@ public class ToPDF {
 	}
 	
 	// 设置图片
-	public Image image(String imgUrl) throws BadElementException, MalformedURLException, IOException{
+	public Image image(String imgUrl) throws BadElementException, IOException{
 		Image img = Image.getInstance(imgUrl);
 		img.setSpacingBefore(5.0f);
 		img.setSpacingAfter(5.0f);
@@ -98,7 +98,7 @@ public class ToPDF {
 	}
 	
 	// 设置图片在同一行
-	public PdfPTable imageInline(List<String> imgUrls) throws BadElementException, MalformedURLException, IOException{
+	public PdfPTable imageInline(List<String> imgUrls) throws BadElementException, IOException{
 		float per_width = image(imgUrls.get(0)).getWidth();
 		int columns = getColumns(getPageWidth(), per_width);
 		PdfPTable pdfTable = new PdfPTable(columns);
@@ -120,7 +120,7 @@ public class ToPDF {
 	}
 	
 	// 图片以块的方式呈现
-	public PdfPTable imageBlock(List<Map<String, String>> imgs, int columns) throws MalformedURLException, IOException, DocumentException{
+	public PdfPTable imageBlock(List<Map<String, String>> imgs, int columns) throws IOException, DocumentException{
 		PdfPTable pdfTable = new PdfPTable(columns);
 		pdfTable.setWidthPercentage(100);
 		
@@ -219,7 +219,7 @@ public class ToPDF {
 	
 	// 设置二级标题字体
 	public Font setH2Font() throws DocumentException, IOException{
-		return setFont(null, 13, Font.BOLD);
+		return setFont(null, 12, Font.BOLD);
 	}
 	
 	public Font setFont(BaseFont baseFont, float size, int style) throws DocumentException, IOException{

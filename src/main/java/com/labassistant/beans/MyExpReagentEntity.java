@@ -18,7 +18,9 @@ import org.hibernate.annotations.GenericGenerator;
  * ExpInstructionID		实验说明书ID
  * ReagentID			试剂ID
  * SupplierID			供应商ID
- * 
+ * Amount	            试剂总量
+ * ReagentSpec	        规格
+ *
  */
 @Table(name = "t_myexpreagent")
 @Entity
@@ -31,6 +33,8 @@ public class MyExpReagentEntity extends ToStringBase {
 	private String expInstructionID;
 	private String reagentID;
 	private String supplierID;
+    private float amount;
+    private String reagentSpec;
 	
 	@Id
 	@GeneratedValue(generator="system-uuid")
@@ -75,5 +79,20 @@ public class MyExpReagentEntity extends ToStringBase {
 	public void setSupplierID(String supplierID) {
 		this.supplierID = supplierID;
 	}
-	
+
+    public float getAmount() {
+        return amount;
+    }
+
+    public void setAmount(float amount) {
+        this.amount = amount;
+    }
+
+    public String getReagentSpec() {
+        return reagentSpec;
+    }
+
+    public void setReagentSpec(String reagentSpec) {
+        this.reagentSpec = reagentSpec;
+    }
 }

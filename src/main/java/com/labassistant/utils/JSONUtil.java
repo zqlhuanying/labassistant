@@ -4,6 +4,8 @@ import java.io.IOException;
 import java.util.ArrayList;
 import java.util.List;
 import java.util.Map;
+import java.util.regex.Matcher;
+import java.util.regex.Pattern;
 
 import org.codehaus.jackson.JsonGenerator;
 import org.codehaus.jackson.JsonProcessingException;
@@ -238,6 +240,19 @@ public final class JSONUtil {
     	System.out.println(bean2Map(new ExpInstructionEntity()));
 
         System.out.println(json2Map("{\"steps\":[]}"));
+        json = "{\"experimentDesc\":\"我也\"不知道\",\"supplierName\":\"海尔\",\"expCategoryID\":\"1\",\"createDate\":\"2015-09-16\",\"reviewCount\":0,\"provideUser\":\"\",\"experimentTheory\":\"还是\"不\"知道\",\"expSubCategoryID\":\"11\",\"expInstructionID\":\"4028c681494b994701494b99bab61111\",\"downloadCount\":20,\"allowDownload\":1,\"experimentName\":\"ELISA检测血清TNF-b浓度\",\"expVersion\":1,\"filterStr\":\"\",\"productNum\":\"hhd\",\"supplierID\":\"1001\"}";
+        String s = "{\"name\":\"va\"lu\"e\"}";
+        Matcher m = Pattern.compile
+                ("(?s)(?i)(\\s*:\\s*\")(.*?)(?=\"\\s*[,}\\]])").matcher(json);
+        StringBuffer buf = new StringBuffer();
+        while (m.find()) {
+            m.appendReplacement(buf, m.group(1) + m.group(2).replace("\"", "\\\\\""));
+        }
+        m.appendTail(buf);
+        System.out.printf("%s%n", buf);
+        //String t = s.replaceAll("(:\\s*\")((.+?)(?=\"\\\\s*[,}]))", "$1");
+        //String t = s.replaceAll("(:\\s*\")(\\w+?)\"", "$1$2\\\\\\\"");
+        System.out.println(json2Map(buf.toString()));
     	//String json = "{\"imgStream\":\"1\"}";
     	//System.out.println(json);
     	//System.out.println(json2Map(json));

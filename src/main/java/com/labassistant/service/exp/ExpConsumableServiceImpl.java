@@ -28,7 +28,13 @@ public class ExpConsumableServiceImpl extends
 	private ConsumableMapService consumableMapService;
 	@Autowired
 	private SupplierService supplierService;
-	
+
+    @Override
+    public ExpConsumableEntity getExpConsumable(String expInstructionID, String consumableID){
+        String hql = "from ExpConsumableEntity where expInstructionID = ? and consumableID = ?";
+        return findOneByHql(hql, expInstructionID, consumableID);
+    }
+
 	/**
 	 * 根据实验说明书号，获取全部耗材
 	 * @param expInstructionID 实验说明书号
@@ -37,8 +43,7 @@ public class ExpConsumableServiceImpl extends
 	@Override
 	public List<ExpConsumableEntity> getExpConsumableLists(String expInstructionID){
 		String hql = "from ExpConsumableEntity where expInstructionID = ?";
-		List<ExpConsumableEntity> lists = findListByHql(hql, expInstructionID);
-		return lists;
+		return findListByHql(hql, expInstructionID);
 	}
 	
 	/**

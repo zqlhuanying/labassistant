@@ -38,7 +38,13 @@ public class SysUserServiceImpl extends BaseAbstractService<SysUserEntity>
 	
 	@Autowired
 	private EmailService emailService;
-	
+
+    @Override
+    public boolean isExist(String userid){
+        String hql = "from SysUserEntity where userID = ?";
+        return getCount(hql, true, userid) > 0;
+    }
+
 	@Override
 	public SysUserEntity login(String username, String pwd) {
 		String hql = "from SysUserEntity where nickName = ? or telNo = ? or eMail = ?";

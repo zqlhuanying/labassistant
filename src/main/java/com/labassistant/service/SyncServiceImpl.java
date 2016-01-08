@@ -8,6 +8,8 @@ import java.io.InputStream;
 import java.io.Serializable;
 import java.util.*;
 import java.util.Map.Entry;
+import java.util.regex.Matcher;
+import java.util.regex.Pattern;
 
 import javax.persistence.Transient;
 import javax.servlet.http.HttpServletRequest;
@@ -106,28 +108,30 @@ public class SyncServiceImpl extends BaseAbstractService implements SyncService 
 	
 	@Override
 	public void pushExpInstruction(String json, String expInstructionID, String userID, int allowDownload){
-        if(expInstructionsMainService.isExist(expInstructionID) &&
-                (expInstructionsMainService.isPublic(expInstructionID) ||
-                !expInstructionsMainService.isOwn(expInstructionID, userID))){
-            throw new MyRuntimeException("没有权限提交说明书，有可能这份说明书已成为标准或不属于你");
-        }
-        String fitJson = fitJson(json);
-		Map<String, Object> requestMap = JSONUtil.json2Map(fitJson);
-		//requestMap = (Map)requestMap.get("data");
+//        if(expInstructionsMainService.isExist(expInstructionID) &&
+//                (expInstructionsMainService.isPublic(expInstructionID) ||
+//                !expInstructionsMainService.isOwn(expInstructionID, userID))){
+//            throw new MyRuntimeException("没有权限提交说明书，有可能这份说明书已成为标准或不属于你");
+//        }
+        if (!expInstructionsMainService.isExist(expInstructionID)){
+            String fitJson = fitJson(json);
+            Map<String, Object> requestMap = JSONUtil.json2Map(fitJson);
+            //requestMap = (Map)requestMap.get("data");
 
-		// requestMap 中的Value有可能是数组，即Object有可能是数组
-		Iterator<Map.Entry<String, Object>> iterator = requestMap.entrySet().iterator();
-		while(iterator.hasNext()){
-			Map.Entry<String, Object> entry = iterator.next();
-			String tableName = getTableName(entry.getKey());
-			if(entry.getValue().getClass() == ArrayList.class){
-				for(Map<String, Object> innerMap : (ArrayList<Map<String, Object>>)entry.getValue()){
-					pushExpInstruction(innerMap, allowDownload, tableName);
-				}
-			} else {
-				pushExpInstruction((Map<String, Object>)entry.getValue(), allowDownload, tableName);
-			}
-		}
+            // requestMap 中的Value有可能是数组，即Object有可能是数组
+            Iterator<Map.Entry<String, Object>> iterator = requestMap.entrySet().iterator();
+            while(iterator.hasNext()){
+                Map.Entry<String, Object> entry = iterator.next();
+                String tableName = getTableName(entry.getKey());
+                if(entry.getValue().getClass() == ArrayList.class){
+                    for(Map<String, Object> innerMap : (ArrayList<Map<String, Object>>)entry.getValue()){
+                        pushExpInstruction(innerMap, allowDownload, tableName);
+                    }
+                } else {
+                    pushExpInstruction((Map<String, Object>)entry.getValue(), allowDownload, tableName);
+                }
+            }
+        }
 	}
 
 	/**
@@ -147,8 +151,9 @@ public class SyncServiceImpl extends BaseAbstractService implements SyncService 
 	private void pushMyExp(Map<String, Object> map, String tableName){	
 		checkNonAvailable(map, getBeanName(tableName));
 		checkNameOnlyInServer(map, getBeanName(tableName));
-		// 将我的实验步骤附件表(MyExpProcessAttch)单独对待，因涉及到图片上传
-		if("t_myExpProcessAttch".equals(tableName)){
+		// 将我的实验步骤附件表(MyExpProcessAttch) 和 我的实验附件表 单独对待，因涉及到图片上传
+		if("t_myExpProcessAttch".equals(tableName) ||
+                "t_myExpAttch".equals(tableName)){
 			processAttch(map);
 		}
 		sync(map, tableName);
@@ -427,7 +432,16 @@ public class SyncServiceImpl extends BaseAbstractService implements SyncService 
 			}
 			
 			if(value == null) sb.append(value);
-			else sb.append("'" + value + "'");
+			else {
+                // 遇到 value 中带有单引号的问题
+                // sql 中可以用两个单引号 代表一个单引号
+                // 所以将单引号替换成两个单引号
+                String prefix = "@#";
+                String strValue = prefix + value;
+                strValue = strValue.replaceAll("'", "''");
+                strValue = strValue.substring(prefix.length());
+                sb.append("'" + strValue + "'");
+            }
 			sb.append(",");
 		}
 		sb.deleteCharAt(sb.length() - 1);
@@ -451,7 +465,13 @@ public class SyncServiceImpl extends BaseAbstractService implements SyncService 
 				sb.append(entry.getKey());
 				sb.append("=");
 				if(value == null) sb.append(value);
-				else sb.append("'" + value + "'");
+                else {
+                    String prefix = "@#";
+                    String strValue = prefix + value;
+                    strValue = strValue.replaceAll("'", "''");
+                    strValue = strValue.substring(prefix.length());
+                    sb.append("'" + strValue + "'");
+                }
 				sb.append(",");
 			}
 		}
@@ -605,6 +625,16 @@ public class SyncServiceImpl extends BaseAbstractService implements SyncService 
         for (String d : del){
             json = json.replace(d, "");
         }
-        return json;
+        // jacson 也无法处理 value 中带有双引号的情况
+        // 所以对 value 中的双引号进行转义处理
+        // 下面的正则匹配 json 中的 value 字段
+        Matcher m = Pattern.compile
+                ("(?s)(?i)(\\s*:\\s*\")(.*?)(?=\"\\s*[,}\\]])").matcher(json);
+        StringBuffer buf = new StringBuffer();
+        while (m.find()) {
+            m.appendReplacement(buf, m.group(1) + m.group(2).replace("\"", "\\\\\""));
+        }
+        m.appendTail(buf);
+        return buf.toString();
     }
 }

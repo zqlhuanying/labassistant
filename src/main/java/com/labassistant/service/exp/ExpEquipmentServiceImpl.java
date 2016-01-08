@@ -27,7 +27,13 @@ public class ExpEquipmentServiceImpl extends
 	private EquipmentMapService equipmentMapService;
 	@Autowired
 	private SupplierService supplierService;
-	
+
+    @Override
+    public ExpEquipmentEntity getExpEquipment(String expInstructionID, String equipmentID){
+        String hql = "from ExpEquipmentEntity where expInstructionID = ? and equipmentID = ?";
+        return findOneByHql(hql, expInstructionID, equipmentID);
+    }
+
 	/**
 	 * 根据实验说明书号，获取全部设备
 	 * @param expInstructionID 实验说明书号
@@ -36,8 +42,7 @@ public class ExpEquipmentServiceImpl extends
 	@Override
 	public List<ExpEquipmentEntity> getExpEquipmentLists(String expInstructionID){
 		String hql = "from ExpEquipmentEntity where expInstructionID = ?";
-		List<ExpEquipmentEntity> lists = findListByHql(hql, expInstructionID);
-		return lists;
+		return findListByHql(hql, expInstructionID);
 	}
 	
 	/**

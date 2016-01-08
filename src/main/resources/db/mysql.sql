@@ -279,7 +279,7 @@ CREATE TABLE `t_reagent` (
   `productno` varchar(50),
   `agents` varchar(50),
   `specification` varchar(50),
-  `price` int default 0,
+  `price` decimal(8, 2) default 0,
   `chemicalname` varchar(100),
   `casno` varchar(50),
   `arrivaldate` date,
@@ -600,7 +600,7 @@ CREATE TABLE `t_expreagent` (
   `leveltwosortid` varchar(40),
   `createMethod` varchar(1000),
   `reagentspec` varchar(50),
-  `useamount` int,
+  `useamount` decimal(8, 2),
   `supplierid` varchar(40),
   `suppliername` varchar(100),
   PRIMARY KEY (`expreagentid`)
@@ -632,7 +632,7 @@ CREATE TABLE `t_expconsumable` (
   `consumableid` varchar(40),
   `consumablename` varchar(100),
   `consumabletype` varchar(20),
-  `consumablecount` int,
+  `consumablecount` decimal(8, 2),
   `consumablefactory` varchar(100),
   `supplierid` varchar(40),
   `suppliername` varchar(100),
@@ -811,6 +811,7 @@ CREATE TABLE `t_myexp` (
   `projectname` varchar(100),
   `researchname` varchar(100),
   `taskname` varchar(100),
+  `myexpresult` varchar(1000),
   PRIMARY KEY (`myexpid`)
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8;
 -- ----------------------------
@@ -854,6 +855,8 @@ CREATE TABLE `t_myexpreagent` (
   `expinstructionid` varchar(40) NOT NULL,
   `reagentid` varchar(40) NOT NULL,
   `supplierid` varchar(40) NOT NULL,
+  `amount` decimal(8, 2) default 0,
+  `reagentspec` varchar(50),
   PRIMARY KEY (`myexpreagentid`)
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8;
 -- ----------------------------
@@ -937,6 +940,24 @@ CREATE TABLE `t_myexpprocessattch` (
   `title` varchar(50),
   `description` nvarchar(500),
   PRIMARY KEY (`myexpprocessattchid`)
+) ENGINE=InnoDB DEFAULT CHARSET=utf8;
+
+
+-- -----------------------------------------------
+-- Table structure for `t_myexpattch` 我的实验附件表
+-- -----------------------------------------------
+DROP TABLE IF EXISTS `t_myexpattch`;
+CREATE TABLE `t_myexpattch` (
+  `myexpattchid` varchar(40) NOT NULL,
+  `myexpid` varchar(40) NOT NULL,
+  `expinstructionid` varchar(40) NOT NULL,
+  `attchmentname` varchar(200),
+  `attchmentlocation` varchar(500),
+  `attchmentserverpath` varchar(500),
+  `isupload` int default 0,
+  `title` varchar(50),
+  `description` nvarchar(500),
+  PRIMARY KEY (`myexpattchid`)
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8;
 
 

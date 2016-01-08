@@ -29,11 +29,16 @@ public class ExpReagentServiceImpl extends BaseAbstractService<ExpReagentEntity>
 	
 	@Autowired
 	private SupplierService supplierService;
-	
+
+    @Override
+    public ExpReagentEntity getExpReagent(String expInstructionID, String reagentID){
+        String hql = "from ExpReagentEntity where expInstructionID = ? and reagentID = ?";
+        return findOneByHql(hql, expInstructionID, reagentID);
+    }
+
 	@Override
 	public String getSuggestionSupplier(String expInstructionID, String reagentID){
-		String hql = "from ExpReagentEntity where expInstructionID = ? and reagentID = ?";
-		ExpReagentEntity expReagent = findOneByHql(hql, expInstructionID, reagentID);
+        ExpReagentEntity expReagent = getExpReagent(expInstructionID, reagentID);
 		return getSuggestionSupplier(expReagent);
 	}
 	
@@ -43,8 +48,7 @@ public class ExpReagentServiceImpl extends BaseAbstractService<ExpReagentEntity>
 	@Override
 	public List<ExpReagentEntity> getExpReagentLists(String expInstructionID){
 		String hql = "from ExpReagentEntity where expInstructionID = ?";
-		List<ExpReagentEntity> lists = findListByHql(hql, expInstructionID);		// 此方法 若查询不到相应的记录 会返回NULL
-		return lists;
+		return findListByHql(hql, expInstructionID);		// 此方法 若查询不到相应的记录 会返回NULL
 	}
 
 	/**

@@ -48,7 +48,7 @@ public class ExpInstructionsMainServiceImpl extends BaseAbstractService<ExpInstr
 	@Override
 	public List<Map<String, Object>> getHotInstructions(){
 		// TODO
-		String sql = "select * from t_expinstruction order by downloadcount desc limit ?";
+		String sql = "select * from t_expinstruction where allowdownload != 0 order by downloadcount desc limit ?";
 		List<Map<String, Object>> lists = findListMapBySql(sql, returnLimit);
 		/*List<ExpInstructionEntity> returnLists = new ArrayList<ExpInstructionEntity>();
 		System.out.println(lists);

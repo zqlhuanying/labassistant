@@ -13,6 +13,8 @@ import com.labassistant.dao.service.IBaseAbstractService;
 public interface ExpEquipmentService extends
 		IBaseAbstractService<ExpEquipmentEntity> {
 
+    public ExpEquipmentEntity getExpEquipment(String expInstructionID, String equipmentID);
+
 	public List<ExpEquipmentEntity> getExpEquipmentLists(String expInstructionID);
 	
 	public List<Object> getExpEquipmentAndSupplier(String expInstructionID);

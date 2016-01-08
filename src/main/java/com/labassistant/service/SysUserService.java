@@ -12,7 +12,9 @@ import com.labassistant.exception.MyRuntimeException;
  * @date 2015/09/07
  */
 public interface SysUserService extends IBaseAbstractService<SysUserEntity>{
-	
+
+    public boolean isExist(String userid);
+
 	public SysUserEntity login(String username, String pwd);
 	
 	public SysUserEntity thirdLogin(String old_token, String new_token, int source);

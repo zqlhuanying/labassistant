@@ -30,6 +30,15 @@ import com.labassistant.constants.AppConfig;
 @RequestMapping(value = "/common")
 public class CommonController extends BaseController {
 
+    @RequestMapping(value = "loginOut")
+    @ResponseBody
+    public Map<String, String> loginOut(HttpServletRequest request){
+        Map<String, String> map = new HashMap<String, String>();
+        map.put("code", "0");
+        map.put("msg", "请重新登陆");
+        return map;
+    }
+
     @RequestMapping(value = "checkVersion")
     @ResponseBody
     public Map<String, Object> checkVersion(HttpServletRequest request){

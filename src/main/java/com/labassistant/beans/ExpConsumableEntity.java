@@ -34,7 +34,7 @@ public class ExpConsumableEntity extends ToStringBase {
 	private String consumableID;
 	private String consumableName;
 	private String consumableType;
-	private int consumableCount;
+	private float consumableCount;
 	private String consumableFactory;
 	private String supplierID;
     private String supplierName;
@@ -82,16 +82,16 @@ public class ExpConsumableEntity extends ToStringBase {
 	public void setConsumableType(String consumableType) {
 		this.consumableType = consumableType;
 	}
-	
-	public int getConsumableCount() {
-		return consumableCount;
-	}
-	
-	public void setConsumableCount(int consumableCount) {
-		this.consumableCount = consumableCount;
-	}
-	
-	public String getConsumableFactory() {
+
+    public float getConsumableCount() {
+        return consumableCount;
+    }
+
+    public void setConsumableCount(float consumableCount) {
+        this.consumableCount = consumableCount;
+    }
+
+    public String getConsumableFactory() {
 		return consumableFactory;
 	}
 	
