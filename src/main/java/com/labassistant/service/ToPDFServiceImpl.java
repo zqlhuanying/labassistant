@@ -363,6 +363,7 @@ public class ToPDFServiceImpl implements ToPDFService {
         if(StringUtils.isNotBlank(myExpResult)){
             Paragraph p = pdf.paragraph(myExp.getMyExpResult());
             p.setFirstLineIndent(12);
+            pdf.add(p);
         }
 
         if(myExpAttches != null && myExpAttches.size() > 0){

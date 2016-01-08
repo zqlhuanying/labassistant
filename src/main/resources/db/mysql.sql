@@ -736,7 +736,7 @@ CREATE TABLE `t_expreviewdetailofopt` (
   `expreviewid` varchar(40) NOT NULL,
   `expreviewoptid` varchar(40) NOT NULL,
   `itemid` varchar(40) NOT NULL,
-  `itemname` varchar(250),
+  `itemname` varchar(1000),
   `supplierid` varchar(40),
   `itemscore` int,
   `expreviewdetailofoptdesc` nvarchar(500),
