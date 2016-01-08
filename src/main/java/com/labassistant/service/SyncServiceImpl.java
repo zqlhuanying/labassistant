@@ -616,12 +616,12 @@ public class SyncServiceImpl extends BaseAbstractService implements SyncService 
     }
 
     /**
-     * Jacson 不能处理 \n 等特殊字符，所以先删除这些特殊字符
+     * Jacson 不能处理 \n, \t 等特殊字符，所以先删除这些特殊字符
      * @param json
      * @return
      */
     private String fitJson(String json){
-        String[] del = new String[]{"\n"};
+        String[] del = new String[]{"\n", "\t"};
         for (String d : del){
             json = json.replace(d, "");
         }
