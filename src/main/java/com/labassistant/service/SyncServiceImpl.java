@@ -87,7 +87,7 @@ public class SyncServiceImpl extends BaseAbstractService implements SyncService 
 	
 	@Override
 	public void pushMyExp(String json){
-        String fitJson = fitJson(json);
+        String fitJson = JSONUtil.fitJson(json);
 		Map<String, Object> requestMap = JSONUtil.json2Map(fitJson);
 		//requestMap = (Map)requestMap.get("data");
 		
@@ -114,7 +114,7 @@ public class SyncServiceImpl extends BaseAbstractService implements SyncService 
 //            throw new MyRuntimeException("没有权限提交说明书，有可能这份说明书已成为标准或不属于你");
 //        }
         if (!expInstructionsMainService.isExist(expInstructionID)){
-            String fitJson = fitJson(json);
+            String fitJson = JSONUtil.fitJson(json);
             Map<String, Object> requestMap = JSONUtil.json2Map(fitJson);
             //requestMap = (Map)requestMap.get("data");
 
@@ -613,28 +613,5 @@ public class SyncServiceImpl extends BaseAbstractService implements SyncService 
      */
     private String uuid(){
         return UUID.randomUUID().toString().replace("-", "");
-    }
-
-    /**
-     * Jacson 不能处理 \n, \t 等特殊字符，所以先删除这些特殊字符
-     * @param json
-     * @return
-     */
-    private String fitJson(String json){
-        String[] del = new String[]{"\n", "\t"};
-        for (String d : del){
-            json = json.replace(d, "");
-        }
-        // jacson 也无法处理 value 中带有双引号的情况
-        // 所以对 value 中的双引号进行转义处理
-        // 下面的正则匹配 json 中的 value 字段
-        Matcher m = Pattern.compile
-                ("(?s)(?i)(\\s*:\\s*\")(.*?)(?=\"\\s*[,}\\]])").matcher(json);
-        StringBuffer buf = new StringBuffer();
-        while (m.find()) {
-            m.appendReplacement(buf, m.group(1) + m.group(2).replace("\"", "\\\\\""));
-        }
-        m.appendTail(buf);
-        return buf.toString();
     }
 }

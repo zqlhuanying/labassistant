@@ -215,7 +215,30 @@ public final class JSONUtil {
 			throw new MyRuntimeException("json转换异常");
 		}
 	}
-	
+
+    /**
+     * Jacson 不能处理 \n, \t 等特殊字符，所以先删除这些特殊字符
+     * @param json
+     * @return
+     */
+    public static String fitJson(String json){
+        String[] del = new String[]{"\n", "\t"};
+        for (String d : del){
+            json = json.replace(d, "");
+        }
+        // jacson 也无法处理 value 中带有双引号的情况
+        // 所以对 value 中的双引号进行转义处理
+        // 下面的正则匹配 json 中的 value 字段
+        Matcher m = Pattern.compile
+                ("(?s)(?i)(\\s*:\\s*\")(.*?)(?=\"\\s*[,}\\]])").matcher(json);
+        StringBuffer buf = new StringBuffer();
+        while (m.find()) {
+            m.appendReplacement(buf, m.group(1) + m.group(2).replace("\"", "\\\\\""));
+        }
+        m.appendTail(buf);
+        return buf.toString();
+    }
+
 	/**
      * 判断对象是否为空，如果为空，直接抛出异常
      * @param object 需要检查的对象

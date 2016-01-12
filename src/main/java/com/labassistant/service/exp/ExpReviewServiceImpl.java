@@ -110,7 +110,8 @@ public class ExpReviewServiceImpl extends BaseAbstractService<ExpReviewEntity>
 	@SuppressWarnings("unchecked")
 	@Override
 	public void responseReview(String reviewJson){
-		Map<String, Object> requestMap = (Map<String, Object>)JSONUtil.json2Map(reviewJson);
+        String fitJson = JSONUtil.fitJson(reviewJson);
+		Map<String, Object> requestMap = (Map<String, Object>)JSONUtil.json2Map(fitJson);
 
         // 更新实验评论表
 		String expInstructionID = (String)requestMap.get("expInstructionID");

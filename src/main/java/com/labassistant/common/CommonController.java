@@ -8,6 +8,7 @@ import java.util.*;
 
 import javax.servlet.http.HttpServletRequest;
 
+import com.labassistant.beans.ToolsVersionEntity;
 import com.labassistant.beans.VersionEntity;
 import com.labassistant.constants.ReturnJson;
 import com.labassistant.exception.MyRuntimeException;
@@ -55,6 +56,27 @@ public class CommonController extends BaseController {
         innerMap.put("version", version.getVersion());
         innerMap.put("url", FileUtil.toURLPath(apkUrl));
         innerMap.put("content", desc);
+
+        CommonUtil.unionMap(ReturnJson.CHECKVERSION, innerMap);
+        map.putAll(retSuccess());
+        map.put("data", innerMap);
+        return map;
+    }
+
+    @RequestMapping(value = "checkToolsVersion")
+    @ResponseBody
+    public Map<String, Object> checkToolsVersion(HttpServletRequest request){
+        setErrorMsg(request, "检查版本失败");
+        Map<String, Object> map = new HashMap<String, Object>();
+        Map<String, Object> innerMap = new HashMap<String, Object>();
+
+        //String toolsRoot = request.getSession().getServletContext().getRealPath("/WEB-INF/tools");
+        //String versionDesPath = toolsRoot + File.separator + "ToolsVersion.properties";
+        ToolsVersionEntity version = checkToolsVersion();
+        String toolsUrl = AppConfig.DOMAIN_PAGE + File.separator + "tools" + File.separator + version.getToolsname();
+
+        innerMap.put("version", version.getVersion());
+        innerMap.put("url", FileUtil.toURLPath(toolsUrl));
 
         CommonUtil.unionMap(ReturnJson.CHECKVERSION, innerMap);
         map.putAll(retSuccess());
@@ -132,6 +154,24 @@ public class CommonController extends BaseController {
             }
         });
         return versions.get(0);
+    }
+
+    private ToolsVersionEntity checkToolsVersion(){
+        InputStream inputStream = CommonController.class.getClassLoader().getResourceAsStream("/config/ToolsVersion.properties");
+                //this.getClass().getResourceAsStream(path);
+        Properties p = new Properties();
+        try {
+            p.load(inputStream);
+        } catch (IOException e1) {
+            e1.printStackTrace();
+        }
+
+        ToolsVersionEntity version = new ToolsVersionEntity();
+
+        version.setVersion(p.getProperty("version"));
+        version.setToolsname(p.getProperty("toolsname"));
+
+        return version;
     }
 
     private void resovleLine(VersionEntity version, String line) {
